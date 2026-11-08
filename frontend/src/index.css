@@ -40,3 +40,18 @@ button {
 #root {
   min-height: 100vh;
 }
+.campo-edicao {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 9px 12px;
+  font-size: 12px;
+  color: #1f2937;
+  background-color: white;
+}
+
+.campo-edicao:focus {
+  outline: none;
+  border-color: #29458f;
+  box-shadow: 0 0 0 2px rgba(41, 69, 143, 0.12);
+}
