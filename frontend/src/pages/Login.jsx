@@ -1,11 +1,55 @@
+
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import { apiRequest } from '../services/api';
+
 function Login() {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [erro, setErro] = useState('');
+  const [carregando, setCarregando] = useState(false);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    setErro('');
+    setCarregando(true);
+
+    try {
+      const resposta = await apiRequest('/api/auth/login', {
+        method: 'POST',
+        body: {
+          email,
+          senha
+        }
+      });
+
+      localStorage.setItem('token', resposta.token);
+      localStorage.setItem('usuario', JSON.stringify(resposta.usuario));
+
+      if (resposta.usuario.tipo_perfil === 'pastor') {
+        navigate('/pastor/dashboard');
+      } else if (resposta.usuario.tipo_perfil === 'tesoureiro') {
+        navigate('/dashboard');
+      } else {
+        setErro('Perfil de usuário não reconhecido.');
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
+      }
+
+    } catch (error) {
+      setErro(error.message);
+    } finally {
+      setCarregando(false);
+    }
   };
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#2D5BC8] px-4 py-8">
       <section className="w-full max-w-[358px] rounded-[10px] bg-white px-5 py-5 shadow-sm">
+
         {/* Logo */}
         <div className="flex justify-center">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#29458F]">
@@ -17,38 +61,11 @@ function Login() {
               xmlns="http://www.w3.org/2000/svg"
               aria-label="Logo da igreja"
             >
-              <path
-                d="M12 31V13.5L19 9L26 13.5V31"
-                stroke="white"
-                strokeWidth="2.4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M15 31V19H23V31"
-                stroke="white"
-                strokeWidth="2.4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M19 4V12"
-                stroke="white"
-                strokeWidth="2.4"
-                strokeLinecap="round"
-              />
-              <path
-                d="M15.5 8H22.5"
-                stroke="white"
-                strokeWidth="2.4"
-                strokeLinecap="round"
-              />
-              <path
-                d="M12 31H26"
-                stroke="white"
-                strokeWidth="2.4"
-                strokeLinecap="round"
-              />
+              <path d="M12 31V13.5L19 9L26 13.5V31" stroke="white" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M15 31V19H23V31" stroke="white" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M19 4V12" stroke="white" strokeWidth="2.4" strokeLinecap="round" />
+              <path d="M15.5 8H22.5" stroke="white" strokeWidth="2.4" strokeLinecap="round" />
+              <path d="M12 31H26" stroke="white" strokeWidth="2.4" strokeLinecap="round" />
             </svg>
           </div>
         </div>
@@ -65,10 +82,8 @@ function Login() {
         </div>
 
         {/* Formulário */}
-        <form
-          onSubmit={handleSubmit}
-          className="mt-5"
-        >
+        <form onSubmit={handleSubmit} className="mt-5">
+
           {/* E-mail */}
           <div>
             <label
@@ -82,7 +97,10 @@ function Login() {
               id="email"
               name="email"
               type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
               placeholder="seu@email.com"
+              required
               className="h-[29px] w-full rounded-[5px] border-0 bg-[#F1F1F3] px-3 text-[11px] text-gray-700 outline-none placeholder:text-[#777184] focus:ring-2 focus:ring-[#29458F]/30"
             />
           </div>
@@ -100,29 +118,30 @@ function Login() {
               id="password"
               name="password"
               type="password"
+              value={senha}
+              onChange={(event) => setSenha(event.target.value)}
               placeholder="••••••••"
+              required
               className="h-[29px] w-full rounded-[5px] border-0 bg-[#F1F1F3] px-3 text-[11px] text-gray-700 outline-none placeholder:text-[#777184] focus:ring-2 focus:ring-[#29458F]/30"
             />
           </div>
 
+          {/* Mensagem de erro */}
+          {erro && (
+            <p className="mt-3 text-center text-xs text-red-600">
+              {erro}
+            </p>
+          )}
+
           {/* Botão */}
           <button
             type="submit"
-            className="mt-3 h-[29px] w-full rounded-[5px] bg-[#29458F] text-[11px] font-semibold text-white transition hover:bg-[#233D7D]"
+            disabled={carregando}
+            className="mt-3 h-[29px] w-full rounded-[5px] bg-[#29458F] text-[11px] font-semibold text-white transition hover:bg-[#233D7D] disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Entrar
+            {carregando ? 'Entrando...' : 'Entrar'}
           </button>
         </form>
-
-        {/* Recuperação de senha */}
-        <div className="mt-4 text-center">
-          <button
-            type="button"
-            className="text-[11px] font-medium text-[#2459D3] hover:underline"
-          >
-            Esqueci minha senha
-          </button>
-        </div>
 
       </section>
     </main>
