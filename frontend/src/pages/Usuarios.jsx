@@ -570,7 +570,7 @@ function Usuarios() {
           <button
             type="button"
             onClick={abrirModal}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-800"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-800"
           >
             <Plus size={18} />
             Novo usuário
@@ -607,7 +607,7 @@ function Usuarios() {
                 value={busca}
                 onChange={(e) => setBusca(e.target.value)}
                 placeholder="Buscar por nome ou e-mail..."
-                className="w-full rounded-lg border border-gray-200 py-2.5 pl-10 pr-4 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                className="min-h-11 w-full rounded-lg border border-gray-200 py-2.5 pl-10 pr-4 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               />
             </div>
           </div>
@@ -699,8 +699,9 @@ function Usuarios() {
                           <button
                             type="button"
                             title="Visualizar usuário"
+                            aria-label="Visualizar usuário"
                             onClick={() => visualizarUsuario(usuario.idusuario)}
-                            className="rounded-lg p-2 text-gray-500 transition-colors hover:bg-blue-50 hover:text-blue-700"
+                            className="inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-lg p-2 text-gray-500 transition-colors hover:bg-blue-50 hover:text-blue-700"
                           >
                             <Eye size={17} />
                           </button>
@@ -708,8 +709,9 @@ function Usuarios() {
                           <button
                             type="button"
                             title="Editar usuário"
+                            aria-label="Editar usuário"
                             onClick={() => visualizarUsuario(usuario.idusuario, true)}
-                            className="rounded-lg p-2 text-gray-500 transition-colors hover:bg-blue-50 hover:text-blue-700"
+                            className="inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-lg p-2 text-gray-500 transition-colors hover:bg-blue-50 hover:text-blue-700"
                           >
                             <Pencil size={17} />
                           </button>
@@ -717,9 +719,10 @@ function Usuarios() {
                           <button
                             type="button"
                             title={usuario.ativo ? 'Desativar usuário' : 'Ativar usuário'}
+                            aria-label={usuario.ativo ? 'Desativar usuário' : 'Ativar usuário'}
                             onClick={() => alterarStatusUsuario(usuario)}
                             disabled={salvandoStatusId === usuario.idusuario}
-                            className={`rounded-lg p-2 transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
+                            className={`inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-lg p-2 transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
                               usuario.ativo
                                 ? 'text-gray-500 hover:bg-red-50 hover:text-red-600'
                                 : 'text-emerald-600 hover:bg-emerald-50 hover:text-emerald-700'
@@ -786,7 +789,7 @@ function Usuarios() {
                 type="button"
                 onClick={fecharModal}
                 disabled={salvando}
-                className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
+                className="inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
                 aria-label="Fechar formulário"
               >
                 <X size={20} />
@@ -807,7 +810,7 @@ function Usuarios() {
                   placeholder="Digite o nome completo"
                   required
                   disabled={salvando}
-                  className="w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  className="min-h-11 w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 />
               </div>
 
@@ -824,7 +827,7 @@ function Usuarios() {
                   placeholder="exemplo@email.com"
                   required
                   disabled={salvando}
-                  className="w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  className="min-h-11 w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 />
               </div>
 
@@ -843,7 +846,7 @@ function Usuarios() {
                   required
                   disabled={salvando}
                   autoComplete="new-password"
-                  className="w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  className="min-h-11 w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 />
               </div>
 
@@ -861,7 +864,7 @@ function Usuarios() {
                   required
                   disabled={salvando}
                   autoComplete="new-password"
-                  className="w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  className="min-h-11 w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 />
               </div>
 
@@ -876,12 +879,12 @@ function Usuarios() {
                 </div>
               )}
 
-              <div className="flex justify-end gap-3 border-t border-gray-100 pt-4">
+              <div className="flex flex-col-reverse gap-3 border-t border-gray-100 pt-4 sm:flex-row sm:justify-end">
                 <button
                   type="button"
                   onClick={fecharModal}
                   disabled={salvando}
-                  className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50"
+                  className="min-h-11 rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50"
                 >
                   Cancelar
                 </button>
@@ -889,7 +892,7 @@ function Usuarios() {
                 <button
                   type="submit"
                   disabled={salvando}
-                  className="rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="min-h-11 rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {salvando ? 'Cadastrando...' : 'Cadastrar'}
                 </button>
@@ -902,7 +905,7 @@ function Usuarios() {
       {/* Modal de visualização e edição */}
       {modalVisualizacaoAberto && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-xl bg-white shadow-xl">
+          <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl bg-white shadow-xl">
 
             {/* Cabeçalho */}
             <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
@@ -922,7 +925,7 @@ function Usuarios() {
                 type="button"
                 onClick={fecharModalVisualizacao}
                 disabled={salvandoEdicao || salvandoSenha || salvandoGrupo}
-                className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
+                className="inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
                 aria-label="Fechar modal"
               >
                 <X size={20} />
@@ -1007,7 +1010,7 @@ function Usuarios() {
                             onChange={(e) => setNomeEdicao(e.target.value)}
                             required
                             disabled={salvandoEdicao}
-                            className="w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                            className="min-h-11 w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                           />
                         </div>
 
@@ -1023,7 +1026,7 @@ function Usuarios() {
                             onChange={(e) => setEmailEdicao(e.target.value)}
                             required
                             disabled={salvandoEdicao}
-                            className="w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                            className="min-h-11 w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                           />
                         </div>
 
@@ -1131,7 +1134,7 @@ function Usuarios() {
                                 value={grupoSelecionado}
                                 onChange={(e) => setGrupoSelecionado(e.target.value)}
                                 disabled={salvandoGrupo}
-                                className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:opacity-60"
+                                className="min-h-11 w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:opacity-60"
                               >
                                 <option value="">Selecione um grupo...</option>
 
@@ -1156,7 +1159,7 @@ function Usuarios() {
                               <button
                                 type="submit"
                                 disabled={salvandoGrupo || !grupoSelecionado}
-                                className="inline-flex items-center gap-2 rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-60"
+                                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-60"
                               >
                                 <Plus size={16} />
 
@@ -1183,7 +1186,7 @@ function Usuarios() {
                       <div className="border-t border-gray-100" />
 
                       <div className="space-y-3">
-                        <div className="flex items-center justify-between gap-3">
+                        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                           <div className="flex items-center gap-2">
                             <LockKeyhole size={18} className="text-gray-500" />
 
@@ -1196,7 +1199,7 @@ function Usuarios() {
                             type="button"
                             onClick={alternarAlteracaoSenha}
                             disabled={salvandoSenha}
-                            className="text-sm font-medium text-blue-700 hover:text-blue-800 disabled:opacity-50"
+                            className="min-h-11 self-start rounded-lg px-3 text-sm font-medium text-blue-700 transition-colors hover:bg-blue-50 hover:text-blue-800 disabled:opacity-50"
                           >
                             {alteracaoSenhaAberta ? 'Cancelar' : 'Alterar senha'}
                           </button>
@@ -1227,7 +1230,7 @@ function Usuarios() {
                                 required
                                 disabled={salvandoSenha}
                                 autoComplete="new-password"
-                                className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                                className="min-h-11 w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                               />
                             </div>
 
@@ -1245,7 +1248,7 @@ function Usuarios() {
                                 required
                                 disabled={salvandoSenha}
                                 autoComplete="new-password"
-                                className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                                className="min-h-11 w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                               />
                             </div>
 
@@ -1259,7 +1262,7 @@ function Usuarios() {
                               <button
                                 type="submit"
                                 disabled={salvandoSenha}
-                                className="rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-60"
+                                className="min-h-11 w-full rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
                               >
                                 {salvandoSenha ? 'Alterando senha...' : 'Salvar nova senha'}
                               </button>
@@ -1274,14 +1277,14 @@ function Usuarios() {
             </div>
 
             {/* Rodapé */}
-            <div className="flex justify-end gap-3 border-t border-gray-100 px-6 py-4">
+            <div className="flex flex-col-reverse gap-3 border-t border-gray-100 px-6 py-4 sm:flex-row sm:justify-end">
               {modoEdicao ? (
                 <>
                   <button
                     type="button"
                     onClick={cancelarEdicao}
                     disabled={salvandoEdicao}
-                    className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50"
+                    className="min-h-11 rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50"
                   >
                     Cancelar
                   </button>
@@ -1290,7 +1293,7 @@ function Usuarios() {
                     type="submit"
                     form="form-edicao-usuario"
                     disabled={salvandoEdicao || carregandoDetalhes}
-                    className="rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-60"
+                    className="min-h-11 rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {salvandoEdicao ? 'Salvando...' : 'Salvar alterações'}
                   </button>
@@ -1301,7 +1304,7 @@ function Usuarios() {
                     type="button"
                     onClick={fecharModalVisualizacao}
                     disabled={salvandoSenha || salvandoGrupo}
-                    className="rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50"
+                    className="min-h-11 rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50"
                   >
                     Fechar
                   </button>
@@ -1311,7 +1314,7 @@ function Usuarios() {
                       type="button"
                       onClick={iniciarEdicao}
                       disabled={salvandoSenha || salvandoGrupo}
-                      className="inline-flex items-center gap-2 rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-800 disabled:opacity-50"
+                      className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-800 disabled:opacity-50"
                     >
                       <Pencil size={16} />
                       Editar dados

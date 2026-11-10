@@ -679,7 +679,7 @@ function MovimentacaoDetalhes() {
         <header className="mb-5">
           <Link
             to="/movimentacoes"
-            className="mb-3 inline-flex min-h-10 items-center gap-2 text-sm font-medium text-[#29458f] hover:underline"
+            className="mb-3 inline-flex min-h-11 items-center gap-2 text-sm font-medium text-[#29458f] hover:underline"
           >
             <ArrowLeft size={17} />
             Voltar para movimentações
@@ -804,7 +804,7 @@ function MovimentacaoDetalhes() {
                   value={formulario.valor}
                   onChange={atualizarCampo}
                   required
-                  className="campo-edicao"
+                  className="campo-edicao min-h-11"
                 />
               </CampoFormulario>
 
@@ -815,7 +815,7 @@ function MovimentacaoDetalhes() {
                   value={formulario.data}
                   onChange={atualizarCampo}
                   required
-                  className="campo-edicao"
+                  className="campo-edicao min-h-11"
                 />
               </CampoFormulario>
 
@@ -825,7 +825,7 @@ function MovimentacaoDetalhes() {
                   value={formulario.grupo_id}
                   onChange={atualizarCampo}
                   required
-                  className="campo-edicao"
+                  className="campo-edicao min-h-11"
                 >
                   <option value="">Selecione um grupo</option>
 
@@ -844,7 +844,7 @@ function MovimentacaoDetalhes() {
                   value={formulario.categoria_id}
                   onChange={atualizarCampo}
                   required
-                  className="campo-edicao"
+                  className="campo-edicao min-h-11"
                 >
                   <option value="">Selecione uma categoria</option>
 
@@ -865,7 +865,7 @@ function MovimentacaoDetalhes() {
                   value={formulario.forma_pagamento_id}
                   onChange={atualizarCampo}
                   required
-                  className="campo-edicao"
+                  className="campo-edicao min-h-11"
                 >
                   <option value="">Selecione uma forma de pagamento</option>
 
@@ -885,7 +885,7 @@ function MovimentacaoDetalhes() {
                   name="evento_id"
                   value={formulario.evento_id}
                   onChange={atualizarCampo}
-                  className="campo-edicao"
+                  className="campo-edicao min-h-11"
                 >
                   <option value="">Nenhum evento</option>
 

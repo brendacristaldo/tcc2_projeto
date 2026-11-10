@@ -101,7 +101,7 @@ function Login() {
               onChange={(event) => setEmail(event.target.value)}
               placeholder="seu@email.com"
               required
-              className="h-[29px] w-full rounded-[5px] border-0 bg-[#F1F1F3] px-3 text-[11px] text-gray-700 outline-none placeholder:text-[#777184] focus:ring-2 focus:ring-[#29458F]/30"
+              className="h-11 w-full rounded-[5px] border-0 bg-[#F1F1F3] px-3 text-xs text-gray-700 outline-none placeholder:text-[#777184] focus:ring-2 focus:ring-[#29458F]/30"
             />
           </div>
 
@@ -122,7 +122,7 @@ function Login() {
               onChange={(event) => setSenha(event.target.value)}
               placeholder="••••••••"
               required
-              className="h-[29px] w-full rounded-[5px] border-0 bg-[#F1F1F3] px-3 text-[11px] text-gray-700 outline-none placeholder:text-[#777184] focus:ring-2 focus:ring-[#29458F]/30"
+              className="h-11 w-full rounded-[5px] border-0 bg-[#F1F1F3] px-3 text-xs text-gray-700 outline-none placeholder:text-[#777184] focus:ring-2 focus:ring-[#29458F]/30"
             />
           </div>
 
@@ -137,7 +137,7 @@ function Login() {
           <button
             type="submit"
             disabled={carregando}
-            className="mt-3 h-[29px] w-full rounded-[5px] bg-[#29458F] text-[11px] font-semibold text-white transition hover:bg-[#233D7D] disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-3 h-11 w-full rounded-[5px] bg-[#29458F] text-xs font-semibold text-white transition hover:bg-[#233D7D] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {carregando ? 'Entrando...' : 'Entrar'}
           </button>

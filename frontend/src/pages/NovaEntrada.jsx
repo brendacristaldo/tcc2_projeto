@@ -219,6 +219,7 @@ function NovaEntrada() {
     }
   };
 
+  // Campos com altura mínima de 44px para interação por toque
   const classeCampo =
     'min-h-11 w-full min-w-0 rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-800 outline-none transition focus:border-[#29458f] focus:ring-2 focus:ring-[#29458f]/20 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-70';
 
@@ -550,7 +551,7 @@ function NovaEntrada() {
                 <button
                   type="button"
                   onClick={removerComprovante}
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-gray-500 transition hover:bg-red-50 hover:text-red-600"
+                  className="inline-flex h-11 w-11 min-h-11 min-w-11 shrink-0 items-center justify-center rounded-lg text-gray-500 transition hover:bg-red-50 hover:text-red-600"
                   title="Remover comprovante"
                   aria-label="Remover comprovante"
                 >

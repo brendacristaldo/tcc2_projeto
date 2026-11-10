@@ -133,8 +133,6 @@ function Grupos() {
   async function alterarStatusGrupo(grupo) {
     const novoStatus = !grupo.ativo;
 
-    const acao = novoStatus ? 'reativar' : 'desativar';
-
     const confirmado = window.confirm(
       novoStatus
         ? `Deseja realmente reativar o grupo "${grupo.nome}"?`
@@ -195,7 +193,7 @@ function Grupos() {
             <button
               type="button"
               onClick={abrirModal}
-              className="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-[#29458f] px-4 text-xs font-medium text-white hover:bg-[#233d7d]"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#29458f] px-4 text-xs font-medium text-white hover:bg-[#233d7d] sm:h-9"
             >
               <Plus size={14} />
               Novo grupo
@@ -236,7 +234,7 @@ function Grupos() {
                 value={busca}
                 onChange={(event) => setBusca(event.target.value)}
                 placeholder="Buscar grupo..."
-                className="h-9 w-full rounded-md border border-gray-300 pl-9 pr-3 text-xs outline-none focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f]"
+                className="h-11 w-full rounded-md border border-gray-300 pl-9 pr-3 text-xs outline-none focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f] sm:h-9"
               />
             </div>
           </div>
@@ -308,7 +306,7 @@ function Grupos() {
                             <button
                               type="button"
                               onClick={() => abrirModalEdicao(grupo)}
-                              className="rounded-md p-2 text-gray-500 hover:bg-blue-50 hover:text-[#29458f]"
+                              className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md p-2 text-gray-500 hover:bg-blue-50 hover:text-[#29458f] sm:min-h-0 sm:min-w-0"
                               title="Editar grupo"
                               aria-label={`Editar grupo ${grupo.nome}`}
                             >
@@ -319,7 +317,7 @@ function Grupos() {
                               type="button"
                               onClick={() => alterarStatusGrupo(grupo)}
                               disabled={alterandoStatus === grupo.idgrupo}
-                              className={`rounded-md p-2 disabled:cursor-not-allowed disabled:opacity-50 ${
+                              className={`inline-flex min-h-11 min-w-11 items-center justify-center rounded-md p-2 disabled:cursor-not-allowed disabled:opacity-50 sm:min-h-0 sm:min-w-0 ${
                                 grupo.ativo
                                   ? 'text-gray-500 hover:bg-red-50 hover:text-red-600'
                                   : 'text-emerald-600 hover:bg-emerald-50'
@@ -373,7 +371,7 @@ function Grupos() {
                   type="button"
                   onClick={fecharModal}
                   disabled={salvando}
-                  className="rounded p-1 text-gray-500 hover:bg-gray-100"
+                  className="inline-flex min-h-11 min-w-11 items-center justify-center rounded p-1 text-gray-500 hover:bg-gray-100 sm:min-h-0 sm:min-w-0"
                   aria-label="Fechar formulário"
                 >
                   <X size={18} />
@@ -397,7 +395,7 @@ function Grupos() {
                   maxLength={100}
                   autoFocus
                   required
-                  className="h-10 w-full rounded-md border border-gray-300 px-3 text-sm outline-none focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f]"
+                  className="h-11 w-full rounded-md border border-gray-300 px-3 text-sm outline-none focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f] sm:h-10"
                 />
 
                 {erro && (
@@ -406,12 +404,12 @@ function Grupos() {
                   </p>
                 )}
 
-                <div className="mt-5 flex justify-end gap-2">
+                <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
                   <button
                     type="button"
                     onClick={fecharModal}
                     disabled={salvando}
-                    className="h-9 rounded-md border border-gray-300 px-4 text-xs font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                    className="h-11 rounded-md border border-gray-300 px-4 text-xs font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 sm:h-9"
                   >
                     Cancelar
                   </button>
@@ -419,7 +417,7 @@ function Grupos() {
                   <button
                     type="submit"
                     disabled={salvando || !nomeGrupo.trim()}
-                    className="h-9 rounded-md bg-[#29458f] px-4 text-xs font-medium text-white hover:bg-[#233d7d] disabled:cursor-not-allowed disabled:opacity-50"
+                    className="h-11 rounded-md bg-[#29458f] px-4 text-xs font-medium text-white hover:bg-[#233d7d] disabled:cursor-not-allowed disabled:opacity-50 sm:h-9"
                   >
                     {salvando
                       ? 'Salvando...'

@@ -511,7 +511,7 @@ function Eventos() {
                               <button
                                 type="button"
                                 onClick={() => abrirModalEdicao(evento.idevento)}
-                                className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-gray-500 transition hover:bg-gray-100 hover:text-gray-900"
+                                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-gray-500 transition hover:bg-gray-100 hover:text-gray-900"
                                 aria-label="Editar evento"
                                 title="Editar evento"
                               >
@@ -521,7 +521,7 @@ function Eventos() {
                               <button
                                 type="button"
                                 onClick={() => confirmarDesativacao(evento)}
-                                className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-gray-500 transition hover:bg-red-50 hover:text-red-600"
+                                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-gray-500 transition hover:bg-red-50 hover:text-red-600"
                                 aria-label="Desativar evento"
                                 title="Desativar evento"
                               >
@@ -566,7 +566,7 @@ function Eventos() {
                 type="button"
                 onClick={fecharModal}
                 disabled={salvando}
-                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-gray-400 transition hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
+                className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-lg text-gray-400 transition hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
                 aria-label="Fechar modal"
               >
                 <X size={20} />
@@ -752,7 +752,7 @@ function Eventos() {
                   type="button"
                   onClick={cancelarDesativacao}
                   disabled={desativando}
-                  className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-gray-400 transition hover:bg-gray-100 disabled:opacity-50"
+                  className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-lg text-gray-400 transition hover:bg-gray-100 disabled:opacity-50"
                   aria-label="Fechar confirmação"
                 >
                   <X size={20} />

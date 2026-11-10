@@ -1,5 +1,5 @@
 
-import { useEffect, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import {
   ArrowLeft,
   Clock,
@@ -72,7 +72,11 @@ function formatarValor(chave, valor) {
   }
 
   if (chave === 'tipo') {
-    return valor === 'entrada' ? 'Entrada' : valor === 'saida' ? 'Saída' : valor;
+    return valor === 'entrada'
+      ? 'Entrada'
+      : valor === 'saida'
+        ? 'Saída'
+        : valor;
   }
 
   return String(valor);
@@ -97,7 +101,10 @@ function Auditoria() {
       setRegistros(Array.isArray(dados) ? dados : []);
     } catch (error) {
       console.error('Erro ao carregar auditoria:', error);
-      setErro(error.message || 'Não foi possível carregar o histórico de auditoria.');
+      setErro(
+        error.message ||
+          'Não foi possível carregar o histórico de auditoria.'
+      );
     } finally {
       setCarregando(false);
     }
@@ -113,7 +120,9 @@ function Auditoria() {
     return registros.filter((registro) => {
       const correspondeBusca =
         !termo ||
-        String(registro.usuario_nome || '').toLowerCase().includes(termo) ||
+        String(registro.usuario_nome || '')
+          .toLowerCase()
+          .includes(termo) ||
         String(registro.movimentacao_id || '').includes(termo);
 
       const correspondeOperacao =
@@ -125,7 +134,7 @@ function Auditoria() {
   }, [registros, busca, operacaoFiltro]);
 
   function alternarDetalhes(id) {
-    setRegistroExpandido((atual) => atual === id ? null : id);
+    setRegistroExpandido((atual) => (atual === id ? null : id));
   }
 
   function renderizarDetalhes(registro) {
@@ -235,7 +244,7 @@ function Auditoria() {
         <header className="mb-4">
           <Link
             to="/pastor/dashboard"
-            className="mb-3 inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-900"
+            className="mb-3 inline-flex min-h-11 items-center gap-1.5 text-xs text-gray-500 hover:text-gray-900 sm:min-h-0"
           >
             <ArrowLeft size={14} />
             Voltar para dashboard
@@ -265,14 +274,14 @@ function Auditoria() {
                 value={busca}
                 onChange={(event) => setBusca(event.target.value)}
                 placeholder="Buscar por usuário ou ID da movimentação..."
-                className="h-9 w-full rounded-md border border-gray-300 pl-9 pr-3 text-xs outline-none focus:border-[#29458f]"
+                className="h-11 w-full rounded-md border border-gray-300 pl-9 pr-3 text-xs outline-none focus:border-[#29458f] sm:h-9"
               />
             </div>
 
             <select
               value={operacaoFiltro}
               onChange={(event) => setOperacaoFiltro(event.target.value)}
-              className="h-9 rounded-md border border-gray-300 bg-white px-3 text-xs text-gray-700 outline-none focus:border-[#29458f]"
+              className="h-11 w-full rounded-md border border-gray-300 bg-white px-3 text-xs text-gray-700 outline-none focus:border-[#29458f] sm:h-9 sm:w-auto"
             >
               <option value="todos">Todas as operações</option>
               <option value="edicao">Edições</option>
@@ -292,17 +301,25 @@ function Auditoria() {
               type="button"
               onClick={carregarAuditoria}
               disabled={carregando}
-              className="inline-flex h-8 items-center gap-1.5 rounded-md border border-gray-200 px-2.5 text-xs text-gray-600 transition hover:bg-gray-50 disabled:opacity-50"
+              className="inline-flex h-11 items-center justify-center gap-1.5 rounded-md border border-gray-200 px-3 text-xs text-gray-600 transition hover:bg-gray-50 disabled:opacity-50 sm:h-8"
             >
-              <RefreshCw size={13} className={carregando ? 'animate-spin' : ''} />
+              <RefreshCw
+                size={13}
+                className={carregando ? 'animate-spin' : ''}
+              />
               Atualizar
             </button>
           </div>
 
           {carregando ? (
             <div className="py-12 text-center">
-              <RefreshCw size={22} className="mx-auto mb-2 animate-spin text-[#29458f]" />
-              <p className="text-xs text-gray-500">Carregando histórico...</p>
+              <RefreshCw
+                size={22}
+                className="mx-auto mb-2 animate-spin text-[#29458f]"
+              />
+              <p className="text-xs text-gray-500">
+                Carregando histórico...
+              </p>
             </div>
           ) : erro ? (
             <div className="py-10 text-center">
@@ -310,14 +327,17 @@ function Auditoria() {
               <button
                 type="button"
                 onClick={carregarAuditoria}
-                className="rounded-md bg-[#29458f] px-4 py-2 text-xs font-medium text-white hover:bg-[#20376f]"
+                className="inline-flex h-11 items-center justify-center rounded-md bg-[#29458f] px-4 text-xs font-medium text-white hover:bg-[#20376f]"
               >
                 Tentar novamente
               </button>
             </div>
           ) : registrosFiltrados.length === 0 ? (
             <div className="py-12 text-center">
-              <FileSearch size={25} className="mx-auto mb-2 text-gray-400" />
+              <FileSearch
+                size={25}
+                className="mx-auto mb-2 text-gray-400"
+              />
               <p className="text-sm text-gray-500">
                 {registros.length === 0
                   ? 'Nenhum registro de auditoria foi encontrado.'
@@ -329,25 +349,33 @@ function Auditoria() {
               <table className="w-full min-w-[680px] border-collapse text-left text-xs">
                 <thead>
                   <tr className="border-b border-gray-200">
-                    <th className="px-2 py-2 font-semibold text-gray-700">Data e horário</th>
-                    <th className="px-2 py-2 font-semibold text-gray-700">Usuário</th>
-                    <th className="px-2 py-2 font-semibold text-gray-700">Operação</th>
-                    <th className="px-2 py-2 font-semibold text-gray-700">Movimentação</th>
-                    <th className="px-2 py-2 text-center font-semibold text-gray-700">Detalhes</th>
+                    <th className="px-2 py-2 font-semibold text-gray-700">
+                      Data e horário
+                    </th>
+                    <th className="px-2 py-2 font-semibold text-gray-700">
+                      Usuário
+                    </th>
+                    <th className="px-2 py-2 font-semibold text-gray-700">
+                      Operação
+                    </th>
+                    <th className="px-2 py-2 font-semibold text-gray-700">
+                      Movimentação
+                    </th>
+                    <th className="px-2 py-2 text-center font-semibold text-gray-700">
+                      Detalhes
+                    </th>
                   </tr>
                 </thead>
 
                 <tbody>
                   {registrosFiltrados.map((registro) => {
-                    const expandido = registroExpandido === registro.idauditoria;
+                    const expandido =
+                      registroExpandido === registro.idauditoria;
                     const exclusao = registro.operacao === 'exclusao';
 
                     return (
-                      <>
-                        <tr
-                          key={registro.idauditoria}
-                          className="border-b border-gray-100"
-                        >
+                      <Fragment key={registro.idauditoria}>
+                        <tr className="border-b border-gray-100">
                           <td className="whitespace-nowrap px-2 py-3 text-gray-600">
                             <div className="flex items-center gap-1.5">
                               <Clock size={13} className="text-gray-400" />
@@ -387,24 +415,34 @@ function Auditoria() {
                           <td className="px-2 py-3 text-center">
                             <button
                               type="button"
-                              onClick={() => alternarDetalhes(registro.idauditoria)}
-                              className="inline-flex items-center gap-1 rounded p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-gray-900"
-                              aria-label="Ver detalhes do registro"
+                              onClick={() =>
+                                alternarDetalhes(registro.idauditoria)
+                              }
+                              className="inline-flex min-h-11 min-w-11 items-center justify-center gap-1 rounded p-1.5 text-gray-500 transition hover:bg-gray-100 hover:text-gray-900 sm:min-h-0 sm:min-w-0"
+                              aria-label={
+                                expandido
+                                  ? 'Fechar detalhes do registro'
+                                  : 'Ver detalhes do registro'
+                              }
                             >
-                              {expandido ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
+                              {expandido ? (
+                                <ChevronUp size={15} />
+                              ) : (
+                                <ChevronDown size={15} />
+                              )}
                               <span>{expandido ? 'Fechar' : 'Ver'}</span>
                             </button>
                           </td>
                         </tr>
 
                         {expandido && (
-                          <tr key={`${registro.idauditoria}-detalhes`}>
+                          <tr>
                             <td colSpan={5} className="px-2 py-3">
                               {renderizarDetalhes(registro)}
                             </td>
                           </tr>
                         )}
-                      </>
+                      </Fragment>
                     );
                   })}
                 </tbody>

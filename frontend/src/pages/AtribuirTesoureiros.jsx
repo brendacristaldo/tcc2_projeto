@@ -6,7 +6,6 @@ import {
   Search,
   UserPlus,
   Users,
-  X
 } from 'lucide-react';
 import { Link } from 'react-router';
 
@@ -42,7 +41,7 @@ function AtribuirTesoureiros() {
         const [respostaGrupos, respostaTesoureiros] =
           await Promise.all([
             apiRequest('/api/grupos', { token }),
-            apiRequest('/api/usuarios/tesoureiros', { token })
+            apiRequest('/api/usuarios/tesoureiros', { token }),
           ]);
 
         const listaGrupos = respostaGrupos.grupos || [];
@@ -199,8 +198,8 @@ function AtribuirTesoureiros() {
             method: 'POST',
             token,
             body: {
-              grupo_id: Number(grupoSelecionado)
-            }
+              grupo_id: Number(grupoSelecionado),
+            },
           }
         );
 
@@ -239,7 +238,6 @@ function AtribuirTesoureiros() {
 
       setAtribuicoesExistentes(idsAtribuidos);
       setTesoureirosSelecionados(idsAtribuidos);
-
     } catch (error) {
       setErro(
         `Não foi possível concluir todas as atribuições: ${error.message}`
@@ -252,12 +250,11 @@ function AtribuirTesoureiros() {
   return (
     <Layout>
       <div className="p-3 sm:p-4">
-
         {/* Cabeçalho */}
         <header className="mb-4">
           <Link
             to="/pastor/grupos"
-            className="mb-3 inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-gray-900"
+            className="mb-3 inline-flex min-h-11 items-center gap-1.5 text-xs text-gray-500 hover:text-gray-900 sm:min-h-0"
           >
             <ArrowLeft size={14} />
             Voltar para grupos
@@ -289,7 +286,6 @@ function AtribuirTesoureiros() {
         )}
 
         <section className="rounded-lg border border-gray-200 bg-white p-3 sm:p-4">
-
           <div className="mb-4 flex items-center gap-2">
             <Users size={16} className="text-[#29458f]" />
 
@@ -314,7 +310,7 @@ function AtribuirTesoureiros() {
                 setGrupoSelecionado(event.target.value)
               }
               disabled={carregando || grupos.length === 0}
-              className="h-9 w-full rounded-md border border-gray-300 bg-white px-3 text-xs text-gray-700 outline-none focus:border-[#29458f] disabled:bg-gray-100 sm:max-w-md"
+              className="h-11 w-full rounded-md border border-gray-300 bg-white px-3 text-xs text-gray-700 outline-none focus:border-[#29458f] disabled:bg-gray-100 sm:h-9 sm:max-w-md"
             >
               {grupos.length === 0 && (
                 <option value="">
@@ -356,14 +352,13 @@ function AtribuirTesoureiros() {
                 value={busca}
                 onChange={(event) => setBusca(event.target.value)}
                 placeholder="Buscar usuário..."
-                className="h-9 w-full rounded-md border border-gray-300 pl-9 pr-3 text-xs outline-none focus:border-[#29458f]"
+                className="h-11 w-full rounded-md border border-gray-300 pl-9 pr-3 text-xs outline-none focus:border-[#29458f] sm:h-9"
               />
             </div>
           </div>
 
           {/* Lista de tesoureiros */}
           <div className="space-y-2">
-
             {carregando && (
               <p className="py-8 text-center text-xs text-gray-500">
                 Carregando grupos e tesoureiros...
@@ -396,7 +391,7 @@ function AtribuirTesoureiros() {
                     onClick={() =>
                       alternarTesoureiro(tesoureiro.idusuario)
                     }
-                    className={`flex w-full items-center justify-between rounded-md border p-3 text-left transition ${
+                    className={`flex min-h-11 w-full items-center justify-between gap-3 rounded-md border p-3 text-left transition ${
                       selecionado
                         ? 'border-blue-200 bg-blue-50'
                         : 'border-gray-200 bg-white hover:bg-gray-50'
@@ -457,10 +452,9 @@ function AtribuirTesoureiros() {
 
           {/* Botões */}
           <div className="mt-5 flex flex-col-reverse gap-2 border-t border-gray-200 pt-4 sm:flex-row sm:justify-end">
-
             <Link
               to="/pastor/grupos"
-              className="inline-flex h-9 items-center justify-center rounded-md border border-gray-300 px-4 text-xs font-medium text-gray-700 hover:bg-gray-50"
+              className="inline-flex h-11 items-center justify-center rounded-md border border-gray-300 px-4 text-xs font-medium text-gray-700 hover:bg-gray-50 sm:h-9"
             >
               Cancelar
             </Link>
@@ -474,7 +468,7 @@ function AtribuirTesoureiros() {
                 salvando ||
                 novasAtribuicoes.length === 0
               }
-              className="inline-flex h-9 items-center justify-center gap-2 rounded-md bg-[#29458f] px-4 text-xs font-medium text-white hover:bg-[#233d7d] disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#29458f] px-4 text-xs font-medium text-white hover:bg-[#233d7d] disabled:cursor-not-allowed disabled:opacity-50 sm:h-9"
             >
               <Check size={14} />
               {salvando ? 'Salvando...' : 'Salvar atribuições'}

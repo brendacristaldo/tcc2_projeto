@@ -959,7 +959,7 @@ function Relatorios() {
             <button
               type="button"
               onClick={limparFiltros}
-              className="min-h-11 w-full rounded-lg border border-gray-300 px-4 text-sm font-medium text-gray-700 transition hover:bg-gray-50 sm:w-auto"
+              className="inline-flex min-h-11 w-full items-center justify-center rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50 sm:w-auto"
             >
               Limpar filtros
             </button>

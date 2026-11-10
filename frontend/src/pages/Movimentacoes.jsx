@@ -191,7 +191,7 @@ function Movimentacoes() {
       <div className="flex items-center gap-2">
         <Link
           to={`/movimentacoes/${movimentacao.idmovimentacao}`}
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition hover:bg-gray-100 hover:text-gray-900"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#29458f] focus:ring-offset-2"
           aria-label="Visualizar movimentação"
           title="Visualizar"
         >
@@ -200,7 +200,7 @@ function Movimentacoes() {
 
         <Link
           to={`/movimentacoes/${movimentacao.idmovimentacao}`}
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition hover:bg-gray-100 hover:text-gray-900"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#29458f] focus:ring-offset-2"
           aria-label="Editar movimentação"
           title="Editar"
         >
@@ -211,7 +211,7 @@ function Movimentacoes() {
           type="button"
           onClick={() => excluirMovimentacao(movimentacao)}
           disabled={excluindoId !== null}
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-red-200 text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-40"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-red-200 text-red-600 transition hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40"
           aria-label="Excluir movimentação"
           title="Excluir movimentação"
         >
@@ -228,6 +228,7 @@ function Movimentacoes() {
   return (
     <Layout>
       <main className="w-full min-w-0 p-3 sm:p-5 lg:p-6">
+
         {/* Cabeçalho */}
         <header className="mb-5">
           <h1 className="text-xl font-bold text-gray-900 sm:text-2xl">
@@ -250,6 +251,8 @@ function Movimentacoes() {
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+
+            {/* Data inicial */}
             <div>
               <label
                 htmlFor="dataInicio"
@@ -267,11 +270,11 @@ function Movimentacoes() {
                   atualizarFiltro('dataInicio', event.target.value)
                 }
                 onClick={() => abrirCalendario(dataInicioRef)}
-                onTouchEnd={() => abrirCalendario(dataInicioRef)}
-                className="h-11 w-full cursor-pointer rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-700 outline-none transition focus:border-[#29458f] focus:ring-2 focus:ring-[#29458f]/20"
+                className="min-h-11 w-full cursor-pointer rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-700 outline-none transition focus:border-[#29458f] focus:ring-2 focus:ring-[#29458f]/20"
               />
             </div>
 
+            {/* Data final */}
             <div>
               <label
                 htmlFor="dataFim"
@@ -289,11 +292,11 @@ function Movimentacoes() {
                   atualizarFiltro('dataFim', event.target.value)
                 }
                 onClick={() => abrirCalendario(dataFimRef)}
-                onTouchEnd={() => abrirCalendario(dataFimRef)}
-                className="h-11 w-full cursor-pointer rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-700 outline-none transition focus:border-[#29458f] focus:ring-2 focus:ring-[#29458f]/20"
+                className="min-h-11 w-full cursor-pointer rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-700 outline-none transition focus:border-[#29458f] focus:ring-2 focus:ring-[#29458f]/20"
               />
             </div>
 
+            {/* Tipo de movimentação */}
             <div>
               <label
                 htmlFor="tipo"
@@ -308,7 +311,7 @@ function Movimentacoes() {
                 onChange={(event) =>
                   atualizarFiltro('tipo', event.target.value)
                 }
-                className="h-11 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-700 outline-none transition focus:border-[#29458f] focus:ring-2 focus:ring-[#29458f]/20"
+                className="min-h-11 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-700 outline-none transition focus:border-[#29458f] focus:ring-2 focus:ring-[#29458f]/20"
               >
                 <option value="">Todos</option>
                 <option value="Entrada">Entrada</option>
@@ -316,11 +319,12 @@ function Movimentacoes() {
               </select>
             </div>
 
+            {/* Limpar filtros */}
             <div className="flex items-end">
               <button
                 type="button"
                 onClick={limparFiltros}
-                className="h-11 w-full rounded-lg border border-gray-300 bg-white px-4 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                className="min-h-11 w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#29458f] focus:ring-offset-2"
               >
                 Limpar filtros
               </button>
@@ -330,6 +334,7 @@ function Movimentacoes() {
 
         {/* Listagem */}
         <section className="mt-5 rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
+
           <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
             <div>
               <h2 className="text-base font-semibold text-gray-900">
@@ -345,6 +350,7 @@ function Movimentacoes() {
             </div>
           </div>
 
+          {/* Mensagem de sucesso */}
           {mensagemSucesso && (
             <div
               role="status"
@@ -354,6 +360,7 @@ function Movimentacoes() {
             </div>
           )}
 
+          {/* Mensagem de erro na exclusão */}
           {erroExclusao && (
             <div
               role="alert"
@@ -363,12 +370,14 @@ function Movimentacoes() {
             </div>
           )}
 
+          {/* Carregamento */}
           {carregando && (
             <p className="py-10 text-center text-sm text-gray-500">
               Carregando movimentações...
             </p>
           )}
 
+          {/* Erro ao carregar */}
           {!carregando && erro && (
             <p
               role="alert"
@@ -382,6 +391,7 @@ function Movimentacoes() {
             <>
               {/* Cards para dispositivos móveis */}
               <div className="space-y-3 md:hidden">
+
                 {movimentacoesFiltradas.map((movimentacao) => {
                   const tipo = formatarTipo(movimentacao.tipo);
 
@@ -390,6 +400,7 @@ function Movimentacoes() {
                       key={movimentacao.idmovimentacao}
                       className="rounded-xl border border-gray-200 p-4"
                     >
+                      {/* Identificação e tipo */}
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
                           <p className="text-xs text-gray-500">
@@ -412,6 +423,7 @@ function Movimentacoes() {
                         </span>
                       </div>
 
+                      {/* Valor */}
                       <div className="my-4">
                         <p className="text-xs text-gray-500">
                           Valor
@@ -428,6 +440,7 @@ function Movimentacoes() {
                         </p>
                       </div>
 
+                      {/* Informações adicionais */}
                       <div className="space-y-2 border-t border-gray-100 pt-3">
                         <div>
                           <p className="text-xs text-gray-500">
@@ -462,6 +475,7 @@ function Movimentacoes() {
                         </div>
                       </div>
 
+                      {/* Ações */}
                       <div className="mt-4 flex items-center justify-between border-t border-gray-100 pt-3">
                         <span className="text-sm font-medium text-gray-600">
                           Ações

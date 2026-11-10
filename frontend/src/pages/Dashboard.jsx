@@ -98,7 +98,10 @@ function Dashboard() {
 
       setMovimentacoes(resposta.movimentacoes || []);
     } catch (error) {
-      setErro(error.message || 'Não foi possível carregar os dados financeiros.');
+      setErro(
+        error.message ||
+          'Não foi possível carregar os dados financeiros.'
+      );
     } finally {
       setCarregando(false);
     }
@@ -281,7 +284,6 @@ function Dashboard() {
   return (
     <Layout>
       <div className="mx-auto w-full max-w-7xl space-y-5 p-4 sm:p-6 lg:p-8">
-
         {/* Cabeçalho */}
         <header className="space-y-1">
           <h1 className="text-2xl font-bold leading-tight text-gray-900 sm:text-3xl">
@@ -304,9 +306,13 @@ function Dashboard() {
             <button
               type="button"
               onClick={carregarMovimentacoes}
-              className="inline-flex min-h-10 items-center justify-center gap-2 self-start rounded-lg px-3 text-sm font-semibold text-red-700 hover:bg-red-100 sm:self-auto"
+              disabled={carregando}
+              className="inline-flex min-h-11 items-center justify-center gap-2 self-start rounded-lg px-3 text-sm font-semibold text-red-700 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50 sm:self-auto"
             >
-              <RefreshCw size={16} />
+              <RefreshCw
+                size={16}
+                className={carregando ? 'animate-spin' : ''}
+              />
               Tentar novamente
             </button>
           </div>
@@ -559,7 +565,10 @@ function Dashboard() {
             </p>
           ) : dados.ultimasMovimentacoes.length === 0 ? (
             <div className="rounded-lg border border-dashed border-gray-300 px-4 py-10 text-center">
-              <BarChart3 className="mx-auto mb-3 text-gray-400" size={30} />
+              <BarChart3
+                className="mx-auto mb-3 text-gray-400"
+                size={30}
+              />
 
               <p className="text-sm font-medium text-gray-700">
                 Nenhuma movimentação encontrada.
@@ -725,7 +734,9 @@ function SummaryCard({
           {title}
         </h3>
 
-        <p className={`mt-3 break-words text-xl font-bold sm:text-2xl ${styles[type].value}`}>
+        <p
+          className={`mt-3 break-words text-xl font-bold sm:text-2xl ${styles[type].value}`}
+        >
           {carregando ? '...' : value}
         </p>
 
@@ -734,7 +745,9 @@ function SummaryCard({
         </p>
       </div>
 
-      <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${styles[type].icon}`}>
+      <div
+        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${styles[type].icon}`}
+      >
         {icon}
       </div>
     </article>
