@@ -1,6 +1,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import {
+  ArrowLeft,
   Eye,
   Pencil,
   Plus,
@@ -14,8 +15,9 @@ import {
   LockKeyhole,
   UserCheck,
   UserX,
-  Link
+  Link as LinkIcon
 } from 'lucide-react';
+import { Link } from 'react-router';
 
 import Layout from '../components/Layout';
 import { apiRequest } from '../services/api';
@@ -28,7 +30,6 @@ function Usuarios() {
   const [erro, setErro] = useState('');
   const [sucesso, setSucesso] = useState('');
 
-  // Estados do formulário de cadastro
   const [modalAberto, setModalAberto] = useState(false);
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
@@ -37,7 +38,6 @@ function Usuarios() {
   const [salvando, setSalvando] = useState(false);
   const [erroCadastro, setErroCadastro] = useState('');
 
-  // Estados do modal de visualização e edição
   const [modalVisualizacaoAberto, setModalVisualizacaoAberto] = useState(false);
   const [usuarioSelecionado, setUsuarioSelecionado] = useState(null);
   const [gruposUsuario, setGruposUsuario] = useState([]);
@@ -46,7 +46,6 @@ function Usuarios() {
   const [carregandoDetalhes, setCarregandoDetalhes] = useState(false);
   const [erroVisualizacao, setErroVisualizacao] = useState('');
 
-  // Estados da associação de grupos
   const [salvandoGrupo, setSalvandoGrupo] = useState(false);
   const [erroGrupos, setErroGrupos] = useState('');
 
@@ -56,17 +55,14 @@ function Usuarios() {
   const [salvandoEdicao, setSalvandoEdicao] = useState(false);
   const [erroEdicao, setErroEdicao] = useState('');
 
-  // Estados da alteração de senha
   const [alteracaoSenhaAberta, setAlteracaoSenhaAberta] = useState(false);
   const [novaSenha, setNovaSenha] = useState('');
   const [confirmarNovaSenha, setConfirmarNovaSenha] = useState('');
   const [salvandoSenha, setSalvandoSenha] = useState(false);
   const [erroSenha, setErroSenha] = useState('');
 
-  // Estado da ativação/desativação
   const [salvandoStatusId, setSalvandoStatusId] = useState(null);
 
-  // Carrega os tesoureiros cadastrados no banco
   const carregarUsuarios = useCallback(async () => {
     try {
       setCarregando(true);
@@ -91,7 +87,6 @@ function Usuarios() {
     carregarUsuarios();
   }, [carregarUsuarios]);
 
-  // Filtra por nome ou e-mail
   const usuariosFiltrados = usuarios.filter((usuario) => {
     const termo = busca.toLowerCase().trim();
 
@@ -101,7 +96,6 @@ function Usuarios() {
     );
   });
 
-  // Limpa os campos do formulário de cadastro
   const limparFormulario = () => {
     setNome('');
     setEmail('');
@@ -110,14 +104,12 @@ function Usuarios() {
     setErroCadastro('');
   };
 
-  // Abre o formulário de cadastro
   const abrirModal = () => {
     limparFormulario();
     setSucesso('');
     setModalAberto(true);
   };
 
-  // Fecha o formulário de cadastro
   const fecharModal = () => {
     if (salvando) return;
 
@@ -125,7 +117,6 @@ function Usuarios() {
     limparFormulario();
   };
 
-  // Cadastra um novo tesoureiro
   const cadastrarTesoureiro = async (e) => {
     e.preventDefault();
 
@@ -175,7 +166,6 @@ function Usuarios() {
     }
   };
 
-  // Ativa ou desativa um tesoureiro
   const alterarStatusUsuario = async (usuario) => {
     const novoStatus = !usuario.ativo;
 
@@ -239,7 +229,6 @@ function Usuarios() {
     }
   };
 
-  // Carrega os grupos já vinculados ao tesoureiro
   const carregarGruposUsuario = async (idusuario, token) => {
     const resposta = await apiRequest(
       `/api/usuarios/${idusuario}/grupos`,
@@ -251,7 +240,6 @@ function Usuarios() {
     setGruposUsuario(Array.isArray(lista) ? lista : []);
   };
 
-  // Abre o modal e carrega os dados do tesoureiro e os grupos
   const visualizarUsuario = async (
     idusuario,
     iniciarEmModoEdicao = false
@@ -322,7 +310,6 @@ function Usuarios() {
     }
   };
 
-  // Grupos ativos que ainda não estão vinculados ao tesoureiro
   const gruposAindaNaoVinculados = gruposDisponiveis.filter(
     (grupo) =>
       !gruposUsuario.some(
@@ -331,7 +318,6 @@ function Usuarios() {
       )
   );
 
-  // Associa um grupo ao tesoureiro
   const associarGrupo = async (e) => {
     e.preventDefault();
 
@@ -378,7 +364,6 @@ function Usuarios() {
     }
   };
 
-  // Fecha o modal de visualização
   const fecharModalVisualizacao = () => {
     if (salvandoEdicao || salvandoSenha || salvandoGrupo) return;
 
@@ -397,7 +382,6 @@ function Usuarios() {
     setConfirmarNovaSenha('');
   };
 
-  // Ativa o modo de edição
   const iniciarEdicao = () => {
     if (!usuarioSelecionado) return;
 
@@ -408,7 +392,6 @@ function Usuarios() {
     setAlteracaoSenhaAberta(false);
   };
 
-  // Cancela a edição e restaura os dados originais
   const cancelarEdicao = () => {
     if (salvandoEdicao) return;
 
@@ -418,7 +401,6 @@ function Usuarios() {
     setModoEdicao(false);
   };
 
-  // Salva as alterações do tesoureiro
   const salvarEdicao = async (e) => {
     e.preventDefault();
 
@@ -480,7 +462,6 @@ function Usuarios() {
     }
   };
 
-  // Abre ou fecha a seção de alteração de senha
   const alternarAlteracaoSenha = () => {
     setAlteracaoSenhaAberta((aberta) => !aberta);
     setNovaSenha('');
@@ -488,7 +469,6 @@ function Usuarios() {
     setErroSenha('');
   };
 
-  // Altera a senha do tesoureiro
   const alterarSenhaTesoureiro = async (e) => {
     e.preventDefault();
 
@@ -538,7 +518,6 @@ function Usuarios() {
     }
   };
 
-  // Formata a data de cadastro
   const formatarData = (data) => {
     if (!data) return 'Não informado';
 
@@ -555,14 +534,22 @@ function Usuarios() {
     <Layout>
       <div className="space-y-6">
 
-        {/* Cabeçalho */}
+        {/* Botão para voltar ao Dashboard */}
+        <Link
+          to="/pastor/dashboard"
+          className="inline-flex min-h-11 items-center gap-2 rounded-lg px-3 py-2 text-base font-semibold text-[#29458f] transition hover:bg-blue-50"
+        >
+          <ArrowLeft size={20} />
+          Voltar ao Dashboard
+        </Link>
+
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-black sm:text-4xl">
               Usuários
             </h1>
 
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-base text-black">
               Gerencie os tesoureiros cadastrados no sistema.
             </p>
           </div>
@@ -570,36 +557,31 @@ function Usuarios() {
           <button
             type="button"
             onClick={abrirModal}
-            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-800"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-blue-700 px-4 py-2.5 text-base font-semibold text-white transition-colors hover:bg-blue-800"
           >
-            <Plus size={18} />
+            <Plus size={20} />
             Novo usuário
           </button>
         </div>
 
-        {/* Mensagem de sucesso */}
         {sucesso && (
-          <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+          <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-base text-emerald-700">
             {sucesso}
           </div>
         )}
 
-        {/* Erro de operação */}
         {erro && (
-          <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-base text-red-700">
             {erro}
           </div>
         )}
 
-        {/* Conteúdo da tabela */}
         <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
-
-          {/* Pesquisa */}
           <div className="border-b border-gray-100 p-4">
             <div className="relative max-w-md">
               <Search
-                size={18}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                size={20}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-black"
               />
 
               <input
@@ -607,46 +589,43 @@ function Usuarios() {
                 value={busca}
                 onChange={(e) => setBusca(e.target.value)}
                 placeholder="Buscar por nome ou e-mail..."
-                className="min-h-11 w-full rounded-lg border border-gray-200 py-2.5 pl-10 pr-4 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                className="min-h-12 w-full rounded-lg border border-gray-200 py-2.5 pl-11 pr-4 text-base text-black placeholder:text-black outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               />
             </div>
           </div>
 
-          {/* Carregamento */}
           {carregando && (
-            <p className="py-10 text-center text-sm text-gray-500">
+            <p className="py-10 text-center text-base text-black">
               Carregando usuários...
             </p>
           )}
 
-          {/* Erro da listagem */}
           {!carregando && erro && usuarios.length === 0 && (
             <div className="py-10 text-center">
-              <p className="text-sm text-red-600">
+              <p className="text-base text-red-600">
                 Não foi possível carregar os usuários.
               </p>
             </div>
           )}
 
-          {/* Tabela */}
           {!carregando && (
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
                   <tr className="border-b border-gray-100 bg-gray-50">
-                    <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    <th className="px-5 py-3 text-sm font-semibold uppercase tracking-wider text-black">
                       Usuário
                     </th>
 
-                    <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    <th className="px-5 py-3 text-sm font-semibold uppercase tracking-wider text-black">
                       Perfil
                     </th>
 
-                    <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    <th className="px-5 py-3 text-sm font-semibold uppercase tracking-wider text-black">
                       Status
                     </th>
 
-                    <th className="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    <th className="px-5 py-3 text-right text-sm font-semibold uppercase tracking-wider text-black">
                       Ações
                     </th>
                   </tr>
@@ -660,16 +639,16 @@ function Usuarios() {
                     >
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-100 text-sm font-semibold text-blue-700">
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 text-base font-semibold text-blue-700">
                             {usuario.nome.charAt(0).toUpperCase()}
                           </div>
 
                           <div>
-                            <p className="text-sm font-medium text-gray-900">
+                            <p className="text-base font-semibold text-black">
                               {usuario.nome}
                             </p>
 
-                            <p className="text-xs text-gray-500">
+                            <p className="text-sm text-black">
                               {usuario.email}
                             </p>
                           </div>
@@ -677,17 +656,17 @@ function Usuarios() {
                       </td>
 
                       <td className="px-5 py-4">
-                        <span className="text-sm text-gray-700">
+                        <span className="text-base text-black">
                           Tesoureiro
                         </span>
                       </td>
 
                       <td className="px-5 py-4">
                         <span
-                          className={`inline-flex rounded-full px-2 py-1 text-[10px] font-medium ${
+                          className={`inline-flex rounded-full px-3 py-1.5 text-sm font-medium ${
                             usuario.ativo
                               ? 'bg-emerald-100 text-emerald-700'
-                              : 'bg-gray-100 text-gray-600'
+                              : 'bg-gray-100 text-black'
                           }`}
                         >
                           {usuario.ativo ? 'Ativo' : 'Inativo'}
@@ -701,9 +680,9 @@ function Usuarios() {
                             title="Visualizar usuário"
                             aria-label="Visualizar usuário"
                             onClick={() => visualizarUsuario(usuario.idusuario)}
-                            className="inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-lg p-2 text-gray-500 transition-colors hover:bg-blue-50 hover:text-blue-700"
+                            className="inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-lg p-2 text-black transition-colors hover:bg-blue-50 hover:text-blue-700"
                           >
-                            <Eye size={17} />
+                            <Eye size={19} />
                           </button>
 
                           <button
@@ -711,9 +690,9 @@ function Usuarios() {
                             title="Editar usuário"
                             aria-label="Editar usuário"
                             onClick={() => visualizarUsuario(usuario.idusuario, true)}
-                            className="inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-lg p-2 text-gray-500 transition-colors hover:bg-blue-50 hover:text-blue-700"
+                            className="inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-lg p-2 text-black transition-colors hover:bg-blue-50 hover:text-blue-700"
                           >
-                            <Pencil size={17} />
+                            <Pencil size={19} />
                           </button>
 
                           <button
@@ -724,13 +703,13 @@ function Usuarios() {
                             disabled={salvandoStatusId === usuario.idusuario}
                             className={`inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-lg p-2 transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
                               usuario.ativo
-                                ? 'text-gray-500 hover:bg-red-50 hover:text-red-600'
+                                ? 'text-black hover:bg-red-50 hover:text-red-600'
                                 : 'text-emerald-600 hover:bg-emerald-50 hover:text-emerald-700'
                             }`}
                           >
                             {usuario.ativo
-                              ? <UserX size={17} />
-                              : <UserCheck size={17} />}
+                              ? <UserX size={19} />
+                              : <UserCheck size={19} />}
                           </button>
                         </div>
                       </td>
@@ -742,11 +721,11 @@ function Usuarios() {
               {usuariosFiltrados.length === 0 && (
                 <div className="py-10 text-center">
                   <UserPlus
-                    size={24}
-                    className="mx-auto mb-2 text-gray-400"
+                    size={28}
+                    className="mx-auto mb-2 text-black"
                   />
 
-                  <p className="text-sm text-gray-500">
+                  <p className="text-base text-black">
                     {busca
                       ? 'Nenhum usuário encontrado para essa pesquisa.'
                       : 'Nenhum tesoureiro cadastrado.'}
@@ -758,7 +737,7 @@ function Usuarios() {
 
           {!carregando && !erro && usuariosFiltrados.length > 0 && (
             <div className="border-t border-gray-100 px-5 py-3">
-              <p className="text-xs text-gray-500">
+              <p className="text-sm text-black">
                 Exibindo {usuariosFiltrados.length}{' '}
                 {usuariosFiltrados.length === 1
                   ? 'tesoureiro'
@@ -769,18 +748,16 @@ function Usuarios() {
         </div>
       </div>
 
-      {/* Modal de cadastro */}
       {modalAberto && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="w-full max-w-md rounded-xl bg-white shadow-xl">
-
             <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">
+                <h2 className="text-xl font-semibold text-black">
                   Novo tesoureiro
                 </h2>
 
-                <p className="mt-1 text-xs text-gray-500">
+                <p className="mt-1 text-sm text-black">
                   Preencha os dados para cadastrar um usuário.
                 </p>
               </div>
@@ -789,16 +766,16 @@ function Usuarios() {
                 type="button"
                 onClick={fecharModal}
                 disabled={salvando}
-                className="inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
+                className="inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-lg p-2 text-black transition-colors hover:bg-gray-100 disabled:opacity-50"
                 aria-label="Fechar formulário"
               >
-                <X size={20} />
+                <X size={22} />
               </button>
             </div>
 
             <form onSubmit={cadastrarTesoureiro} className="space-y-4 p-6">
               <div>
-                <label htmlFor="nome" className="mb-1.5 block text-sm font-medium text-gray-700">
+                <label htmlFor="nome" className="mb-1.5 block text-base font-medium text-black">
                   Nome completo
                 </label>
 
@@ -810,12 +787,12 @@ function Usuarios() {
                   placeholder="Digite o nome completo"
                   required
                   disabled={salvando}
-                  className="min-h-11 w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  className="min-h-12 w-full rounded-lg border border-gray-200 px-3 py-2.5 text-base text-black placeholder:text-black outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-gray-700">
+                <label htmlFor="email" className="mb-1.5 block text-base font-medium text-black">
                   E-mail
                 </label>
 
@@ -827,12 +804,12 @@ function Usuarios() {
                   placeholder="exemplo@email.com"
                   required
                   disabled={salvando}
-                  className="min-h-11 w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  className="min-h-12 w-full rounded-lg border border-gray-200 px-3 py-2.5 text-base text-black placeholder:text-black outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 />
               </div>
 
               <div>
-                <label htmlFor="senha" className="mb-1.5 block text-sm font-medium text-gray-700">
+                <label htmlFor="senha" className="mb-1.5 block text-base font-medium text-black">
                   Senha
                 </label>
 
@@ -846,12 +823,12 @@ function Usuarios() {
                   required
                   disabled={salvando}
                   autoComplete="new-password"
-                  className="min-h-11 w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  className="min-h-12 w-full rounded-lg border border-gray-200 px-3 py-2.5 text-base text-black placeholder:text-black outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 />
               </div>
 
               <div>
-                <label htmlFor="confirmarSenha" className="mb-1.5 block text-sm font-medium text-gray-700">
+                <label htmlFor="confirmarSenha" className="mb-1.5 block text-base font-medium text-black">
                   Confirmar senha
                 </label>
 
@@ -864,17 +841,17 @@ function Usuarios() {
                   required
                   disabled={salvando}
                   autoComplete="new-password"
-                  className="min-h-11 w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  className="min-h-12 w-full rounded-lg border border-gray-200 px-3 py-2.5 text-base text-black placeholder:text-black outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 />
               </div>
 
               <div className="rounded-lg bg-gray-50 px-3 py-3">
-                <p className="text-xs text-gray-500">Perfil do usuário</p>
-                <p className="mt-1 text-sm font-medium text-gray-800">Tesoureiro</p>
+                <p className="text-sm text-black">Perfil do usuário</p>
+                <p className="mt-1 text-base font-medium text-black">Tesoureiro</p>
               </div>
 
               {erroCadastro && (
-                <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-700">
+                <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-base text-red-700">
                   {erroCadastro}
                 </div>
               )}
@@ -884,7 +861,7 @@ function Usuarios() {
                   type="button"
                   onClick={fecharModal}
                   disabled={salvando}
-                  className="min-h-11 rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50"
+                  className="min-h-11 rounded-lg border border-gray-200 px-4 py-2.5 text-base font-medium text-black transition-colors hover:bg-gray-50 disabled:opacity-50"
                 >
                   Cancelar
                 </button>
@@ -892,7 +869,7 @@ function Usuarios() {
                 <button
                   type="submit"
                   disabled={salvando}
-                  className="min-h-11 rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="min-h-11 rounded-lg bg-blue-700 px-4 py-2.5 text-base font-semibold text-white transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {salvando ? 'Cadastrando...' : 'Cadastrar'}
                 </button>
@@ -902,19 +879,16 @@ function Usuarios() {
         </div>
       )}
 
-      {/* Modal de visualização e edição */}
       {modalVisualizacaoAberto && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
           <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-xl bg-white shadow-xl">
-
-            {/* Cabeçalho */}
             <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">
+                <h2 className="text-xl font-semibold text-black">
                   {modoEdicao ? 'Editar tesoureiro' : 'Detalhes do tesoureiro'}
                 </h2>
 
-                <p className="mt-1 text-xs text-gray-500">
+                <p className="mt-1 text-sm text-black">
                   {modoEdicao
                     ? 'Atualize as informações pessoais do usuário.'
                     : 'Consulte as informações e os grupos vinculados ao usuário.'}
@@ -925,18 +899,17 @@ function Usuarios() {
                 type="button"
                 onClick={fecharModalVisualizacao}
                 disabled={salvandoEdicao || salvandoSenha || salvandoGrupo}
-                className="inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
+                className="inline-flex h-11 w-11 min-h-11 min-w-11 items-center justify-center rounded-lg p-2 text-black transition-colors hover:bg-gray-100 disabled:opacity-50"
                 aria-label="Fechar modal"
               >
-                <X size={20} />
+                <X size={22} />
               </button>
             </div>
 
-            {/* Conteúdo */}
             <div className="p-6">
               {carregandoDetalhes && (
                 <div className="py-10 text-center">
-                  <p className="text-sm text-gray-500">
+                  <p className="text-base text-black">
                     Carregando informações do tesoureiro...
                   </p>
                 </div>
@@ -944,11 +917,11 @@ function Usuarios() {
 
               {!carregandoDetalhes && erroVisualizacao && (
                 <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3">
-                  <p className="text-sm text-red-700">
+                  <p className="text-base text-red-700">
                     Não foi possível carregar os dados do tesoureiro.
                   </p>
 
-                  <p className="mt-1 text-xs text-red-600">
+                  <p className="mt-1 text-sm text-red-600">
                     {erroVisualizacao}
                   </p>
                 </div>
@@ -956,28 +929,26 @@ function Usuarios() {
 
               {!carregandoDetalhes && !erroVisualizacao && usuarioSelecionado && (
                 <div className="space-y-6">
-
-                  {/* Identificação */}
                   <div className="flex items-center gap-4">
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-blue-100 text-xl font-semibold text-blue-700">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-blue-100 text-2xl font-semibold text-blue-700">
                       {usuarioSelecionado.nome?.charAt(0).toUpperCase()}
                     </div>
 
                     <div className="min-w-0 flex-1">
-                      <h3 className="text-base font-semibold text-gray-900">
+                      <h3 className="text-lg font-semibold text-black">
                         {modoEdicao
                           ? nomeEdicao || usuarioSelecionado.nome
                           : usuarioSelecionado.nome}
                       </h3>
 
-                      <p className="mt-1 text-sm text-gray-500">Tesoureiro</p>
+                      <p className="mt-1 text-base text-black">Tesoureiro</p>
                     </div>
 
                     <span
-                      className={`rounded-full px-3 py-1 text-xs font-medium ${
+                      className={`rounded-full px-3 py-1.5 text-sm font-medium ${
                         usuarioSelecionado.ativo
                           ? 'bg-emerald-100 text-emerald-700'
-                          : 'bg-gray-100 text-gray-600'
+                          : 'bg-gray-100 text-black'
                       }`}
                     >
                       {usuarioSelecionado.ativo ? 'Ativo' : 'Inativo'}
@@ -986,9 +957,8 @@ function Usuarios() {
 
                   <div className="border-t border-gray-100" />
 
-                  {/* Informações pessoais */}
                   <div className="space-y-4">
-                    <h3 className="text-sm font-semibold text-gray-900">
+                    <h3 className="text-base font-semibold text-black">
                       Informações pessoais
                     </h3>
 
@@ -999,7 +969,7 @@ function Usuarios() {
                         className="space-y-4"
                       >
                         <div>
-                          <label htmlFor="nomeEdicao" className="mb-1.5 block text-sm font-medium text-gray-700">
+                          <label htmlFor="nomeEdicao" className="mb-1.5 block text-base font-medium text-black">
                             Nome completo
                           </label>
 
@@ -1010,12 +980,12 @@ function Usuarios() {
                             onChange={(e) => setNomeEdicao(e.target.value)}
                             required
                             disabled={salvandoEdicao}
-                            className="min-h-11 w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                            className="min-h-12 w-full rounded-lg border border-gray-200 px-3 py-2.5 text-base text-black outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                           />
                         </div>
 
                         <div>
-                          <label htmlFor="emailEdicao" className="mb-1.5 block text-sm font-medium text-gray-700">
+                          <label htmlFor="emailEdicao" className="mb-1.5 block text-base font-medium text-black">
                             E-mail
                           </label>
 
@@ -1026,12 +996,12 @@ function Usuarios() {
                             onChange={(e) => setEmailEdicao(e.target.value)}
                             required
                             disabled={salvandoEdicao}
-                            className="min-h-11 w-full rounded-lg border border-gray-200 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                            className="min-h-12 w-full rounded-lg border border-gray-200 px-3 py-2.5 text-base text-black outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                           />
                         </div>
 
                         {erroEdicao && (
-                          <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-700">
+                          <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-base text-red-700">
                             {erroEdicao}
                           </div>
                         )}
@@ -1039,22 +1009,22 @@ function Usuarios() {
                     ) : (
                       <>
                         <div className="flex items-start gap-3">
-                          <UserRound size={18} className="mt-0.5 text-gray-400" />
+                          <UserRound size={20} className="mt-0.5 text-black" />
 
                           <div>
-                            <p className="text-xs text-gray-500">Nome completo</p>
-                            <p className="mt-1 text-sm text-gray-800">
+                            <p className="text-sm text-black">Nome completo</p>
+                            <p className="mt-1 text-base text-black">
                               {usuarioSelecionado.nome}
                             </p>
                           </div>
                         </div>
 
                         <div className="flex items-start gap-3">
-                          <Mail size={18} className="mt-0.5 text-gray-400" />
+                          <Mail size={20} className="mt-0.5 text-black" />
 
                           <div>
-                            <p className="text-xs text-gray-500">E-mail</p>
-                            <p className="mt-1 break-all text-sm text-gray-800">
+                            <p className="text-sm text-black">E-mail</p>
+                            <p className="mt-1 break-all text-base text-black">
                               {usuarioSelecionado.email}
                             </p>
                           </div>
@@ -1063,11 +1033,11 @@ function Usuarios() {
                     )}
 
                     <div className="flex items-start gap-3">
-                      <CalendarDays size={18} className="mt-0.5 text-gray-400" />
+                      <CalendarDays size={20} className="mt-0.5 text-black" />
 
                       <div>
-                        <p className="text-xs text-gray-500">Data de cadastro</p>
-                        <p className="mt-1 text-sm text-gray-800">
+                        <p className="text-sm text-black">Data de cadastro</p>
+                        <p className="mt-1 text-base text-black">
                           {formatarData(usuarioSelecionado.criado_em)}
                         </p>
                       </div>
@@ -1076,12 +1046,11 @@ function Usuarios() {
 
                   <div className="border-t border-gray-100" />
 
-                  {/* Grupos vinculados */}
                   <div className="space-y-4">
                     <div className="flex items-center gap-2">
-                      <Users size={18} className="text-gray-500" />
+                      <Users size={20} className="text-black" />
 
-                      <h3 className="text-sm font-semibold text-gray-900">
+                      <h3 className="text-base font-semibold text-black">
                         Grupos vinculados
                       </h3>
                     </div>
@@ -1091,9 +1060,9 @@ function Usuarios() {
                         {gruposUsuario.map((grupo) => (
                           <span
                             key={grupo.idgrupo}
-                            className={`rounded-full px-3 py-1.5 text-xs font-medium ${
+                            className={`rounded-full px-3 py-1.5 text-sm font-medium ${
                               grupo.ativo === false
-                                ? 'bg-gray-100 text-gray-600'
+                                ? 'bg-gray-100 text-black'
                                 : 'bg-blue-50 text-blue-700'
                             }`}
                           >
@@ -1103,18 +1072,17 @@ function Usuarios() {
                         ))}
                       </div>
                     ) : (
-                      <p className="text-sm text-gray-500">
+                      <p className="text-base text-black">
                         Este tesoureiro ainda não possui grupos vinculados.
                       </p>
                     )}
 
-                    {/* Formulário para associar grupo */}
                     {!modoEdicao && (
                       <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
                         <div className="mb-3 flex items-center gap-2">
-                          <Link size={16} className="text-gray-500" />
+                          <LinkIcon size={18} className="text-black" />
 
-                          <p className="text-sm font-medium text-gray-800">
+                          <p className="text-base font-medium text-black">
                             Vincular novo grupo
                           </p>
                         </div>
@@ -1124,7 +1092,7 @@ function Usuarios() {
                             <div>
                               <label
                                 htmlFor="grupoSelecionado"
-                                className="mb-1.5 block text-xs font-medium text-gray-600"
+                                className="mb-1.5 block text-sm font-medium text-black"
                               >
                                 Selecione um grupo ativo
                               </label>
@@ -1134,7 +1102,7 @@ function Usuarios() {
                                 value={grupoSelecionado}
                                 onChange={(e) => setGrupoSelecionado(e.target.value)}
                                 disabled={salvandoGrupo}
-                                className="min-h-11 w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:opacity-60"
+                                className="min-h-12 w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-base text-black outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:opacity-60"
                               >
                                 <option value="">Selecione um grupo...</option>
 
@@ -1150,7 +1118,7 @@ function Usuarios() {
                             </div>
 
                             {erroGrupos && (
-                              <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-700">
+                              <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-base text-red-700">
                                 {erroGrupos}
                               </div>
                             )}
@@ -1159,9 +1127,9 @@ function Usuarios() {
                               <button
                                 type="submit"
                                 disabled={salvandoGrupo || !grupoSelecionado}
-                                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-60"
+                                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-blue-700 px-4 py-2.5 text-base font-semibold text-white transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-60"
                               >
-                                <Plus size={16} />
+                                <Plus size={18} />
 
                                 {salvandoGrupo
                                   ? 'Vinculando...'
@@ -1170,7 +1138,7 @@ function Usuarios() {
                             </div>
                           </form>
                         ) : (
-                          <p className="text-sm text-gray-500">
+                          <p className="text-base text-black">
                             {gruposDisponiveis.length === 0
                               ? 'Não há grupos ativos disponíveis.'
                               : 'Todos os grupos ativos já estão vinculados a este tesoureiro.'}
@@ -1180,7 +1148,6 @@ function Usuarios() {
                     )}
                   </div>
 
-                  {/* Alteração de senha */}
                   {!modoEdicao && (
                     <>
                       <div className="border-t border-gray-100" />
@@ -1188,9 +1155,9 @@ function Usuarios() {
                       <div className="space-y-3">
                         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                           <div className="flex items-center gap-2">
-                            <LockKeyhole size={18} className="text-gray-500" />
+                            <LockKeyhole size={20} className="text-black" />
 
-                            <h3 className="text-sm font-semibold text-gray-900">
+                            <h3 className="text-base font-semibold text-black">
                               Segurança da conta
                             </h3>
                           </div>
@@ -1199,7 +1166,7 @@ function Usuarios() {
                             type="button"
                             onClick={alternarAlteracaoSenha}
                             disabled={salvandoSenha}
-                            className="min-h-11 self-start rounded-lg px-3 text-sm font-medium text-blue-700 transition-colors hover:bg-blue-50 hover:text-blue-800 disabled:opacity-50"
+                            className="min-h-11 self-start rounded-lg px-3 text-base font-medium text-blue-700 transition-colors hover:bg-blue-50 hover:text-blue-800 disabled:opacity-50"
                           >
                             {alteracaoSenhaAberta ? 'Cancelar' : 'Alterar senha'}
                           </button>
@@ -1210,13 +1177,13 @@ function Usuarios() {
                             onSubmit={alterarSenhaTesoureiro}
                             className="space-y-4 rounded-lg border border-gray-200 bg-gray-50 p-4"
                           >
-                            <p className="text-xs text-gray-500">
+                            <p className="text-sm text-black">
                               Defina uma nova senha para este tesoureiro.
                               A senha deve conter pelo menos 6 caracteres.
                             </p>
 
                             <div>
-                              <label htmlFor="novaSenha" className="mb-1.5 block text-sm font-medium text-gray-700">
+                              <label htmlFor="novaSenha" className="mb-1.5 block text-base font-medium text-black">
                                 Nova senha
                               </label>
 
@@ -1230,12 +1197,12 @@ function Usuarios() {
                                 required
                                 disabled={salvandoSenha}
                                 autoComplete="new-password"
-                                className="min-h-11 w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                                className="min-h-12 w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-base text-black placeholder:text-black outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                               />
                             </div>
 
                             <div>
-                              <label htmlFor="confirmarNovaSenha" className="mb-1.5 block text-sm font-medium text-gray-700">
+                              <label htmlFor="confirmarNovaSenha" className="mb-1.5 block text-base font-medium text-black">
                                 Confirmar nova senha
                               </label>
 
@@ -1248,12 +1215,12 @@ function Usuarios() {
                                 required
                                 disabled={salvandoSenha}
                                 autoComplete="new-password"
-                                className="min-h-11 w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                                className="min-h-12 w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-base text-black placeholder:text-black outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                               />
                             </div>
 
                             {erroSenha && (
-                              <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-700">
+                              <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-base text-red-700">
                                 {erroSenha}
                               </div>
                             )}
@@ -1262,7 +1229,7 @@ function Usuarios() {
                               <button
                                 type="submit"
                                 disabled={salvandoSenha}
-                                className="min-h-11 w-full rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+                                className="min-h-11 w-full rounded-lg bg-blue-700 px-4 py-2.5 text-base font-semibold text-white transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
                               >
                                 {salvandoSenha ? 'Alterando senha...' : 'Salvar nova senha'}
                               </button>
@@ -1276,7 +1243,6 @@ function Usuarios() {
               )}
             </div>
 
-            {/* Rodapé */}
             <div className="flex flex-col-reverse gap-3 border-t border-gray-100 px-6 py-4 sm:flex-row sm:justify-end">
               {modoEdicao ? (
                 <>
@@ -1284,7 +1250,7 @@ function Usuarios() {
                     type="button"
                     onClick={cancelarEdicao}
                     disabled={salvandoEdicao}
-                    className="min-h-11 rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50"
+                    className="min-h-11 rounded-lg border border-gray-200 px-4 py-2.5 text-base font-medium text-black transition-colors hover:bg-gray-50 disabled:opacity-50"
                   >
                     Cancelar
                   </button>
@@ -1293,7 +1259,7 @@ function Usuarios() {
                     type="submit"
                     form="form-edicao-usuario"
                     disabled={salvandoEdicao || carregandoDetalhes}
-                    className="min-h-11 rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-60"
+                    className="min-h-11 rounded-lg bg-blue-700 px-4 py-2.5 text-base font-semibold text-white transition-colors hover:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {salvandoEdicao ? 'Salvando...' : 'Salvar alterações'}
                   </button>
@@ -1304,7 +1270,7 @@ function Usuarios() {
                     type="button"
                     onClick={fecharModalVisualizacao}
                     disabled={salvandoSenha || salvandoGrupo}
-                    className="min-h-11 rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50"
+                    className="min-h-11 rounded-lg border border-gray-200 px-4 py-2.5 text-base font-medium text-black transition-colors hover:bg-gray-50 disabled:opacity-50"
                   >
                     Fechar
                   </button>
@@ -1314,9 +1280,9 @@ function Usuarios() {
                       type="button"
                       onClick={iniciarEdicao}
                       disabled={salvandoSenha || salvandoGrupo}
-                      className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-blue-800 disabled:opacity-50"
+                      className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-blue-700 px-4 py-2.5 text-base font-semibold text-white transition-colors hover:bg-blue-800 disabled:opacity-50"
                     >
-                      <Pencil size={16} />
+                      <Pencil size={18} />
                       Editar dados
                     </button>
                   )}

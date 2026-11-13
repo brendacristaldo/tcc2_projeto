@@ -149,35 +149,35 @@ function PastorDashboard() {
 
   const iconClasses = {
     saldo: 'bg-blue-50 text-[#29458f]',
-    entrada: 'bg-emerald-50 text-emerald-500',
-    saida: 'bg-red-50 text-red-500',
-    grupos: 'bg-gray-100 text-gray-600',
+    entrada: 'bg-emerald-50 text-emerald-600',
+    saida: 'bg-red-50 text-red-600',
+    grupos: 'bg-gray-100 text-black',
   };
 
   if (carregando) {
     return (
       <Layout>
-        <div className="p-3 sm:p-4">
-          <header className="mb-4">
-            <h1 className="text-lg font-semibold text-gray-900 sm:text-xl lg:text-2xl">
+        <div className="p-4 sm:p-5">
+          <header className="mb-5">
+            <h1 className="text-3xl font-semibold text-black sm:text-4xl">
               Dashboard do Pastor
             </h1>
 
-            <p className="mt-1 text-xs text-gray-500">
+            <p className="mt-2 text-lg text-black">
               Carregando informações financeiras da igreja...
             </p>
           </header>
 
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {[1, 2, 3, 4].map((item) => (
               <div
                 key={item}
-                className="h-24 animate-pulse rounded-lg border border-gray-200 bg-gray-100"
+                className="h-28 animate-pulse rounded-lg border border-gray-200 bg-gray-100"
               />
             ))}
           </div>
 
-          <div className="mt-4 h-[300px] animate-pulse rounded-lg border border-gray-200 bg-gray-100" />
+          <div className="mt-5 h-[300px] animate-pulse rounded-lg border border-gray-200 bg-gray-100" />
         </div>
       </Layout>
     );
@@ -186,9 +186,9 @@ function PastorDashboard() {
   if (erro) {
     return (
       <Layout>
-        <div className="p-3 sm:p-4">
-          <header className="mb-4">
-            <h1 className="text-lg font-semibold text-gray-900 sm:text-xl lg:text-2xl">
+        <div className="p-4 sm:p-5">
+          <header className="mb-5">
+            <h1 className="text-3xl font-semibold text-black sm:text-4xl">
               Dashboard do Pastor
             </h1>
           </header>
@@ -196,25 +196,25 @@ function PastorDashboard() {
           <div className="rounded-lg border border-red-200 bg-red-50 p-4">
             <div className="flex items-start gap-3">
               <AlertCircle
-                size={20}
+                size={24}
                 className="mt-0.5 shrink-0 text-red-600"
               />
 
               <div>
-                <p className="text-sm font-semibold text-red-800">
+                <p className="text-lg font-semibold text-red-800">
                   Não foi possível carregar o dashboard
                 </p>
 
-                <p className="mt-1 text-xs text-red-700">
+                <p className="mt-2 text-base text-red-800">
                   {erro}
                 </p>
 
                 <button
                   type="button"
                   onClick={() => setTentativa((valor) => valor + 1)}
-                  className="mt-3 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-red-700 px-4 py-2 text-xs font-medium text-white transition hover:bg-red-800"
+                  className="mt-3 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-red-700 px-4 py-2 text-base font-semibold text-white transition hover:bg-red-800"
                 >
-                  <RefreshCw size={14} />
+                  <RefreshCw size={18} />
                   Tentar novamente
                 </button>
               </div>
@@ -227,44 +227,44 @@ function PastorDashboard() {
 
   return (
     <Layout>
-      <div className="p-3 sm:p-4">
-        <header className="mb-4">
-          <h1 className="text-lg font-semibold text-gray-900 sm:text-xl lg:text-2xl">
+      <div className="p-4 sm:p-5">
+        <header className="mb-5">
+          <h1 className="text-3xl font-semibold text-black sm:text-4xl">
             Dashboard do Pastor
           </h1>
 
-          <p className="mt-1 text-xs text-gray-500">
+          <p className="mt-2 text-lg text-black">
             Visão geral da situação financeira da igreja.
           </p>
         </header>
 
         {/* Cards de resumo */}
-        <section className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+        <section className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {resumo.map((item) => {
             const Icon = item.icon;
 
             return (
               <div
                 key={item.titulo}
-                className="rounded-lg border border-gray-200 bg-white p-3 sm:p-4"
+                className="rounded-lg border border-gray-200 bg-white p-4 sm:p-5"
               >
                 <div className="flex items-center gap-3">
                   <div
-                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-md ${iconClasses[item.tipo]}`}
+                    className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-md ${iconClasses[item.tipo]}`}
                   >
-                    <Icon size={17} />
+                    <Icon size={21} />
                   </div>
 
                   <div className="min-w-0">
-                    <p className="text-[10px] text-gray-500">
+                    <p className="text-base font-medium text-black">
                       {item.titulo}
                     </p>
 
-                    <p className="mt-0.5 text-base font-semibold text-gray-900">
+                    <p className="mt-1 text-2xl font-semibold text-black">
                       {item.valor}
                     </p>
 
-                    <p className="text-[9px] text-gray-400">
+                    <p className="mt-1 text-sm text-black">
                       {item.descricao}
                     </p>
                   </div>
@@ -275,27 +275,27 @@ function PastorDashboard() {
         </section>
 
         {/* Gráfico */}
-        <section className="mt-4 rounded-lg border border-gray-200 bg-white p-3 sm:p-4">
+        <section className="mt-5 rounded-lg border border-gray-200 bg-white p-4 sm:p-5">
           <div className="mb-4 flex items-center gap-2">
             <BarChart3
-              size={16}
+              size={22}
               className="text-[#29458f]"
             />
 
-            <h2 className="text-sm font-semibold text-gray-900">
+            <h2 className="text-xl font-semibold text-black">
               Entradas x Saídas
             </h2>
           </div>
 
           {dadosMensais.length > 0 ? (
-            <div className="h-[250px] w-full sm:h-[300px]">
+            <div className="h-[300px] w-full sm:h-[340px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   data={dadosMensais}
                   margin={{
                     top: 5,
-                    right: 5,
-                    left: 0,
+                    right: 10,
+                    left: 5,
                     bottom: 5,
                   }}
                 >
@@ -303,18 +303,22 @@ function PastorDashboard() {
 
                   <XAxis
                     dataKey="mes"
-                    tick={{ fontSize: 10 }}
+                    tick={{ fontSize: 15, fill: '#000000' }}
                   />
 
-                  <YAxis tick={{ fontSize: 10 }} />
+                  <YAxis
+                    tick={{ fontSize: 14, fill: '#000000' }}
+                  />
 
                   <Tooltip
                     formatter={(value) => formatarMoeda(value)}
+                    contentStyle={{ color: '#000000', fontSize: '16px' }}
                   />
 
                   <Legend
                     wrapperStyle={{
-                      fontSize: '10px',
+                      fontSize: '16px',
+                      color: '#000000',
                     }}
                   />
 
@@ -335,74 +339,74 @@ function PastorDashboard() {
               </ResponsiveContainer>
             </div>
           ) : (
-            <p className="py-12 text-center text-xs text-gray-500">
+            <p className="py-12 text-center text-lg text-black">
               Não há dados de movimentações para exibir.
             </p>
           )}
         </section>
 
         {/* Grupos e eventos */}
-        <section className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <section className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-2">
           {/* Saldo por grupo */}
-          <div className="rounded-lg border border-gray-200 bg-white p-3 sm:p-4">
+          <div className="rounded-lg border border-gray-200 bg-white p-4 sm:p-5">
             <div className="mb-4 flex items-center gap-2">
               <Users
-                size={16}
+                size={22}
                 className="text-[#29458f]"
               />
 
-              <h2 className="text-sm font-semibold text-gray-900">
+              <h2 className="text-xl font-semibold text-black">
                 Saldo por Grupo
               </h2>
             </div>
 
             {grupos.length > 0 ? (
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {grupos.map((grupo) => (
                   <div
                     key={grupo.idgrupo}
-                    className="flex items-center justify-between gap-3 border-b border-gray-100 pb-3 last:border-0 last:pb-0"
+                    className="flex items-center justify-between gap-3 border-b border-gray-200 pb-3 last:border-0 last:pb-0"
                   >
                     <div className="flex min-w-0 items-center gap-2">
-                      <span className="truncate text-xs text-gray-700">
+                      <span className="truncate text-lg text-black">
                         {grupo.nome}
                       </span>
 
                       {grupo.ativo === false && (
-                        <span className="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[9px] text-gray-500">
+                        <span className="shrink-0 rounded-full bg-gray-100 px-2 py-1 text-sm text-black">
                           Inativo
                         </span>
                       )}
                     </div>
 
-                    <span className="shrink-0 text-xs font-semibold text-gray-800">
+                    <span className="shrink-0 text-lg font-semibold text-black">
                       {formatarMoeda(grupo.saldo)}
                     </span>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="py-8 text-center text-xs text-gray-500">
+              <p className="py-8 text-center text-lg text-black">
                 Nenhum grupo cadastrado.
               </p>
             )}
           </div>
 
           {/* Próximos eventos */}
-          <div className="rounded-lg border border-gray-200 bg-white p-3 sm:p-4">
+          <div className="rounded-lg border border-gray-200 bg-white p-4 sm:p-5">
             <div className="mb-4 flex items-center gap-2">
               <CalendarDays
-                size={16}
+                size={22}
                 className="text-[#29458f]"
               />
 
-              <h2 className="text-sm font-semibold text-gray-900">
+              <h2 className="text-xl font-semibold text-black">
                 Próximos Eventos
               </h2>
             </div>
 
             {eventos.length > 0 ? (
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {eventos.map((evento) => {
                   const dataInicio = formatarData(
                     evento.data_inicio
@@ -420,25 +424,25 @@ function PastorDashboard() {
                   return (
                     <div
                       key={evento.idevento}
-                      className="border-b border-gray-100 pb-3 last:border-0 last:pb-0"
+                      className="border-b border-gray-200 pb-3 last:border-0 last:pb-0"
                     >
-                      <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                        <p className="text-xs font-medium text-gray-800">
+                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <p className="text-lg font-medium text-black">
                           {evento.nome}
                         </p>
 
                         <span
-                          className={`inline-flex w-fit rounded-full px-2 py-1 text-[10px] font-medium ${
+                          className={`inline-flex w-fit rounded-full px-3 py-1.5 text-sm font-semibold ${
                             evento.status === 'Em andamento'
-                              ? 'bg-emerald-100 text-emerald-700'
-                              : 'bg-blue-100 text-blue-700'
+                              ? 'bg-emerald-100 text-emerald-800'
+                              : 'bg-blue-100 text-blue-800'
                           }`}
                         >
                           {evento.status}
                         </span>
                       </div>
 
-                      <p className="mt-1 text-[10px] text-gray-500">
+                      <p className="mt-2 text-base text-black">
                         {periodo}
                         {evento.grupo_nome
                           ? ` • ${evento.grupo_nome}`
@@ -449,7 +453,7 @@ function PastorDashboard() {
                 })}
               </div>
             ) : (
-              <p className="py-8 text-center text-xs text-gray-500">
+              <p className="py-8 text-center text-lg text-black">
                 Não há próximos eventos cadastrados.
               </p>
             )}

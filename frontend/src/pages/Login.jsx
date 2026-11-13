@@ -48,7 +48,7 @@ function Login() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#2D5BC8] px-4 py-8">
-      <section className="w-full max-w-[358px] rounded-[10px] bg-white px-5 py-5 shadow-sm">
+      <section className="w-full max-w-[400px] rounded-[10px] bg-white px-6 py-6 shadow-sm">
 
         {/* Logo */}
         <div className="flex justify-center">
@@ -72,23 +72,23 @@ function Login() {
 
         {/* Título */}
         <div className="mt-5 text-center">
-          <h1 className="text-[19px] font-semibold leading-6 text-black">
+          <h1 className="text-[22px] font-semibold leading-7 text-black">
             Tesouraria Digital
           </h1>
 
-          <p className="mt-2 text-[12px] leading-4 text-[#777184]">
+          <p className="mt-2 text-[15px] leading-5 text-black">
             Sistema de Gestão Financeira para Igreja
           </p>
         </div>
 
         {/* Formulário */}
-        <form onSubmit={handleSubmit} className="mt-5">
+        <form onSubmit={handleSubmit} className="mt-6">
 
           {/* E-mail */}
           <div>
             <label
               htmlFor="email"
-              className="mb-1 block text-[11px] font-medium text-black"
+              className="mb-2 block text-[14px] font-semibold text-black"
             >
               E-mail
             </label>
@@ -101,15 +101,15 @@ function Login() {
               onChange={(event) => setEmail(event.target.value)}
               placeholder="seu@email.com"
               required
-              className="h-11 w-full rounded-[5px] border-0 bg-[#F1F1F3] px-3 text-xs text-gray-700 outline-none placeholder:text-[#777184] focus:ring-2 focus:ring-[#29458F]/30"
+              className="h-12 w-full rounded-[5px] border border-gray-300 bg-[#F1F1F3] px-3 text-base text-black outline-none placeholder:text-black focus:ring-2 focus:ring-[#29458F]/30"
             />
           </div>
 
           {/* Senha */}
-          <div className="mt-3">
+          <div className="mt-4">
             <label
               htmlFor="password"
-              className="mb-1 block text-[11px] font-medium text-black"
+              className="mb-2 block text-[14px] font-semibold text-black"
             >
               Senha
             </label>
@@ -122,13 +122,13 @@ function Login() {
               onChange={(event) => setSenha(event.target.value)}
               placeholder="••••••••"
               required
-              className="h-11 w-full rounded-[5px] border-0 bg-[#F1F1F3] px-3 text-xs text-gray-700 outline-none placeholder:text-[#777184] focus:ring-2 focus:ring-[#29458F]/30"
+              className="h-12 w-full rounded-[5px] border border-gray-300 bg-[#F1F1F3] px-3 text-base text-black outline-none placeholder:text-black focus:ring-2 focus:ring-[#29458F]/30"
             />
           </div>
 
           {/* Mensagem de erro */}
           {erro && (
-            <p className="mt-3 text-center text-xs text-red-600">
+            <p className="mt-3 text-center text-sm font-medium text-red-600">
               {erro}
             </p>
           )}
@@ -137,7 +137,7 @@ function Login() {
           <button
             type="submit"
             disabled={carregando}
-            className="mt-3 h-11 w-full rounded-[5px] bg-[#29458F] text-xs font-semibold text-white transition hover:bg-[#233D7D] disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-4 h-12 w-full rounded-[5px] bg-[#29458F] text-base font-semibold text-white transition hover:bg-[#233D7D] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {carregando ? 'Entrando...' : 'Entrar'}
           </button>

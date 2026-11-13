@@ -1,12 +1,14 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
+  ArrowLeft,
   CalendarDays,
   Pencil,
   Plus,
   Trash2,
   X,
 } from 'lucide-react';
+import { Link } from 'react-router';
 
 import Layout from '../components/Layout';
 import { apiRequest } from '../services/api';
@@ -36,6 +38,21 @@ function Eventos() {
   const [dataInicio, setDataInicio] = useState('');
   const [dataFim, setDataFim] = useState('');
   const [grupoSelecionado, setGrupoSelecionado] = useState('');
+
+  const dataInicioRef = useRef(null);
+const dataFimRef = useRef(null);
+
+const abrirCalendario = (referencia) => {
+  const campo = referencia.current;
+
+  if (!campo || campo.disabled) return;
+
+  if (typeof campo.showPicker === 'function') {
+    campo.showPicker();
+  } else {
+    campo.focus();
+  }
+};
 
   async function carregarEventos() {
     try {
@@ -294,7 +311,7 @@ function Eventos() {
     }
 
     if (status === 'Concluído') {
-      return 'bg-gray-100 text-gray-700';
+      return 'bg-gray-100 text-black';
     }
 
     return 'bg-blue-100 text-blue-700';
@@ -304,13 +321,23 @@ function Eventos() {
     <Layout>
       <div className="mx-auto w-full max-w-7xl p-3 sm:p-5 lg:p-6">
         <header className="mb-5">
+          <div className="mb-4">
+            <Link
+              to="/dashboard"
+              className="inline-flex min-h-10 items-center gap-2 rounded-lg px-3 py-2 text-base font-semibold text-[#29458f] transition hover:bg-blue-50"
+            >
+              <ArrowLeft size={19} />
+              Voltar ao Dashboard
+            </Link>
+          </div>
+
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl">
+              <h1 className="text-2xl font-bold text-black sm:text-3xl">
                 Eventos
               </h1>
 
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="mt-1 text-base text-black">
                 Gerencie os eventos e atividades da igreja.
               </p>
             </div>
@@ -318,9 +345,9 @@ function Eventos() {
             <button
               type="button"
               onClick={abrirModal}
-              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#29458f] px-4 py-2.5 text-sm font-medium text-white transition hover:bg-[#233d7d] sm:w-auto"
+              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#29458f] px-4 py-2.5 text-base font-semibold text-white transition hover:bg-[#233d7d] sm:w-auto"
             >
-              <Plus size={17} />
+              <Plus size={19} />
               Novo evento
             </button>
           </div>
@@ -329,7 +356,7 @@ function Eventos() {
         {mensagemSucesso && (
           <div
             role="status"
-            className="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700"
+            className="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-base text-emerald-700"
           >
             {mensagemSucesso}
           </div>
@@ -337,25 +364,25 @@ function Eventos() {
 
         <section className="rounded-xl border border-gray-200 bg-white p-3 shadow-sm sm:p-5">
           <div className="mb-4 flex items-center gap-2">
-            <CalendarDays size={19} className="shrink-0 text-[#29458f]" />
+            <CalendarDays size={21} className="shrink-0 text-[#29458f]" />
 
-            <h2 className="text-base font-semibold text-gray-900">
+            <h2 className="text-xl font-semibold text-black">
               Eventos cadastrados ({eventos.length})
             </h2>
           </div>
 
           {carregando ? (
-            <p className="py-12 text-center text-sm text-gray-500">
+            <p className="py-12 text-center text-base text-black">
               Carregando eventos...
             </p>
           ) : erro ? (
             <div className="py-10 text-center">
-              <p className="text-sm text-red-600">{erro}</p>
+              <p className="text-base text-red-600">{erro}</p>
 
               <button
                 type="button"
                 onClick={carregarEventos}
-                className="mt-4 inline-flex min-h-11 items-center justify-center rounded-lg bg-[#29458f] px-4 py-2.5 text-sm font-medium text-white hover:bg-[#233d7d]"
+                className="mt-4 inline-flex min-h-11 items-center justify-center rounded-lg bg-[#29458f] px-4 py-2.5 text-base font-semibold text-white hover:bg-[#233d7d]"
               >
                 Tentar novamente
               </button>
@@ -363,15 +390,15 @@ function Eventos() {
           ) : eventos.length === 0 ? (
             <div className="py-12 text-center">
               <CalendarDays
-                size={30}
-                className="mx-auto mb-3 text-gray-400"
+                size={34}
+                className="mx-auto mb-3 text-black"
               />
 
-              <p className="text-sm font-medium text-gray-700">
+              <p className="text-base font-semibold text-black">
                 Nenhum evento cadastrado.
               </p>
 
-              <p className="mt-1 text-xs text-gray-500">
+              <p className="mt-1 text-base text-black">
                 Utilize o botão acima para cadastrar um evento.
               </p>
             </div>
@@ -391,26 +418,26 @@ function Eventos() {
                     >
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
-                          <h3 className="break-words text-sm font-semibold text-gray-900">
+                          <h3 className="break-words text-base font-semibold text-black">
                             {evento.nome}
                           </h3>
 
-                          <p className="mt-1 text-xs text-gray-500">
+                          <p className="mt-1 text-sm text-black">
                             {evento.grupo_nome}
                           </p>
                         </div>
 
                         <span
-                          className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-medium ${classeStatus(status)}`}
+                          className={`shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${classeStatus(status)}`}
                         >
                           {status}
                         </span>
                       </div>
 
-                      <div className="mt-4 flex items-center gap-2 text-xs text-gray-600">
+                      <div className="mt-4 flex items-center gap-2 text-sm text-black">
                         <CalendarDays
-                          size={15}
-                          className="shrink-0 text-gray-400"
+                          size={17}
+                          className="shrink-0 text-black"
                         />
 
                         <span>
@@ -425,18 +452,18 @@ function Eventos() {
                         <button
                           type="button"
                           onClick={() => abrirModalEdicao(evento.idevento)}
-                          className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-lg border border-gray-300 px-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                          className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-lg border border-gray-300 px-3 text-base font-semibold text-black transition hover:bg-gray-50"
                         >
-                          <Pencil size={16} />
+                          <Pencil size={18} />
                           Editar
                         </button>
 
                         <button
                           type="button"
                           onClick={() => confirmarDesativacao(evento)}
-                          className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-lg border border-red-200 px-3 text-sm font-medium text-red-600 transition hover:bg-red-50"
+                          className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-lg border border-red-200 px-3 text-base font-semibold text-red-600 transition hover:bg-red-50"
                         >
-                          <Trash2 size={16} />
+                          <Trash2 size={18} />
                           Desativar
                         </button>
                       </div>
@@ -447,26 +474,26 @@ function Eventos() {
 
               {/* Tabela para telas maiores */}
               <div className="hidden overflow-x-auto md:block">
-                <table className="w-full border-collapse text-left text-sm">
+                <table className="w-full border-collapse text-left text-base">
                   <thead>
                     <tr className="border-b border-gray-200">
-                      <th className="px-3 py-3 font-semibold text-gray-700">
+                      <th className="px-3 py-3 font-semibold text-black">
                         Evento
                       </th>
 
-                      <th className="px-3 py-3 font-semibold text-gray-700">
+                      <th className="px-3 py-3 font-semibold text-black">
                         Período
                       </th>
 
-                      <th className="px-3 py-3 font-semibold text-gray-700">
+                      <th className="px-3 py-3 font-semibold text-black">
                         Grupo
                       </th>
 
-                      <th className="px-3 py-3 font-semibold text-gray-700">
+                      <th className="px-3 py-3 font-semibold text-black">
                         Status
                       </th>
 
-                      <th className="px-3 py-3 text-center font-semibold text-gray-700">
+                      <th className="px-3 py-3 text-center font-semibold text-black">
                         Ações
                       </th>
                     </tr>
@@ -483,24 +510,24 @@ function Eventos() {
                           key={evento.idevento}
                           className="border-b border-gray-100 last:border-0 hover:bg-gray-50"
                         >
-                          <td className="max-w-xs break-words px-3 py-4 font-medium text-gray-800">
+                          <td className="max-w-xs break-words px-3 py-4 font-medium text-black">
                             {evento.nome}
                           </td>
 
-                          <td className="whitespace-nowrap px-3 py-4 text-gray-700">
+                          <td className="whitespace-nowrap px-3 py-4 text-black">
                             {dataFimFormatada &&
                             dataInicioFormatada !== dataFimFormatada
                               ? `${dataInicioFormatada} - ${dataFimFormatada}`
                               : dataInicioFormatada}
                           </td>
 
-                          <td className="px-3 py-4 text-gray-700">
+                          <td className="px-3 py-4 text-black">
                             {evento.grupo_nome}
                           </td>
 
                           <td className="px-3 py-4">
                             <span
-                              className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${classeStatus(status)}`}
+                              className={`inline-flex rounded-full px-3 py-1.5 text-sm font-semibold ${classeStatus(status)}`}
                             >
                               {status}
                             </span>
@@ -511,21 +538,21 @@ function Eventos() {
                               <button
                                 type="button"
                                 onClick={() => abrirModalEdicao(evento.idevento)}
-                                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-gray-500 transition hover:bg-gray-100 hover:text-gray-900"
+                                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-black transition hover:bg-gray-100"
                                 aria-label="Editar evento"
                                 title="Editar evento"
                               >
-                                <Pencil size={17} />
+                                <Pencil size={19} />
                               </button>
 
                               <button
                                 type="button"
                                 onClick={() => confirmarDesativacao(evento)}
-                                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-gray-500 transition hover:bg-red-50 hover:text-red-600"
+                                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-black transition hover:bg-red-50 hover:text-red-600"
                                 aria-label="Desativar evento"
                                 title="Desativar evento"
                               >
-                                <Trash2 size={17} />
+                                <Trash2 size={19} />
                               </button>
                             </div>
                           </td>
@@ -551,11 +578,11 @@ function Eventos() {
           <div className="my-auto max-h-[calc(100dvh-1.5rem)] w-full max-w-lg overflow-y-auto rounded-xl bg-white shadow-xl sm:max-h-[calc(100dvh-2.5rem)]">
             <div className="sticky top-0 z-10 flex items-start justify-between gap-3 border-b border-gray-200 bg-white p-4 sm:p-5">
               <div>
-                <h2 className="text-base font-semibold text-gray-900 sm:text-lg">
+                <h2 className="text-xl font-semibold text-black sm:text-2xl">
                   {eventoEditando ? 'Editar evento' : 'Novo evento'}
                 </h2>
 
-                <p className="mt-1 text-sm text-gray-500">
+                <p className="mt-1 text-base text-black">
                   {eventoEditando
                     ? 'Altere as informações do evento.'
                     : 'Preencha as informações para cadastrar um evento.'}
@@ -566,10 +593,10 @@ function Eventos() {
                 type="button"
                 onClick={fecharModal}
                 disabled={salvando}
-                className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-lg text-gray-400 transition hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
+                className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-lg text-black transition hover:bg-gray-100 disabled:opacity-50"
                 aria-label="Fechar modal"
               >
-                <X size={20} />
+                <X size={22} />
               </button>
             </div>
 
@@ -578,7 +605,7 @@ function Eventos() {
                 {erroModal && (
                   <div
                     role="alert"
-                    className="rounded-lg border border-red-200 bg-red-50 px-3 py-3 text-sm leading-5 text-red-600"
+                    className="rounded-lg border border-red-200 bg-red-50 px-3 py-3 text-base leading-6 text-red-600"
                   >
                     {erroModal}
                   </div>
@@ -587,7 +614,7 @@ function Eventos() {
                 <div>
                   <label
                     htmlFor="nomeEvento"
-                    className="mb-2 block text-sm font-medium text-gray-700"
+                    className="mb-2 block text-base font-semibold text-black"
                   >
                     Nome do evento *
                   </label>
@@ -601,14 +628,14 @@ function Eventos() {
                     required
                     disabled={salvando}
                     placeholder="Ex.: Culto especial"
-                    className="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm outline-none transition focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f] disabled:bg-gray-100"
+                    className="h-12 w-full rounded-lg border border-gray-300 px-3 text-base text-black outline-none transition placeholder:text-black focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f] disabled:bg-gray-100"
                   />
                 </div>
 
                 <div>
                   <label
                     htmlFor="descricaoEvento"
-                    className="mb-2 block text-sm font-medium text-gray-700"
+                    className="mb-2 block text-base font-semibold text-black"
                   >
                     Descrição
                   </label>
@@ -621,64 +648,90 @@ function Eventos() {
                     rows={3}
                     disabled={salvando}
                     placeholder="Descreva brevemente o evento..."
-                    className="min-h-24 w-full resize-y rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f] disabled:bg-gray-100"
+                    className="min-h-28 w-full resize-y rounded-lg border border-gray-300 px-3 py-2.5 text-base text-black outline-none transition placeholder:text-black focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f] disabled:bg-gray-100"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <div>
-                    <label
-                      htmlFor="dataInicio"
-                      className="mb-2 block text-sm font-medium text-gray-700"
-                    >
-                      Data de início *
-                    </label>
+  <div>
+    <label
+      htmlFor="dataInicio"
+      className="mb-2 block text-base font-semibold text-black"
+    >
+      Data de início *
+    </label>
 
-                    <input
-                      id="dataInicio"
-                      type="date"
-                      value={dataInicio}
-                      onChange={(e) => setDataInicio(e.target.value)}
-                      required
-                      disabled={salvando}
-                      className="h-11 w-full rounded-lg border border-gray-300 px-2 text-sm outline-none transition focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f] disabled:bg-gray-100"
-                    />
-                  </div>
+    <div className="relative">
+      <input
+        ref={dataInicioRef}
+        id="dataInicio"
+        type="date"
+        value={dataInicio}
+        onChange={(e) => setDataInicio(e.target.value)}
+        required
+        disabled={salvando}
+        className="h-12 w-full rounded-lg border border-gray-300 px-2 pr-12 text-base text-black outline-none transition focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f] disabled:bg-gray-100"
+      />
 
-                  <div>
-                    <label
-                      htmlFor="dataFim"
-                      className="mb-2 block text-sm font-medium text-gray-700"
-                    >
-                      Data de término
-                    </label>
+      <button
+        type="button"
+        onClick={() => abrirCalendario(dataInicioRef)}
+        disabled={salvando}
+        className="absolute right-2 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-lg text-[#29458f] transition hover:bg-blue-50 disabled:opacity-50"
+        aria-label="Abrir calendário da data de início"
+      >
+        <CalendarDays size={21} />
+      </button>
+    </div>
+  </div>
 
-                    <input
-                      id="dataFim"
-                      type="date"
-                      value={dataFim}
-                      min={dataInicio || undefined}
-                      onChange={(e) => setDataFim(e.target.value)}
-                      disabled={salvando}
-                      className="h-11 w-full rounded-lg border border-gray-300 px-2 text-sm outline-none transition focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f] disabled:bg-gray-100"
-                    />
-                  </div>
-                </div>
+  <div>
+    <label
+      htmlFor="dataFim"
+      className="mb-2 block text-base font-semibold text-black"
+    >
+      Data de término
+    </label>
+
+    <div className="relative">
+      <input
+        ref={dataFimRef}
+        id="dataFim"
+        type="date"
+        value={dataFim}
+        min={dataInicio || undefined}
+        onChange={(e) => setDataFim(e.target.value)}
+        disabled={salvando}
+        className="h-12 w-full rounded-lg border border-gray-300 px-2 pr-12 text-base text-black outline-none transition focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f] disabled:bg-gray-100"
+      />
+
+      <button
+        type="button"
+        onClick={() => abrirCalendario(dataFimRef)}
+        disabled={salvando}
+        className="absolute right-2 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-lg text-[#29458f] transition hover:bg-blue-50 disabled:opacity-50"
+        aria-label="Abrir calendário da data de término"
+      >
+        <CalendarDays size={21} />
+      </button>
+    </div>
+  </div>
+</div>
 
                 <div>
                   <label
                     htmlFor="grupoEvento"
-                    className="mb-2 block text-sm font-medium text-gray-700"
+                    className="mb-2 block text-base font-semibold text-black"
                   >
                     Grupo responsável *
                   </label>
 
                   {carregandoGrupos ? (
-                    <p className="py-3 text-sm text-gray-500">
+                    <p className="py-3 text-base text-black">
                       Carregando grupos...
                     </p>
                   ) : grupos.length === 0 ? (
-                    <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-3 text-sm text-amber-700">
+                    <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-3 text-base text-amber-700">
                       Nenhum grupo associado ao seu usuário.
                     </p>
                   ) : (
@@ -688,7 +741,7 @@ function Eventos() {
                       onChange={(e) => setGrupoSelecionado(e.target.value)}
                       required
                       disabled={salvando}
-                      className="h-11 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm outline-none transition focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f] disabled:bg-gray-100"
+                      className="h-12 w-full rounded-lg border border-gray-300 bg-white px-3 text-base text-black outline-none transition focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f] disabled:bg-gray-100"
                     >
                       <option value="">Selecione um grupo</option>
 
@@ -704,7 +757,7 @@ function Eventos() {
                   )}
                 </div>
 
-                <p className="text-xs text-gray-400">
+                <p className="text-sm text-black">
                   * Campos obrigatórios.
                 </p>
               </div>
@@ -714,7 +767,7 @@ function Eventos() {
                   type="button"
                   onClick={fecharModal}
                   disabled={salvando}
-                  className="min-h-11 rounded-lg border border-gray-300 px-4 text-sm font-medium text-gray-700 transition hover:bg-gray-50 disabled:opacity-50 sm:min-w-28"
+                  className="min-h-11 rounded-lg border border-gray-300 px-4 text-base font-semibold text-black transition hover:bg-gray-50 disabled:opacity-50 sm:min-w-28"
                 >
                   Cancelar
                 </button>
@@ -722,7 +775,7 @@ function Eventos() {
                 <button
                   type="submit"
                   disabled={salvando || carregandoGrupos || grupos.length === 0}
-                  className="min-h-11 rounded-lg bg-[#29458f] px-4 text-sm font-medium text-white transition hover:bg-[#233d7d] disabled:cursor-not-allowed disabled:opacity-50 sm:min-w-40"
+                  className="min-h-11 rounded-lg bg-[#29458f] px-4 text-base font-semibold text-white transition hover:bg-[#233d7d] disabled:cursor-not-allowed disabled:opacity-50 sm:min-w-40"
                 >
                   {salvando
                     ? eventoEditando
@@ -744,7 +797,7 @@ function Eventos() {
           <div className="my-auto w-full max-w-md rounded-xl bg-white shadow-xl">
             <div className="border-b border-gray-200 p-4 sm:p-5">
               <div className="flex items-start justify-between gap-3">
-                <h2 className="text-base font-semibold text-gray-900 sm:text-lg">
+                <h2 className="text-xl font-semibold text-black sm:text-2xl">
                   Desativar evento
                 </h2>
 
@@ -752,19 +805,19 @@ function Eventos() {
                   type="button"
                   onClick={cancelarDesativacao}
                   disabled={desativando}
-                  className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-lg text-gray-400 transition hover:bg-gray-100 disabled:opacity-50"
+                  className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-lg text-black transition hover:bg-gray-100 disabled:opacity-50"
                   aria-label="Fechar confirmação"
                 >
-                  <X size={20} />
+                  <X size={22} />
                 </button>
               </div>
 
-              <p className="mt-3 text-sm leading-6 text-gray-600">
+              <p className="mt-3 text-base leading-6 text-black">
                 Tem certeza de que deseja desativar o evento{' '}
                 <strong>{eventoDesativando.nome}</strong>?
               </p>
 
-              <p className="mt-2 text-sm leading-5 text-gray-500">
+              <p className="mt-2 text-base leading-6 text-black">
                 O evento deixará de aparecer na listagem, mas seus dados e
                 vínculos com movimentações financeiras serão preservados.
               </p>
@@ -773,7 +826,7 @@ function Eventos() {
             {erroDesativacao && (
               <div
                 role="alert"
-                className="mx-4 mt-4 rounded-lg border border-red-200 bg-red-50 px-3 py-3 text-sm text-red-600 sm:mx-5"
+                className="mx-4 mt-4 rounded-lg border border-red-200 bg-red-50 px-3 py-3 text-base text-red-600 sm:mx-5"
               >
                 {erroDesativacao}
               </div>
@@ -784,7 +837,7 @@ function Eventos() {
                 type="button"
                 onClick={cancelarDesativacao}
                 disabled={desativando}
-                className="min-h-11 rounded-lg border border-gray-300 px-4 text-sm font-medium text-gray-700 transition hover:bg-gray-50 disabled:opacity-50"
+                className="min-h-11 rounded-lg border border-gray-300 px-4 text-base font-semibold text-black transition hover:bg-gray-50 disabled:opacity-50"
               >
                 Cancelar
               </button>
@@ -793,7 +846,7 @@ function Eventos() {
                 type="button"
                 onClick={desativarEvento}
                 disabled={desativando}
-                className="min-h-11 rounded-lg bg-red-600 px-4 text-sm font-medium text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
+                className="min-h-11 rounded-lg bg-red-600 px-4 text-base font-semibold text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {desativando ? 'Desativando...' : 'Confirmar desativação'}
               </button>

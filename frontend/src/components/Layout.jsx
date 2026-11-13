@@ -140,10 +140,10 @@ function Layout({ children }) {
       <header className="fixed inset-x-0 top-0 z-40 flex h-16 items-center justify-between bg-[#29458f] px-4 text-white shadow-sm lg:hidden">
         <div className="flex min-w-0 items-center gap-3">
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/15">
-            <ShieldCheck size={22} />
+            <ShieldCheck size={24} />
           </div>
 
-          <span className="truncate text-base font-semibold">
+          <span className="truncate text-lg font-semibold">
             Tesouraria Digital
           </span>
         </div>
@@ -156,7 +156,7 @@ function Layout({ children }) {
           aria-expanded={menuMobileAberto}
           aria-controls="menu-principal"
         >
-          <Menu size={24} />
+          <Menu size={26} />
         </button>
       </header>
 
@@ -192,14 +192,14 @@ function Layout({ children }) {
 
           <div className="flex min-w-0 items-center gap-3 lg:hidden">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/15">
-              <ShieldCheck size={22} />
+              <ShieldCheck size={24} />
             </div>
 
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold">
+              <p className="truncate text-base font-semibold">
                 Tesouraria
               </p>
-              <p className="text-xs text-white/70">
+              <p className="text-sm text-white/70">
                 Digital
               </p>
             </div>
@@ -212,14 +212,14 @@ function Layout({ children }) {
             `}
           >
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/15">
-              <ShieldCheck size={21} />
+              <ShieldCheck size={22} />
             </div>
 
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold">
+              <p className="truncate text-base font-semibold">
                 Tesouraria
               </p>
-              <p className="text-xs text-white/70">
+              <p className="text-sm text-white/70">
                 Digital
               </p>
             </div>
@@ -227,7 +227,7 @@ function Layout({ children }) {
 
           {menuRecolhido && (
             <div className="hidden h-9 w-9 items-center justify-center rounded-lg bg-white/15 lg:mx-auto lg:flex">
-              <ShieldCheck size={21} />
+              <ShieldCheck size={22} />
             </div>
           )}
 
@@ -237,7 +237,7 @@ function Layout({ children }) {
             className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white lg:hidden"
             aria-label="Fechar menu"
           >
-            <X size={22} />
+            <X size={24} />
           </button>
 
           <button
@@ -248,8 +248,8 @@ function Layout({ children }) {
             title={menuRecolhido ? 'Expandir menu' : 'Recolher menu'}
           >
             {menuRecolhido
-              ? <ChevronRight size={19} />
-              : <ChevronLeft size={19} />
+              ? <ChevronRight size={21} />
+              : <ChevronLeft size={21} />
             }
           </button>
         </div>
@@ -258,7 +258,7 @@ function Layout({ children }) {
         <div className="border-b border-white/15 px-4 py-4">
           <div className="flex items-center gap-3 lg:gap-3">
             <div
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#4269bd] text-sm font-semibold"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#4269bd] text-base font-semibold"
               title={nomeUsuario}
             >
               {iniciais || 'U'}
@@ -270,11 +270,11 @@ function Layout({ children }) {
                 ${menuRecolhido ? 'lg:hidden' : ''}
               `}
             >
-              <p className="truncate text-sm font-semibold">
+              <p className="truncate text-base font-semibold">
                 {nomeUsuario}
               </p>
 
-              <p className="text-xs text-white/70">
+              <p className="text-sm text-white/70">
                 {perfilUsuario}
               </p>
             </div>
@@ -285,8 +285,8 @@ function Layout({ children }) {
         <nav className="flex-1 overflow-y-auto px-3 py-4">
           <p
             className={`
-              mb-3 px-2 text-[11px] font-semibold uppercase
-              tracking-wider text-white/50
+              mb-3 px-2 text-sm font-semibold uppercase
+              tracking-wider text-white/70
               ${menuRecolhido ? 'lg:hidden' : ''}
             `}
           >
@@ -294,7 +294,7 @@ function Layout({ children }) {
           </p>
 
           {menuRecolhido && (
-            <p className="mb-3 hidden text-center text-[10px] font-semibold uppercase tracking-wider text-white/50 lg:block">
+            <p className="mb-3 hidden text-center text-xs font-semibold uppercase tracking-wider text-white/70 lg:block">
               Menu
             </p>
           )}
@@ -315,7 +315,7 @@ function Layout({ children }) {
                   title={menuRecolhido ? item.label : undefined}
                   className={({ isActive }) => `
                     flex min-h-12 items-center rounded-lg px-3
-                    text-sm transition-colors
+                    text-base transition-colors
                     focus-visible:outline focus-visible:outline-2
                     focus-visible:outline-offset-2 focus-visible:outline-white
                     ${
@@ -331,7 +331,7 @@ function Layout({ children }) {
                   `}
                 >
                   <Icon
-                    size={21}
+                    size={23}
                     strokeWidth={1.9}
                     className="shrink-0"
                   />
@@ -358,7 +358,7 @@ function Layout({ children }) {
             title={menuRecolhido ? 'Sair' : undefined}
             className={`
               flex min-h-12 w-full items-center rounded-lg px-3
-              text-sm text-white/90 transition-colors
+              text-base text-white/90 transition-colors
               hover:bg-red-500/20 hover:text-white
               focus-visible:outline focus-visible:outline-2
               focus-visible:outline-offset-2 focus-visible:outline-white
@@ -369,7 +369,7 @@ function Layout({ children }) {
               }
             `}
           >
-            <LogOut size={21} className="shrink-0" />
+            <LogOut size={23} className="shrink-0" />
 
             <span className={menuRecolhido ? 'lg:hidden' : ''}>
               Sair

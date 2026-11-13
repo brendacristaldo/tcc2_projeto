@@ -1,11 +1,13 @@
 
 import { useEffect, useRef, useState } from 'react';
+
 import {
   Eye,
   Pencil,
   Trash2,
   Filter,
   Search,
+  ArrowLeft,
 } from 'lucide-react';
 
 import { Link } from 'react-router';
@@ -54,12 +56,10 @@ function Movimentacoes() {
     carregarMovimentacoes();
   }, []);
 
-  // Converter o tipo armazenado no banco
   const formatarTipo = (tipo) => {
     return tipo === 'entrada' ? 'Entrada' : 'Saída';
   };
 
-  // Formatar data para o padrão brasileiro
   const formatarData = (data) => {
     if (!data) return '-';
 
@@ -70,7 +70,6 @@ function Movimentacoes() {
     return `${dia}/${mes}/${ano}`;
   };
 
-  // Formatar valor monetário
   const formatarMoeda = (valor) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
@@ -78,7 +77,6 @@ function Movimentacoes() {
     }).format(Number(valor));
   };
 
-  // Abrir o calendário nativo do navegador
   const abrirCalendario = (referencia) => {
     const campo = referencia.current;
 
@@ -90,14 +88,11 @@ function Movimentacoes() {
       try {
         campo.showPicker();
       } catch (error) {
-        // Se o navegador não permitir showPicker,
-        // o campo continua focado para uso do seletor nativo.
         console.warn('Não foi possível abrir o calendário:', error);
       }
     }
   };
 
-  // Excluir movimentação definitivamente
   const excluirMovimentacao = async (movimentacao) => {
     const confirmacao = window.confirm(
       `Tem certeza de que deseja excluir definitivamente a movimentação #${movimentacao.idmovimentacao}?\n\n` +
@@ -144,7 +139,6 @@ function Movimentacoes() {
     }
   };
 
-  // Atualizar filtros sem perder os demais valores
   const atualizarFiltro = (campo, valor) => {
     setFiltros((anteriores) => ({
       ...anteriores,
@@ -152,7 +146,6 @@ function Movimentacoes() {
     }));
   };
 
-  // Aplicar filtros
   const movimentacoesFiltradas = movimentacoes.filter(
     (movimentacao) => {
       const data = String(movimentacao.data || '').slice(0, 10);
@@ -182,7 +175,6 @@ function Movimentacoes() {
     });
   };
 
-  // Ações compartilhadas entre cards e tabela
   const renderAcoes = (movimentacao) => {
     const estaExcluindo =
       excluindoId === movimentacao.idmovimentacao;
@@ -191,20 +183,20 @@ function Movimentacoes() {
       <div className="flex items-center gap-2">
         <Link
           to={`/movimentacoes/${movimentacao.idmovimentacao}`}
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#29458f] focus:ring-offset-2"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-gray-200 text-black transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#29458f] focus:ring-offset-2"
           aria-label="Visualizar movimentação"
           title="Visualizar"
         >
-          <Eye size={18} />
+          <Eye size={20} />
         </Link>
 
         <Link
           to={`/movimentacoes/${movimentacao.idmovimentacao}`}
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#29458f] focus:ring-offset-2"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-gray-200 text-black transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#29458f] focus:ring-offset-2"
           aria-label="Editar movimentação"
           title="Editar"
         >
-          <Pencil size={18} />
+          <Pencil size={20} />
         </Link>
 
         <button
@@ -216,9 +208,9 @@ function Movimentacoes() {
           title="Excluir movimentação"
         >
           {estaExcluindo ? (
-            <span className="text-xs font-semibold">...</span>
+            <span className="text-sm font-semibold">...</span>
           ) : (
-            <Trash2 size={18} />
+            <Trash2 size={20} />
           )}
         </button>
       </div>
@@ -231,11 +223,21 @@ function Movimentacoes() {
 
         {/* Cabeçalho */}
         <header className="mb-5">
-          <h1 className="text-xl font-bold text-gray-900 sm:text-2xl">
+
+          {/* Botão voltar ao Dashboard */}
+          <Link
+              to="/dashboard"
+              className="inline-flex min-h-10 items-center gap-2 rounded-lg px-3 py-2 text-base font-semibold text-[#29458f] transition hover:bg-blue-50"
+            >
+              <ArrowLeft size={19} />
+              Voltar ao Dashboard
+            </Link>
+
+          <h1 className="text-2xl font-bold text-black sm:text-3xl">
             Consulta de Movimentações
           </h1>
 
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-base text-black">
             Consulte e acompanhe as entradas e saídas financeiras.
           </p>
         </header>
@@ -243,9 +245,9 @@ function Movimentacoes() {
         {/* Filtros */}
         <section className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
           <div className="mb-4 flex items-center gap-2">
-            <Filter size={19} className="text-gray-700" />
+            <Filter size={21} className="text-black" />
 
-            <h2 className="text-base font-semibold text-gray-900">
+            <h2 className="text-xl font-semibold text-black">
               Filtros
             </h2>
           </div>
@@ -256,7 +258,7 @@ function Movimentacoes() {
             <div>
               <label
                 htmlFor="dataInicio"
-                className="mb-1.5 block text-sm font-medium text-gray-700"
+                className="mb-1.5 block text-base font-semibold text-black"
               >
                 Data inicial
               </label>
@@ -270,7 +272,7 @@ function Movimentacoes() {
                   atualizarFiltro('dataInicio', event.target.value)
                 }
                 onClick={() => abrirCalendario(dataInicioRef)}
-                className="min-h-11 w-full cursor-pointer rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-700 outline-none transition focus:border-[#29458f] focus:ring-2 focus:ring-[#29458f]/20"
+                className="min-h-12 w-full cursor-pointer rounded-lg border border-gray-300 bg-white px-3 text-base text-black outline-none transition focus:border-[#29458f] focus:ring-2 focus:ring-[#29458f]/20"
               />
             </div>
 
@@ -278,7 +280,7 @@ function Movimentacoes() {
             <div>
               <label
                 htmlFor="dataFim"
-                className="mb-1.5 block text-sm font-medium text-gray-700"
+                className="mb-1.5 block text-base font-semibold text-black"
               >
                 Data final
               </label>
@@ -292,7 +294,7 @@ function Movimentacoes() {
                   atualizarFiltro('dataFim', event.target.value)
                 }
                 onClick={() => abrirCalendario(dataFimRef)}
-                className="min-h-11 w-full cursor-pointer rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-700 outline-none transition focus:border-[#29458f] focus:ring-2 focus:ring-[#29458f]/20"
+                className="min-h-12 w-full cursor-pointer rounded-lg border border-gray-300 bg-white px-3 text-base text-black outline-none transition focus:border-[#29458f] focus:ring-2 focus:ring-[#29458f]/20"
               />
             </div>
 
@@ -300,7 +302,7 @@ function Movimentacoes() {
             <div>
               <label
                 htmlFor="tipo"
-                className="mb-1.5 block text-sm font-medium text-gray-700"
+                className="mb-1.5 block text-base font-semibold text-black"
               >
                 Tipo de movimentação
               </label>
@@ -311,7 +313,7 @@ function Movimentacoes() {
                 onChange={(event) =>
                   atualizarFiltro('tipo', event.target.value)
                 }
-                className="min-h-11 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm text-gray-700 outline-none transition focus:border-[#29458f] focus:ring-2 focus:ring-[#29458f]/20"
+                className="min-h-12 w-full rounded-lg border border-gray-300 bg-white px-3 text-base text-black outline-none transition focus:border-[#29458f] focus:ring-2 focus:ring-[#29458f]/20"
               >
                 <option value="">Todos</option>
                 <option value="Entrada">Entrada</option>
@@ -324,7 +326,7 @@ function Movimentacoes() {
               <button
                 type="button"
                 onClick={limparFiltros}
-                className="min-h-11 w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#29458f] focus:ring-offset-2"
+                className="min-h-12 w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-base font-semibold text-black transition hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#29458f] focus:ring-offset-2"
               >
                 Limpar filtros
               </button>
@@ -337,11 +339,11 @@ function Movimentacoes() {
 
           <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
             <div>
-              <h2 className="text-base font-semibold text-gray-900">
+              <h2 className="text-xl font-semibold text-black">
                 Movimentações
               </h2>
 
-              <p className="mt-0.5 text-sm text-gray-500">
+              <p className="mt-0.5 text-base text-black">
                 {movimentacoesFiltradas.length}{' '}
                 {movimentacoesFiltradas.length === 1
                   ? 'registro encontrado'
@@ -354,7 +356,7 @@ function Movimentacoes() {
           {mensagemSucesso && (
             <div
               role="status"
-              className="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700"
+              className="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-base text-emerald-700"
             >
               {mensagemSucesso}
             </div>
@@ -364,7 +366,7 @@ function Movimentacoes() {
           {erroExclusao && (
             <div
               role="alert"
-              className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700"
+              className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-base text-red-700"
             >
               {erroExclusao}
             </div>
@@ -372,7 +374,7 @@ function Movimentacoes() {
 
           {/* Carregamento */}
           {carregando && (
-            <p className="py-10 text-center text-sm text-gray-500">
+            <p className="py-10 text-center text-base text-black">
               Carregando movimentações...
             </p>
           )}
@@ -381,7 +383,7 @@ function Movimentacoes() {
           {!carregando && erro && (
             <p
               role="alert"
-              className="py-10 text-center text-sm text-red-600"
+              className="py-10 text-center text-base text-red-600"
             >
               {erro}
             </p>
@@ -403,17 +405,17 @@ function Movimentacoes() {
                       {/* Identificação e tipo */}
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
-                          <p className="text-xs text-gray-500">
+                          <p className="text-sm font-medium text-black">
                             Movimentação #{movimentacao.idmovimentacao}
                           </p>
 
-                          <p className="mt-1 text-sm font-medium text-gray-800">
+                          <p className="mt-1 text-base font-semibold text-black">
                             {formatarData(movimentacao.data)}
                           </p>
                         </div>
 
                         <span
-                          className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${
+                          className={`shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold ${
                             tipo === 'Entrada'
                               ? 'bg-emerald-100 text-emerald-700'
                               : 'bg-red-100 text-red-700'
@@ -425,12 +427,12 @@ function Movimentacoes() {
 
                       {/* Valor */}
                       <div className="my-4">
-                        <p className="text-xs text-gray-500">
+                        <p className="text-sm font-medium text-black">
                           Valor
                         </p>
 
                         <p
-                          className={`mt-1 text-xl font-bold ${
+                          className={`mt-1 text-2xl font-bold ${
                             tipo === 'Entrada'
                               ? 'text-emerald-600'
                               : 'text-red-600'
@@ -441,34 +443,34 @@ function Movimentacoes() {
                       </div>
 
                       {/* Informações adicionais */}
-                      <div className="space-y-2 border-t border-gray-100 pt-3">
+                      <div className="space-y-3 border-t border-gray-100 pt-3">
                         <div>
-                          <p className="text-xs text-gray-500">
+                          <p className="text-sm font-semibold text-black">
                             Descrição
                           </p>
 
-                          <p className="break-words text-sm text-gray-800">
+                          <p className="break-words text-base text-black">
                             {movimentacao.observacao || '-'}
                           </p>
                         </div>
 
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <p className="text-xs text-gray-500">
+                            <p className="text-sm font-semibold text-black">
                               Evento
                             </p>
 
-                            <p className="break-words text-sm text-gray-800">
+                            <p className="break-words text-base text-black">
                               {movimentacao.evento || '-'}
                             </p>
                           </div>
 
                           <div>
-                            <p className="text-xs text-gray-500">
+                            <p className="text-sm font-semibold text-black">
                               Responsável
                             </p>
 
-                            <p className="break-words text-sm text-gray-800">
+                            <p className="break-words text-base text-black">
                               {movimentacao.responsavel || '-'}
                             </p>
                           </div>
@@ -477,7 +479,7 @@ function Movimentacoes() {
 
                       {/* Ações */}
                       <div className="mt-4 flex items-center justify-between border-t border-gray-100 pt-3">
-                        <span className="text-sm font-medium text-gray-600">
+                        <span className="text-base font-semibold text-black">
                           Ações
                         </span>
 
@@ -490,34 +492,34 @@ function Movimentacoes() {
 
               {/* Tabela para tablets e desktops */}
               <div className="hidden overflow-x-auto md:block">
-                <table className="w-full min-w-[680px] border-collapse text-left text-sm">
+                <table className="w-full min-w-[680px] border-collapse text-left text-base">
                   <thead>
                     <tr className="border-b border-gray-200 bg-gray-50">
-                      <th className="whitespace-nowrap px-3 py-3 font-semibold text-gray-700">
+                      <th className="whitespace-nowrap px-3 py-3 font-semibold text-black">
                         Data
                       </th>
 
-                      <th className="px-3 py-3 font-semibold text-gray-700">
+                      <th className="px-3 py-3 font-semibold text-black">
                         Tipo
                       </th>
 
-                      <th className="px-3 py-3 font-semibold text-gray-700">
+                      <th className="px-3 py-3 font-semibold text-black">
                         Descrição
                       </th>
 
-                      <th className="whitespace-nowrap px-3 py-3 font-semibold text-gray-700">
+                      <th className="whitespace-nowrap px-3 py-3 font-semibold text-black">
                         Valor
                       </th>
 
-                      <th className="hidden px-3 py-3 font-semibold text-gray-700 lg:table-cell">
+                      <th className="hidden px-3 py-3 font-semibold text-black lg:table-cell">
                         Evento
                       </th>
 
-                      <th className="hidden px-3 py-3 font-semibold text-gray-700 xl:table-cell">
+                      <th className="hidden px-3 py-3 font-semibold text-black xl:table-cell">
                         Responsável
                       </th>
 
-                      <th className="px-3 py-3 text-center font-semibold text-gray-700">
+                      <th className="px-3 py-3 text-center font-semibold text-black">
                         Ações
                       </th>
                     </tr>
@@ -532,13 +534,13 @@ function Movimentacoes() {
                           key={movimentacao.idmovimentacao}
                           className="border-b border-gray-100 last:border-0 hover:bg-gray-50"
                         >
-                          <td className="whitespace-nowrap px-3 py-4 text-gray-700">
+                          <td className="whitespace-nowrap px-3 py-4 text-black">
                             {formatarData(movimentacao.data)}
                           </td>
 
                           <td className="px-3 py-4">
                             <span
-                              className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
+                              className={`inline-flex rounded-full px-3 py-1.5 text-sm font-semibold ${
                                 tipo === 'Entrada'
                                   ? 'bg-emerald-100 text-emerald-700'
                                   : 'bg-red-100 text-red-700'
@@ -548,12 +550,12 @@ function Movimentacoes() {
                             </span>
                           </td>
 
-                          <td className="max-w-[240px] break-words px-3 py-4 text-gray-700">
+                          <td className="max-w-[240px] break-words px-3 py-4 text-black">
                             {movimentacao.observacao || '-'}
                           </td>
 
                           <td
-                            className={`whitespace-nowrap px-3 py-4 font-semibold ${
+                            className={`whitespace-nowrap px-3 py-4 font-bold ${
                               tipo === 'Entrada'
                                 ? 'text-emerald-600'
                                 : 'text-red-600'
@@ -562,11 +564,11 @@ function Movimentacoes() {
                             {formatarMoeda(movimentacao.valor)}
                           </td>
 
-                          <td className="hidden px-3 py-4 text-gray-700 lg:table-cell">
+                          <td className="hidden px-3 py-4 text-black lg:table-cell">
                             {movimentacao.evento || '-'}
                           </td>
 
-                          <td className="hidden px-3 py-4 text-gray-700 xl:table-cell">
+                          <td className="hidden px-3 py-4 text-black xl:table-cell">
                             {movimentacao.responsavel || '-'}
                           </td>
 
@@ -586,15 +588,15 @@ function Movimentacoes() {
               {movimentacoesFiltradas.length === 0 && (
                 <div className="py-10 text-center">
                   <Search
-                    size={30}
-                    className="mx-auto mb-3 text-gray-400"
+                    size={32}
+                    className="mx-auto mb-3 text-black"
                   />
 
-                  <p className="text-sm font-medium text-gray-700">
+                  <p className="text-base font-semibold text-black">
                     Nenhuma movimentação encontrada.
                   </p>
 
-                  <p className="mt-1 text-xs text-gray-500">
+                  <p className="mt-1 text-sm text-black">
                     Tente alterar ou limpar os filtros aplicados.
                   </p>
                 </div>

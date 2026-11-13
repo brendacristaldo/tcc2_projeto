@@ -9,8 +9,11 @@ import {
   Power,
 } from 'lucide-react';
 
+import { Link } from 'react-router';
+import { ArrowLeft } from 'lucide-react';
 import Layout from '../components/Layout';
 import { apiRequest } from '../services/api';
+
 
 function Grupos() {
   const [grupos, setGrupos] = useState([]);
@@ -178,14 +181,21 @@ function Grupos() {
   return (
     <Layout>
       <div className="p-3 sm:p-4">
-        <header className="mb-4">
+        <header className="mb-5">
+            <Link
+  to="/pastor/dashboard"
+  className="mb-3 inline-flex min-h-11 items-center gap-2 rounded-lg px-3 py-2 text-base font-semibold text-[#29458f] transition hover:bg-blue-50"
+>
+  <ArrowLeft size={18} />
+  Voltar ao Dashboard
+</Link>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-lg font-semibold text-gray-900 sm:text-xl lg:text-2xl">
+              <h1 className="text-xl font-semibold text-black sm:text-2xl lg:text-3xl">
                 Grupos
               </h1>
 
-              <p className="mt-1 text-xs text-gray-500">
+              <p className="mt-2 text-sm text-black sm:text-base">
                 Gerencie os grupos e suas informações financeiras.
               </p>
             </div>
@@ -193,40 +203,40 @@ function Grupos() {
             <button
               type="button"
               onClick={abrirModal}
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#29458f] px-4 text-xs font-medium text-white hover:bg-[#233d7d] sm:h-9"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#29458f] px-4 text-sm font-semibold text-white hover:bg-[#233d7d] sm:h-10"
             >
-              <Plus size={14} />
+              <Plus size={17} />
               Novo grupo
             </button>
           </div>
         </header>
 
         {mensagem && (
-          <div className="mb-4 rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-700">
+          <div className="mb-4 rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700 sm:text-base">
             {mensagem}
           </div>
         )}
 
         {erro && !modalAberto && (
-          <div className="mb-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">
+          <div className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 sm:text-base">
             {erro}
           </div>
         )}
 
-        <section className="rounded-lg border border-gray-200 bg-white p-3 sm:p-4">
-          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <section className="rounded-lg border border-gray-200 bg-white p-3 sm:p-5">
+          <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2">
-              <Users size={16} className="text-[#29458f]" />
+              <Users size={19} className="text-[#29458f]" />
 
-              <h2 className="text-sm font-semibold text-gray-900">
+              <h2 className="text-base font-semibold text-black sm:text-lg">
                 Grupos cadastrados ({gruposFiltrados.length})
               </h2>
             </div>
 
-            <div className="relative w-full sm:w-64">
+            <div className="relative w-full sm:w-72">
               <Search
-                size={14}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                size={17}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-black"
               />
 
               <input
@@ -234,19 +244,19 @@ function Grupos() {
                 value={busca}
                 onChange={(event) => setBusca(event.target.value)}
                 placeholder="Buscar grupo..."
-                className="h-11 w-full rounded-md border border-gray-300 pl-9 pr-3 text-xs outline-none focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f] sm:h-9"
+                className="h-12 w-full rounded-md border border-gray-300 pl-10 pr-3 text-sm text-black placeholder:text-black outline-none focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f] sm:text-base"
               />
             </div>
           </div>
 
           {carregando && (
-            <p className="py-10 text-center text-sm text-gray-500">
+            <p className="py-10 text-center text-base text-black">
               Carregando grupos...
             </p>
           )}
 
           {!carregando && erro && grupos.length === 0 && (
-            <p className="py-10 text-center text-sm text-red-600">
+            <p className="py-10 text-center text-base text-red-600">
               Não foi possível carregar os grupos: {erro}
             </p>
           )}
@@ -254,18 +264,18 @@ function Grupos() {
           {!carregando && (
             <>
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[550px] border-collapse text-left text-xs">
+                <table className="w-full min-w-[550px] border-collapse text-left text-sm sm:text-base">
                   <thead>
                     <tr className="border-b border-gray-200">
-                      <th className="px-2 py-2 font-semibold text-gray-700">
+                      <th className="px-3 py-3 font-semibold text-black">
                         Grupo
                       </th>
 
-                      <th className="px-2 py-2 font-semibold text-gray-700">
+                      <th className="px-3 py-3 font-semibold text-black">
                         Status
                       </th>
 
-                      <th className="px-2 py-2 text-right font-semibold text-gray-700">
+                      <th className="px-3 py-3 text-right font-semibold text-black">
                         Ações
                       </th>
                     </tr>
@@ -277,49 +287,49 @@ function Grupos() {
                         key={grupo.idgrupo}
                         className="border-b border-gray-100 last:border-0"
                       >
-                        <td className="px-2 py-3">
-                          <div className="flex items-center gap-2.5">
-                            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-blue-50 text-[#29458f]">
-                              <Users size={14} />
+                        <td className="px-3 py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-blue-50 text-[#29458f]">
+                              <Users size={17} />
                             </div>
 
-                            <span className="font-medium text-gray-800">
+                            <span className="font-medium text-black">
                               {grupo.nome}
                             </span>
                           </div>
                         </td>
 
-                        <td className="px-2 py-3">
+                        <td className="px-3 py-4">
                           <span
-                            className={`inline-flex rounded-full px-2 py-1 text-[10px] font-medium ${
+                            className={`inline-flex rounded-full px-3 py-1.5 text-xs font-semibold sm:text-sm ${
                               grupo.ativo
                                 ? 'bg-emerald-100 text-emerald-700'
-                                : 'bg-gray-100 text-gray-600'
+                                : 'bg-gray-100 text-black'
                             }`}
                           >
                             {grupo.ativo ? 'Ativo' : 'Inativo'}
                           </span>
                         </td>
 
-                        <td className="px-2 py-3">
-                          <div className="flex justify-end gap-1">
+                        <td className="px-3 py-4">
+                          <div className="flex justify-end gap-2">
                             <button
                               type="button"
                               onClick={() => abrirModalEdicao(grupo)}
-                              className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md p-2 text-gray-500 hover:bg-blue-50 hover:text-[#29458f] sm:min-h-0 sm:min-w-0"
+                              className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md p-2 text-black hover:bg-blue-50 hover:text-[#29458f]"
                               title="Editar grupo"
                               aria-label={`Editar grupo ${grupo.nome}`}
                             >
-                              <Pencil size={14} />
+                              <Pencil size={17} />
                             </button>
 
                             <button
                               type="button"
                               onClick={() => alterarStatusGrupo(grupo)}
                               disabled={alterandoStatus === grupo.idgrupo}
-                              className={`inline-flex min-h-11 min-w-11 items-center justify-center rounded-md p-2 disabled:cursor-not-allowed disabled:opacity-50 sm:min-h-0 sm:min-w-0 ${
+                              className={`inline-flex min-h-11 min-w-11 items-center justify-center rounded-md p-2 disabled:cursor-not-allowed disabled:opacity-50 ${
                                 grupo.ativo
-                                  ? 'text-gray-500 hover:bg-red-50 hover:text-red-600'
+                                  ? 'text-black hover:bg-red-50 hover:text-red-600'
                                   : 'text-emerald-600 hover:bg-emerald-50'
                               }`}
                               title={
@@ -333,7 +343,7 @@ function Grupos() {
                                   : `Reativar grupo ${grupo.nome}`
                               }
                             >
-                              <Power size={14} />
+                              <Power size={17} />
                             </button>
                           </div>
                         </td>
@@ -346,11 +356,11 @@ function Grupos() {
               {gruposFiltrados.length === 0 && (
                 <div className="py-10 text-center">
                   <Users
-                    size={24}
-                    className="mx-auto mb-2 text-gray-400"
+                    size={28}
+                    className="mx-auto mb-3 text-black"
                   />
 
-                  <p className="text-sm text-gray-500">
+                  <p className="text-base text-black">
                     Nenhum grupo encontrado.
                   </p>
                 </div>
@@ -361,9 +371,9 @@ function Grupos() {
 
         {modalAberto && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-            <div className="w-full max-w-md rounded-lg bg-white p-5 shadow-xl">
-              <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-base font-semibold text-gray-900">
+            <div className="w-full max-w-md rounded-lg bg-white p-5 shadow-xl sm:p-6">
+              <div className="mb-5 flex items-center justify-between">
+                <h2 className="text-lg font-semibold text-black">
                   {grupoEditando ? 'Editar grupo' : 'Novo grupo'}
                 </h2>
 
@@ -371,17 +381,17 @@ function Grupos() {
                   type="button"
                   onClick={fecharModal}
                   disabled={salvando}
-                  className="inline-flex min-h-11 min-w-11 items-center justify-center rounded p-1 text-gray-500 hover:bg-gray-100 sm:min-h-0 sm:min-w-0"
+                  className="inline-flex min-h-11 min-w-11 items-center justify-center rounded p-1 text-black hover:bg-gray-100 disabled:opacity-50"
                   aria-label="Fechar formulário"
                 >
-                  <X size={18} />
+                  <X size={20} />
                 </button>
               </div>
 
               <form onSubmit={salvarGrupo}>
                 <label
                   htmlFor="nomeGrupo"
-                  className="mb-1.5 block text-xs font-medium text-gray-700"
+                  className="mb-2 block text-sm font-semibold text-black sm:text-base"
                 >
                   Nome do grupo
                 </label>
@@ -395,21 +405,21 @@ function Grupos() {
                   maxLength={100}
                   autoFocus
                   required
-                  className="h-11 w-full rounded-md border border-gray-300 px-3 text-sm outline-none focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f] sm:h-10"
+                  className="h-12 w-full rounded-md border border-gray-300 px-3 text-base text-black placeholder:text-black outline-none focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f]"
                 />
 
                 {erro && (
-                  <p className="mt-2 text-xs text-red-600">
+                  <p className="mt-2 text-sm text-red-600">
                     {erro}
                   </p>
                 )}
 
-                <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+                <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
                   <button
                     type="button"
                     onClick={fecharModal}
                     disabled={salvando}
-                    className="h-11 rounded-md border border-gray-300 px-4 text-xs font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 sm:h-9"
+                    className="h-11 rounded-md border border-gray-300 px-5 text-sm font-semibold text-black hover:bg-gray-50 disabled:opacity-50 sm:text-base"
                   >
                     Cancelar
                   </button>
@@ -417,7 +427,7 @@ function Grupos() {
                   <button
                     type="submit"
                     disabled={salvando || !nomeGrupo.trim()}
-                    className="h-11 rounded-md bg-[#29458f] px-4 text-xs font-medium text-white hover:bg-[#233d7d] disabled:cursor-not-allowed disabled:opacity-50 sm:h-9"
+                    className="h-11 rounded-md bg-[#29458f] px-5 text-sm font-semibold text-white hover:bg-[#233d7d] disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
                   >
                     {salvando
                       ? 'Salvando...'

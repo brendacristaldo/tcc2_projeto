@@ -85,7 +85,6 @@ function MovimentacaoDetalhes() {
     carregarMovimentacao();
   }, [carregarMovimentacao]);
 
-  // Abrir formulário de edição
   async function abrirEdicao() {
     try {
       setErroEdicao('');
@@ -100,7 +99,6 @@ function MovimentacaoDetalhes() {
       const listaFormas = opcoes.formasPagamento || [];
       const listaGrupos = [...(resultadoGrupos.grupos || [])];
 
-      // Preservar o grupo original caso esteja inativo.
       const grupoAtualExiste = listaGrupos.some(
         (grupo) =>
           String(grupo.idgrupo) === String(movimentacao.grupo_id)
@@ -150,7 +148,6 @@ function MovimentacaoDetalhes() {
     }
   }
 
-  // Buscar eventos do grupo selecionado
   useEffect(() => {
     async function carregarEventos() {
       if (!editando || !formulario.grupo_id) {
@@ -176,7 +173,6 @@ function MovimentacaoDetalhes() {
     carregarEventos();
   }, [editando, formulario.grupo_id, token]);
 
-  // Atualizar campos do formulário
   function atualizarCampo(event) {
     const { name, value } = event.target;
 
@@ -187,7 +183,6 @@ function MovimentacaoDetalhes() {
     }));
   }
 
-  // Salvar alterações
   async function salvarEdicao(event) {
     event.preventDefault();
 
@@ -227,7 +222,6 @@ function MovimentacaoDetalhes() {
     }
   }
 
-  // Buscar o arquivo do comprovante com autenticação
   async function obterArquivoComprovante(download = false) {
     const endpoint = `/api/movimentacoes/${id}/comprovante${
       download ? '?download=true' : ''
@@ -251,11 +245,9 @@ function MovimentacaoDetalhes() {
     return response.blob();
   }
 
-  // Visualizar comprovante
   async function visualizarComprovante() {
     setErroComprovante('');
 
-    // Abrir a aba imediatamente para evitar bloqueio do navegador.
     const novaJanela = window.open('', '_blank');
 
     if (!novaJanela) {
@@ -289,7 +281,6 @@ function MovimentacaoDetalhes() {
     }
   }
 
-  // Baixar comprovante
   async function baixarComprovante() {
     try {
       setAcaoComprovante('baixar');
@@ -320,7 +311,6 @@ function MovimentacaoDetalhes() {
     }
   }
 
-  // Gerar recibo da movimentação em PDF
   function gerarReciboPDF() {
     try {
       setGerandoRecibo(true);
@@ -349,7 +339,6 @@ function MovimentacaoDetalhes() {
 
       let y = 20;
 
-      // Cabeçalho
       documento.setFont('helvetica', 'bold');
       documento.setFontSize(17);
       documento.setTextColor(41, 69, 143);
@@ -381,9 +370,8 @@ function MovimentacaoDetalhes() {
 
       y += 12;
 
-      // Identificação
       documento.setFontSize(10);
-      documento.setTextColor(100, 100, 100);
+      documento.setTextColor(0, 0, 0);
       documento.setFont('helvetica', 'normal');
 
       documento.text(
@@ -394,7 +382,6 @@ function MovimentacaoDetalhes() {
 
       y += 10;
 
-      // Tipo e valor da movimentação
       documento.setFillColor(
         isEntrada ? 230 : 254,
         isEntrada ? 247 : 242,
@@ -437,10 +424,9 @@ function MovimentacaoDetalhes() {
 
       y += 32;
 
-      // Texto descritivo
       documento.setFont('helvetica', 'normal');
-      documento.setFontSize(10);
-      documento.setTextColor(55, 55, 55);
+      documento.setFontSize(11);
+      documento.setTextColor(0, 0, 0);
 
       const textoDescricao = isEntrada
         ? 'Registro de entrada financeira no sistema de gestao da igreja.'
@@ -455,28 +441,26 @@ function MovimentacaoDetalhes() {
 
       y += linhasDescricao.length * 6 + 7;
 
-      // Função para adicionar informações ao recibo
       function adicionarCampo(rotulo, valor) {
         const texto = String(valor || '-');
 
         documento.setFont('helvetica', 'bold');
-        documento.setFontSize(9);
-        documento.setTextColor(100, 100, 100);
+        documento.setFontSize(10);
+        documento.setTextColor(0, 0, 0);
 
         documento.text(rotulo.toUpperCase(), margem, y);
 
         y += 5;
 
         documento.setFont('helvetica', 'normal');
-        documento.setFontSize(11);
-        documento.setTextColor(35, 35, 35);
+        documento.setFontSize(12);
+        documento.setTextColor(0, 0, 0);
 
         const linhas = documento.splitTextToSize(
           texto,
           larguraConteudo
         );
 
-        // Evitar que um campo seja cortado entre páginas.
         const alturaCampo = linhas.length * 6 + 5;
 
         if (y + alturaCampo > alturaPagina - 35) {
@@ -489,9 +473,8 @@ function MovimentacaoDetalhes() {
         y += alturaCampo;
       }
 
-      // Dados da movimentação
       documento.setFont('helvetica', 'bold');
-      documento.setFontSize(12);
+      documento.setFontSize(13);
       documento.setTextColor(41, 69, 143);
 
       documento.text('DADOS DA MOVIMENTACAO', margem, y);
@@ -523,7 +506,6 @@ function MovimentacaoDetalhes() {
           'Nenhuma observacao registrada.'
       );
 
-      // Campo exclusivo para assinatura do tesoureiro.
       if (y + 45 > alturaPagina - 20) {
         documento.addPage();
         y = 35;
@@ -546,8 +528,8 @@ function MovimentacaoDetalhes() {
       );
 
       documento.setFont('helvetica', 'normal');
-      documento.setFontSize(10);
-      documento.setTextColor(55, 55, 55);
+      documento.setFontSize(11);
+      documento.setTextColor(0, 0, 0);
 
       documento.text(
         'Assinatura do(a) tesoureiro(a)',
@@ -558,8 +540,8 @@ function MovimentacaoDetalhes() {
 
       y += 32;
 
-      documento.setFontSize(9);
-      documento.setTextColor(100, 100, 100);
+      documento.setFontSize(10);
+      documento.setTextColor(0, 0, 0);
 
       documento.text(
         `Documento emitido em ${dataEmissao}`,
@@ -568,7 +550,6 @@ function MovimentacaoDetalhes() {
         { align: 'center' }
       );
 
-      // Rodapé em todas as páginas
       const quantidadePaginas = documento.internal.getNumberOfPages();
 
       for (let pagina = 1; pagina <= quantidadePaginas; pagina += 1) {
@@ -585,8 +566,8 @@ function MovimentacaoDetalhes() {
         );
 
         documento.setFont('helvetica', 'normal');
-        documento.setFontSize(8);
-        documento.setTextColor(130, 130, 130);
+        documento.setFontSize(9);
+        documento.setTextColor(0, 0, 0);
 
         documento.text(
           `Sistema de Gestao Financeira - Pagina ${pagina} de ${quantidadePaginas}`,
@@ -596,7 +577,6 @@ function MovimentacaoDetalhes() {
         );
       }
 
-      // Download do recibo
       documento.save(
         `recibo_movimentacao_${movimentacao.idmovimentacao}.pdf`
       );
@@ -631,7 +611,7 @@ function MovimentacaoDetalhes() {
     return (
       <Layout>
         <div className="p-3 sm:p-5">
-          <div className="rounded-xl border border-gray-200 bg-white p-6 text-center text-sm text-gray-500">
+          <div className="rounded-xl border border-gray-200 bg-white p-6 text-center text-base text-black">
             Carregando movimentação...
           </div>
         </div>
@@ -644,22 +624,22 @@ function MovimentacaoDetalhes() {
       <Layout>
         <div className="p-3 sm:p-5">
           <div className="rounded-xl border border-gray-200 bg-white p-5 text-center sm:p-8">
-            <h1 className="text-lg font-semibold text-gray-900">
+            <h1 className="text-xl font-semibold text-black">
               {erro
                 ? 'Erro ao carregar movimentação'
                 : 'Movimentação não encontrada'}
             </h1>
 
-            <p className="mt-2 text-sm leading-6 text-gray-500">
+            <p className="mt-2 text-base leading-6 text-black">
               {erro ||
                 'A movimentação solicitada não existe ou você não tem acesso a ela.'}
             </p>
 
             <Link
               to="/movimentacoes"
-              className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-[#29458f] px-4 py-2.5 text-sm font-medium text-white transition hover:bg-[#233d7d]"
+              className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-[#29458f] px-4 py-2.5 text-base font-medium text-white transition hover:bg-[#233d7d]"
             >
-              <ArrowLeft size={16} />
+              <ArrowLeft size={18} />
               Voltar para movimentações
             </Link>
           </div>
@@ -675,31 +655,30 @@ function MovimentacaoDetalhes() {
   return (
     <Layout>
       <div className="mx-auto w-full max-w-7xl p-3 sm:p-5 lg:p-6">
-        {/* Cabeçalho */}
+
         <header className="mb-5">
           <Link
             to="/movimentacoes"
-            className="mb-3 inline-flex min-h-11 items-center gap-2 text-sm font-medium text-[#29458f] hover:underline"
+            className="mb-3 inline-flex min-h-11 items-center gap-2 text-base font-medium text-[#29458f] hover:underline"
           >
-            <ArrowLeft size={17} />
+            <ArrowLeft size={19} />
             Voltar para movimentações
           </Link>
 
-          <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl">
+          <h1 className="text-2xl font-semibold text-black sm:text-3xl">
             Detalhes da Movimentação
           </h1>
 
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-base text-black">
             Visualização das informações da movimentação
           </p>
         </header>
 
-        {/* Identificação */}
         <section className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="min-w-0">
               <span
-                className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${
+                className={`inline-flex rounded-full px-3 py-1.5 text-sm font-medium ${
                   isEntrada
                     ? 'bg-emerald-100 text-emerald-700'
                     : 'bg-red-100 text-red-700'
@@ -708,14 +687,14 @@ function MovimentacaoDetalhes() {
                 {isEntrada ? 'Entrada' : 'Saída'}
               </span>
 
-              <h2 className="mt-3 text-base font-semibold text-gray-900 sm:text-lg">
+              <h2 className="mt-3 text-lg font-semibold text-black sm:text-xl">
                 Movimentação #{movimentacao.idmovimentacao}
               </h2>
             </div>
 
             <div className="flex flex-col items-start gap-3 sm:items-end">
               <p
-                className={`text-2xl font-bold ${
+                className={`text-3xl font-bold ${
                   isEntrada ? 'text-emerald-600' : 'text-red-600'
                 }`}
               >
@@ -728,9 +707,9 @@ function MovimentacaoDetalhes() {
                     type="button"
                     onClick={gerarReciboPDF}
                     disabled={gerandoRecibo}
-                    className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#29458f] bg-white px-4 py-2.5 text-sm font-medium text-[#29458f] transition hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+                    className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#29458f] bg-white px-4 py-2.5 text-base font-medium text-[#29458f] transition hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
                   >
-                    <Download size={16} />
+                    <Download size={18} />
                     {gerandoRecibo
                       ? 'Gerando recibo...'
                       : 'Gerar recibo PDF'}
@@ -739,9 +718,9 @@ function MovimentacaoDetalhes() {
                   <button
                     type="button"
                     onClick={abrirEdicao}
-                    className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#29458f] px-4 py-2.5 text-sm font-medium text-white transition hover:bg-[#233d7d] sm:w-auto"
+                    className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#29458f] px-4 py-2.5 text-base font-medium text-white transition hover:bg-[#233d7d] sm:w-auto"
                   >
-                    <Pencil size={16} />
+                    <Pencil size={18} />
                     Editar movimentação
                   </button>
                 </div>
@@ -750,11 +729,10 @@ function MovimentacaoDetalhes() {
           </div>
         </section>
 
-        {/* Mensagens */}
         {sucessoEdicao && (
           <div
             role="status"
-            className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-700"
+            className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-base text-emerald-700"
           >
             {sucessoEdicao}
           </div>
@@ -763,7 +741,7 @@ function MovimentacaoDetalhes() {
         {erroEdicao && (
           <div
             role="alert"
-            className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700"
+            className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-base text-red-700"
           >
             {erroEdicao}
           </div>
@@ -772,24 +750,23 @@ function MovimentacaoDetalhes() {
         {erroRecibo && (
           <div
             role="alert"
-            className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700"
+            className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-base text-red-700"
           >
             {erroRecibo}
           </div>
         )}
 
-        {/* Formulário de edição */}
         {editando ? (
           <form
             onSubmit={salvarEdicao}
             className="mt-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6"
           >
             <div className="mb-5">
-              <h2 className="text-base font-semibold text-gray-900">
+              <h2 className="text-xl font-semibold text-black">
                 Editar dados da movimentação
               </h2>
 
-              <p className="mt-1 text-sm leading-5 text-gray-500">
+              <p className="mt-1 text-base leading-6 text-black">
                 Altere as informações necessárias e salve as modificações.
               </p>
             </div>
@@ -804,7 +781,7 @@ function MovimentacaoDetalhes() {
                   value={formulario.valor}
                   onChange={atualizarCampo}
                   required
-                  className="campo-edicao min-h-11"
+                  className="campo-edicao min-h-12 text-base text-black"
                 />
               </CampoFormulario>
 
@@ -815,7 +792,7 @@ function MovimentacaoDetalhes() {
                   value={formulario.data}
                   onChange={atualizarCampo}
                   required
-                  className="campo-edicao min-h-11"
+                  className="campo-edicao min-h-12 text-base text-black"
                 />
               </CampoFormulario>
 
@@ -825,7 +802,7 @@ function MovimentacaoDetalhes() {
                   value={formulario.grupo_id}
                   onChange={atualizarCampo}
                   required
-                  className="campo-edicao min-h-11"
+                  className="campo-edicao min-h-12 text-base text-black"
                 >
                   <option value="">Selecione um grupo</option>
 
@@ -844,7 +821,7 @@ function MovimentacaoDetalhes() {
                   value={formulario.categoria_id}
                   onChange={atualizarCampo}
                   required
-                  className="campo-edicao min-h-11"
+                  className="campo-edicao min-h-12 text-base text-black"
                 >
                   <option value="">Selecione uma categoria</option>
 
@@ -865,7 +842,7 @@ function MovimentacaoDetalhes() {
                   value={formulario.forma_pagamento_id}
                   onChange={atualizarCampo}
                   required
-                  className="campo-edicao min-h-11"
+                  className="campo-edicao min-h-12 text-base text-black"
                 >
                   <option value="">Selecione uma forma de pagamento</option>
 
@@ -885,7 +862,7 @@ function MovimentacaoDetalhes() {
                   name="evento_id"
                   value={formulario.evento_id}
                   onChange={atualizarCampo}
-                  className="campo-edicao min-h-11"
+                  className="campo-edicao min-h-12 text-base text-black"
                 >
                   <option value="">Nenhum evento</option>
 
@@ -904,14 +881,13 @@ function MovimentacaoDetalhes() {
                     value={formulario.observacao}
                     onChange={atualizarCampo}
                     rows={4}
-                    className="campo-edicao min-h-28 resize-y"
+                    className="campo-edicao min-h-28 resize-y text-base text-black"
                     placeholder="Informe uma observação..."
                   />
                 </CampoFormulario>
               </div>
             </div>
 
-            {/* Ações */}
             <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
               <button
                 type="button"
@@ -920,32 +896,30 @@ function MovimentacaoDetalhes() {
                   setErroEdicao('');
                 }}
                 disabled={salvando}
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50 disabled:opacity-50 sm:min-w-32"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border border-gray-300 px-4 py-2.5 text-base font-medium text-black transition hover:bg-gray-50 disabled:opacity-50 sm:min-w-32"
               >
-                <X size={16} />
+                <X size={18} />
                 Cancelar
               </button>
 
               <button
                 type="submit"
                 disabled={salvando}
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-[#29458f] px-4 py-2.5 text-sm font-medium text-white transition hover:bg-[#233d7d] disabled:cursor-not-allowed disabled:opacity-50 sm:min-w-44"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-[#29458f] px-4 py-2.5 text-base font-medium text-white transition hover:bg-[#233d7d] disabled:cursor-not-allowed disabled:opacity-50 sm:min-w-44"
               >
-                <Save size={16} />
+                <Save size={18} />
                 {salvando ? 'Salvando...' : 'Salvar alterações'}
               </button>
             </div>
           </form>
         ) : (
           <>
-            {/* Informações */}
             <section className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
-              {/* Dados da movimentação */}
               <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
                 <div className="mb-5 flex items-center gap-2">
-                  <FileText size={18} className="shrink-0 text-[#29458f]" />
+                  <FileText size={20} className="shrink-0 text-[#29458f]" />
 
-                  <h2 className="text-base font-semibold text-gray-900">
+                  <h2 className="text-xl font-semibold text-black">
                     Dados da Movimentação
                   </h2>
                 </div>
@@ -954,7 +928,7 @@ function MovimentacaoDetalhes() {
                   <InfoItem
                     label="Data"
                     value={formatarData(movimentacao.data)}
-                    icon={<CalendarDays size={15} />}
+                    icon={<CalendarDays size={17} />}
                   />
 
                   <InfoItem
@@ -970,38 +944,36 @@ function MovimentacaoDetalhes() {
                   <InfoItem
                     label="Grupo"
                     value={movimentacao.grupo || '-'}
-                    icon={<Users size={15} />}
+                    icon={<Users size={17} />}
                   />
 
                   <InfoItem
                     label="Forma de pagamento"
                     value={movimentacao.forma_pagamento || '-'}
-                    icon={<CreditCard size={15} />}
+                    icon={<CreditCard size={17} />}
                   />
 
                   <InfoItem
                     label="Responsável"
                     value={movimentacao.responsavel || '-'}
-                    icon={<User size={15} />}
+                    icon={<User size={17} />}
                   />
                 </div>
               </div>
 
-              {/* Observações */}
               <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
-                <h2 className="mb-4 text-base font-semibold text-gray-900">
+                <h2 className="mb-4 text-xl font-semibold text-black">
                   Observações
                 </h2>
 
-                <p className="whitespace-pre-wrap break-words text-sm leading-6 text-gray-600">
+                <p className="whitespace-pre-wrap break-words text-base leading-7 text-black">
                   {observacao}
                 </p>
               </div>
             </section>
 
-            {/* Comprovante */}
             <section className="mt-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
-              <h2 className="mb-4 text-base font-semibold text-gray-900">
+              <h2 className="mb-4 text-xl font-semibold text-black">
                 Comprovante
               </h2>
 
@@ -1010,15 +982,15 @@ function MovimentacaoDetalhes() {
                   <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex min-w-0 items-center gap-3">
                       <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-[#29458f]">
-                        <FileText size={21} />
+                        <FileText size={23} />
                       </div>
 
                       <div className="min-w-0">
-                        <p className="break-all text-sm font-medium text-gray-800">
+                        <p className="break-all text-base font-medium text-black">
                           {comprovante.nome_arquivo}
                         </p>
 
-                        <p className="mt-1 text-xs text-gray-500">
+                        <p className="mt-1 text-sm text-black">
                           Comprovante anexado à movimentação
                         </p>
                       </div>
@@ -1029,9 +1001,9 @@ function MovimentacaoDetalhes() {
                         type="button"
                         onClick={visualizarComprovante}
                         disabled={acaoComprovante !== ''}
-                        className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-base font-medium text-black transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
                       >
-                        <Eye size={16} />
+                        <Eye size={18} />
                         {acaoComprovante === 'visualizar'
                           ? 'Abrindo...'
                           : 'Visualizar'}
@@ -1041,9 +1013,9 @@ function MovimentacaoDetalhes() {
                         type="button"
                         onClick={baixarComprovante}
                         disabled={acaoComprovante !== ''}
-                        className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-[#29458f] px-4 py-2.5 text-sm font-medium text-white transition hover:bg-[#233d7d] disabled:cursor-not-allowed disabled:opacity-50"
+                        className="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-[#29458f] px-4 py-2.5 text-base font-medium text-white transition hover:bg-[#233d7d] disabled:cursor-not-allowed disabled:opacity-50"
                       >
-                        <Download size={16} />
+                        <Download size={18} />
                         {acaoComprovante === 'baixar'
                           ? 'Baixando...'
                           : 'Baixar'}
@@ -1054,11 +1026,11 @@ function MovimentacaoDetalhes() {
               ) : (
                 <div className="rounded-lg border border-dashed border-gray-300 bg-gray-50 px-4 py-8 text-center">
                   <FileText
-                    size={28}
-                    className="mx-auto mb-3 text-gray-400"
+                    size={30}
+                    className="mx-auto mb-3 text-black"
                   />
 
-                  <p className="text-sm text-gray-500">
+                  <p className="text-base text-black">
                     Nenhum comprovante anexado.
                   </p>
                 </div>
@@ -1067,7 +1039,7 @@ function MovimentacaoDetalhes() {
               {erroComprovante && (
                 <div
                   role="alert"
-                  className="mt-3 rounded-lg border border-red-200 bg-red-50 p-3 text-sm leading-5 text-red-700"
+                  className="mt-3 rounded-lg border border-red-200 bg-red-50 p-3 text-base leading-6 text-red-700"
                 >
                   {erroComprovante}
                 </div>
@@ -1083,7 +1055,7 @@ function MovimentacaoDetalhes() {
 function CampoFormulario({ label, children }) {
   return (
     <div className="min-w-0">
-      <label className="mb-2 block text-sm font-medium text-gray-700">
+      <label className="mb-2 block text-base font-semibold text-black">
         {label}
       </label>
 
@@ -1095,12 +1067,12 @@ function CampoFormulario({ label, children }) {
 function InfoItem({ label, value, icon }) {
   return (
     <div className="min-w-0">
-      <div className="flex items-center gap-2 text-xs text-gray-500">
+      <div className="flex items-center gap-2 text-sm font-medium text-black">
         {icon}
         <span>{label}</span>
       </div>
 
-      <p className="mt-1.5 break-words text-sm font-medium leading-5 text-gray-800">
+      <p className="mt-1.5 break-words text-base font-semibold leading-6 text-black">
         {value}
       </p>
     </div>

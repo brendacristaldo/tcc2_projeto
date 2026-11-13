@@ -251,21 +251,21 @@ function AtribuirTesoureiros() {
     <Layout>
       <div className="p-3 sm:p-4">
         {/* Cabeçalho */}
-        <header className="mb-4">
+        <header className="mb-5">
           <Link
-            to="/pastor/grupos"
-            className="mb-3 inline-flex min-h-11 items-center gap-1.5 text-xs text-gray-500 hover:text-gray-900 sm:min-h-0"
-          >
-            <ArrowLeft size={14} />
-            Voltar para grupos
+            to="/pastor/dashboard"
+            className="mb-3 inline-flex min-h-11 items-center gap-2 rounded-lg px-3 py-2 text-base font-semibold text-[#29458f] transition hover:bg-blue-50"
+>
+            <ArrowLeft size={18} />
+            Voltar ao Dashboard
           </Link>
 
           <div>
-            <h1 className="text-lg font-semibold text-gray-900 sm:text-xl lg:text-2xl">
+            <h1 className="text-xl font-semibold text-black sm:text-2xl lg:text-3xl">
               Atribuir Tesoureiros
             </h1>
 
-            <p className="mt-1 text-xs text-gray-500">
+            <p className="mt-2 text-sm text-black sm:text-base">
               Defina quais usuários serão responsáveis pela tesouraria de
               cada grupo.
             </p>
@@ -274,31 +274,31 @@ function AtribuirTesoureiros() {
 
         {/* Mensagens */}
         {mensagem && (
-          <div className="mb-4 rounded-md border border-blue-200 bg-blue-50 px-4 py-3 text-xs text-blue-700">
+          <div className="mb-4 rounded-md border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-700 sm:text-base">
             {mensagem}
           </div>
         )}
 
         {erro && (
-          <div className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-xs text-red-700">
+          <div className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 sm:text-base">
             {erro}
           </div>
         )}
 
-        <section className="rounded-lg border border-gray-200 bg-white p-3 sm:p-4">
-          <div className="mb-4 flex items-center gap-2">
-            <Users size={16} className="text-[#29458f]" />
+        <section className="rounded-lg border border-gray-200 bg-white p-3 sm:p-5">
+          <div className="mb-5 flex items-center gap-2">
+            <Users size={20} className="text-[#29458f]" />
 
-            <h2 className="text-sm font-semibold text-gray-900">
+            <h2 className="text-base font-semibold text-black sm:text-lg">
               Grupo
             </h2>
           </div>
 
           {/* Seleção do grupo */}
-          <div className="mb-5">
+          <div className="mb-6">
             <label
               htmlFor="grupo"
-              className="mb-1.5 block text-xs font-medium text-gray-700"
+              className="mb-2 block text-sm font-semibold text-black sm:text-base"
             >
               Selecione o grupo
             </label>
@@ -310,7 +310,7 @@ function AtribuirTesoureiros() {
                 setGrupoSelecionado(event.target.value)
               }
               disabled={carregando || grupos.length === 0}
-              className="h-11 w-full rounded-md border border-gray-300 bg-white px-3 text-xs text-gray-700 outline-none focus:border-[#29458f] disabled:bg-gray-100 sm:h-9 sm:max-w-md"
+              className="h-12 w-full rounded-md border border-gray-300 bg-white px-3 text-sm text-black outline-none focus:border-[#29458f] disabled:bg-gray-100 sm:max-w-md sm:text-base"
             >
               {grupos.length === 0 && (
                 <option value="">
@@ -330,21 +330,21 @@ function AtribuirTesoureiros() {
           </div>
 
           {/* Cabeçalho da lista */}
-          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <h3 className="text-sm font-semibold text-gray-900">
+              <h3 className="text-base font-semibold text-black sm:text-lg">
                 Tesoureiros do grupo
               </h3>
 
-              <p className="mt-1 text-[11px] text-gray-500">
+              <p className="mt-1 text-sm text-black sm:text-base">
                 {quantidadeSelecionada} usuário(s) selecionado(s)
               </p>
             </div>
 
-            <div className="relative w-full sm:w-64">
+            <div className="relative w-full sm:w-72">
               <Search
-                size={14}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                size={18}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-black"
               />
 
               <input
@@ -352,21 +352,21 @@ function AtribuirTesoureiros() {
                 value={busca}
                 onChange={(event) => setBusca(event.target.value)}
                 placeholder="Buscar usuário..."
-                className="h-11 w-full rounded-md border border-gray-300 pl-9 pr-3 text-xs outline-none focus:border-[#29458f] sm:h-9"
+                className="h-12 w-full rounded-md border border-gray-300 pl-10 pr-3 text-sm text-black placeholder:text-black outline-none focus:border-[#29458f] sm:text-base"
               />
             </div>
           </div>
 
           {/* Lista de tesoureiros */}
-          <div className="space-y-2">
+          <div className="space-y-3">
             {carregando && (
-              <p className="py-8 text-center text-xs text-gray-500">
+              <p className="py-8 text-center text-base text-black">
                 Carregando grupos e tesoureiros...
               </p>
             )}
 
             {!carregando && carregandoAtribuicoes && (
-              <p className="py-8 text-center text-xs text-gray-500">
+              <p className="py-8 text-center text-base text-black">
                 Consultando atribuições existentes...
               </p>
             )}
@@ -391,28 +391,28 @@ function AtribuirTesoureiros() {
                     onClick={() =>
                       alternarTesoureiro(tesoureiro.idusuario)
                     }
-                    className={`flex min-h-11 w-full items-center justify-between gap-3 rounded-md border p-3 text-left transition ${
+                    className={`flex min-h-14 w-full items-center justify-between gap-3 rounded-md border p-3 text-left transition ${
                       selecionado
                         ? 'border-blue-200 bg-blue-50'
                         : 'border-gray-200 bg-white hover:bg-gray-50'
                     }`}
                   >
                     <div className="flex min-w-0 items-center gap-3">
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-100 text-xs font-semibold text-gray-600">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 text-base font-semibold text-black">
                         {tesoureiro.nome.charAt(0).toUpperCase()}
                       </div>
 
                       <div className="min-w-0">
-                        <p className="truncate text-xs font-medium text-gray-800">
+                        <p className="truncate text-sm font-semibold text-black sm:text-base">
                           {tesoureiro.nome}
                         </p>
 
-                        <p className="truncate text-[10px] text-gray-500">
+                        <p className="truncate text-sm text-black">
                           {tesoureiro.email}
                         </p>
 
                         {jaAtribuido && (
-                          <p className="mt-1 text-[10px] text-blue-700">
+                          <p className="mt-1 text-sm font-medium text-blue-700">
                             Já associado a este grupo
                           </p>
                         )}
@@ -420,13 +420,13 @@ function AtribuirTesoureiros() {
                     </div>
 
                     <div
-                      className={`ml-3 flex h-5 w-5 shrink-0 items-center justify-center rounded border ${
+                      className={`ml-3 flex h-6 w-6 shrink-0 items-center justify-center rounded border ${
                         selecionado
                           ? 'border-[#29458f] bg-[#29458f] text-white'
                           : 'border-gray-300 bg-white'
                       }`}
                     >
-                      {selecionado && <Check size={13} />}
+                      {selecionado && <Check size={16} />}
                     </div>
                   </button>
                 );
@@ -437,11 +437,11 @@ function AtribuirTesoureiros() {
               tesoureirosFiltrados.length === 0 && (
                 <div className="py-8 text-center">
                   <UserPlus
-                    size={24}
-                    className="mx-auto mb-2 text-gray-400"
+                    size={28}
+                    className="mx-auto mb-3 text-black"
                   />
 
-                  <p className="text-sm text-gray-500">
+                  <p className="text-base text-black">
                     {busca
                       ? 'Nenhum usuário encontrado.'
                       : 'Nenhum tesoureiro ativo cadastrado.'}
@@ -451,10 +451,10 @@ function AtribuirTesoureiros() {
           </div>
 
           {/* Botões */}
-          <div className="mt-5 flex flex-col-reverse gap-2 border-t border-gray-200 pt-4 sm:flex-row sm:justify-end">
+          <div className="mt-6 flex flex-col-reverse gap-3 border-t border-gray-200 pt-5 sm:flex-row sm:justify-end">
             <Link
               to="/pastor/grupos"
-              className="inline-flex h-11 items-center justify-center rounded-md border border-gray-300 px-4 text-xs font-medium text-gray-700 hover:bg-gray-50 sm:h-9"
+              className="inline-flex h-12 items-center justify-center rounded-md border border-gray-300 px-5 text-sm font-semibold text-black hover:bg-gray-50 sm:text-base"
             >
               Cancelar
             </Link>
@@ -468,14 +468,14 @@ function AtribuirTesoureiros() {
                 salvando ||
                 novasAtribuicoes.length === 0
               }
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#29458f] px-4 text-xs font-medium text-white hover:bg-[#233d7d] disabled:cursor-not-allowed disabled:opacity-50 sm:h-9"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-[#29458f] px-5 text-sm font-semibold text-white hover:bg-[#233d7d] disabled:cursor-not-allowed disabled:opacity-50 sm:text-base"
             >
-              <Check size={14} />
+              <Check size={17} />
               {salvando ? 'Salvando...' : 'Salvar atribuições'}
             </button>
           </div>
 
-          <p className="mt-3 text-[10px] text-gray-400">
+          <p className="mt-4 text-sm text-black">
             As atribuições existentes são preservadas. A remoção de
             associações será implementada em uma próxima etapa.
           </p>

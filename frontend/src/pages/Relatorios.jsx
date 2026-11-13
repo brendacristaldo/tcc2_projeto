@@ -1,6 +1,7 @@
 
-import { useEffect, useMemo, useState } from 'react';
-import { FileText, Download } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { ArrowLeft, FileText, Download, CalendarDays } from 'lucide-react';
+import { Link } from 'react-router';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -40,6 +41,21 @@ function Relatorios() {
   const [grupo, setGrupo] = useState('');
   const [formaPagamento, setFormaPagamento] = useState('');
   const [evento, setEvento] = useState('');
+
+  const dataInicioRef = useRef(null);
+const dataFimRef = useRef(null);
+
+const abrirCalendario = (referencia) => {
+  const campo = referencia.current;
+
+  if (!campo) return;
+
+  if (typeof campo.showPicker === 'function') {
+    campo.showPicker();
+  } else {
+    campo.focus();
+  }
+};
 
   useEffect(() => {
     async function carregarDados() {
@@ -768,7 +784,7 @@ function Relatorios() {
     return (
       <Layout>
         <div className="mx-auto w-full max-w-7xl p-3 sm:p-5 lg:p-6">
-          <div className="rounded-xl border border-gray-200 bg-white p-8 text-center text-sm text-gray-500">
+          <div className="rounded-xl border border-gray-200 bg-white p-8 text-center text-base text-black">
             Carregando dados dos relatórios...
           </div>
         </div>
@@ -780,12 +796,22 @@ function Relatorios() {
     return (
       <Layout>
         <div className="mx-auto w-full max-w-7xl p-3 sm:p-5 lg:p-6">
+          <div className="mb-4">
+            <Link
+              to="/dashboard"
+              className="inline-flex min-h-10 items-center gap-2 rounded-lg px-3 py-2 text-base font-semibold text-[#29458f] transition hover:bg-blue-50"
+            >
+              <ArrowLeft size={19} />
+              Voltar ao Dashboard
+            </Link>
+          </div>
+
           <div className="rounded-xl border border-red-200 bg-red-50 p-5 text-center">
-            <h2 className="text-base font-semibold text-red-700">
+            <h2 className="text-xl font-semibold text-red-700">
               Erro ao carregar relatórios
             </h2>
 
-            <p className="mt-2 text-sm text-red-600">{erro}</p>
+            <p className="mt-2 text-base text-red-600">{erro}</p>
           </div>
         </div>
       </Layout>
@@ -796,89 +822,124 @@ function Relatorios() {
     <Layout>
       <div className="mx-auto w-full max-w-7xl p-3 sm:p-5 lg:p-6">
         {/* Cabeçalho */}
-        <header className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="text-xl font-semibold text-gray-900 sm:text-2xl">
-              Relatórios
-            </h1>
-
-            <p className="mt-1 text-sm text-gray-500">
-              Consulte e analise as movimentações financeiras.
-            </p>
+        <header className="mb-5">
+          <div className="mb-4">
+            <Link
+              to="/dashboard"
+              className="inline-flex min-h-10 items-center gap-2 rounded-lg px-3 py-2 text-base font-semibold text-[#29458f] transition hover:bg-blue-50"
+            >
+              <ArrowLeft size={19} />
+              Voltar ao Dashboard
+            </Link>
           </div>
 
-          <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-            <button
-              type="button"
-              onClick={exportarPDF}
-              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#29458f] px-4 py-2.5 text-sm font-medium text-white transition hover:bg-[#20386f] sm:w-auto"
-            >
-              <FileText size={17} />
-              Exportar PDF
-            </button>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-black sm:text-3xl">
+                Relatórios
+              </h1>
 
-            <button
-              type="button"
-              onClick={exportarExcel}
-              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-emerald-700 sm:w-auto"
-            >
-              <Download size={17} />
-              Exportar Excel
-            </button>
+              <p className="mt-1 text-base text-black">
+                Consulte e analise as movimentações financeiras.
+              </p>
+            </div>
+
+            <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+              <button
+                type="button"
+                onClick={exportarPDF}
+                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#29458f] px-4 py-2.5 text-base font-semibold text-white transition hover:bg-[#20386f] sm:w-auto"
+              >
+                <FileText size={19} />
+                Exportar PDF
+              </button>
+
+              <button
+                type="button"
+                onClick={exportarExcel}
+                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-base font-semibold text-white transition hover:bg-emerald-700 sm:w-auto"
+              >
+                <Download size={19} />
+                Exportar Excel
+              </button>
+            </div>
           </div>
         </header>
 
         {/* Filtros */}
         <section className="mb-5 rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
           <div className="mb-4 flex items-center gap-2">
-            <FileText size={19} className="shrink-0 text-[#29458f]" />
+            <FileText size={21} className="shrink-0 text-[#29458f]" />
 
-            <h2 className="text-base font-semibold text-gray-900">
+            <h2 className="text-xl font-semibold text-black">
               Filtros do relatório
             </h2>
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
             <div>
-              <label
-                htmlFor="dataInicio"
-                className="mb-2 block text-sm font-medium text-gray-700"
-              >
-                Data inicial
-              </label>
+  <label
+    htmlFor="dataInicio"
+    className="mb-2 block text-base font-semibold text-black"
+  >
+    Data inicial
+  </label>
 
-              <input
-                id="dataInicio"
-                type="date"
-                value={dataInicio}
-                max={dataFim || undefined}
-                onChange={(event) => setDataInicio(event.target.value)}
-                className="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm outline-none focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f]"
-              />
-            </div>
+  <div className="relative">
+    <input
+      ref={dataInicioRef}
+      id="dataInicio"
+      type="date"
+      value={dataInicio}
+      max={dataFim || undefined}
+      onChange={(event) => setDataInicio(event.target.value)}
+      className="h-12 w-full rounded-lg border border-gray-300 px-3 pr-12 text-base text-black outline-none focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f]"
+    />
 
+    <button
+      type="button"
+      onClick={() => abrirCalendario(dataInicioRef)}
+      className="absolute right-2 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-lg text-[#29458f] transition hover:bg-blue-50"
+      aria-label="Abrir calendário da data inicial"
+    >
+      <CalendarDays size={21} />
+    </button>
+  </div>
+</div>
             <div>
-              <label
-                htmlFor="dataFim"
-                className="mb-2 block text-sm font-medium text-gray-700"
-              >
-                Data final
-              </label>
+  <label
+    htmlFor="dataFim"
+    className="mb-2 block text-base font-semibold text-black"
+  >
+    Data final
+  </label>
 
-              <input
-                id="dataFim"
-                type="date"
-                value={dataFim}
-                min={dataInicio || undefined}
-                onChange={(event) => setDataFim(event.target.value)}
-                className="h-11 w-full rounded-lg border border-gray-300 px-3 text-sm outline-none focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f]"
-              />
-            </div>
+  <div className="relative">
+    <input
+      ref={dataFimRef}
+      id="dataFim"
+      type="date"
+      value={dataFim}
+      min={dataInicio || undefined}
+      onChange={(event) => setDataFim(event.target.value)}
+      className="h-12 w-full rounded-lg border border-gray-300 px-3 pr-12 text-base text-black outline-none focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f]"
+    />
+
+    <button
+      type="button"
+      onClick={() => abrirCalendario(dataFimRef)}
+      className="absolute right-2 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-lg text-[#29458f] transition hover:bg-blue-50"
+      aria-label="Abrir calendário da data final"
+    >
+      <CalendarDays size={21} />
+    </button>
+  </div>
+</div>
 
             <div>
               <label
                 htmlFor="grupo"
-                className="mb-2 block text-sm font-medium text-gray-700"
+                className="mb-2 block text-base font-semibold text-black"
               >
                 Grupo
               </label>
@@ -887,7 +948,7 @@ function Relatorios() {
                 id="grupo"
                 value={grupo}
                 onChange={(event) => setGrupo(event.target.value)}
-                className="h-11 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm outline-none focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f]"
+                className="h-12 w-full rounded-lg border border-gray-300 bg-white px-3 text-base text-black outline-none focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f]"
               >
                 <option value="">Todos os grupos</option>
 
@@ -902,7 +963,7 @@ function Relatorios() {
             <div>
               <label
                 htmlFor="formaPagamento"
-                className="mb-2 block text-sm font-medium text-gray-700"
+                className="mb-2 block text-base font-semibold text-black"
               >
                 Forma de pagamento
               </label>
@@ -911,7 +972,7 @@ function Relatorios() {
                 id="formaPagamento"
                 value={formaPagamento}
                 onChange={(event) => setFormaPagamento(event.target.value)}
-                className="h-11 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm outline-none focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f]"
+                className="h-12 w-full rounded-lg border border-gray-300 bg-white px-3 text-base text-black outline-none focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f]"
               >
                 <option value="">Todas as formas</option>
 
@@ -929,7 +990,7 @@ function Relatorios() {
             <div>
               <label
                 htmlFor="evento"
-                className="mb-2 block text-sm font-medium text-gray-700"
+                className="mb-2 block text-base font-semibold text-black"
               >
                 Evento
               </label>
@@ -938,7 +999,7 @@ function Relatorios() {
                 id="evento"
                 value={evento}
                 onChange={(event) => setEvento(event.target.value)}
-                className="h-11 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm outline-none focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f]"
+                className="h-12 w-full rounded-lg border border-gray-300 bg-white px-3 text-base text-black outline-none focus:border-[#29458f] focus:ring-1 focus:ring-[#29458f]"
               >
                 <option value="">Todos os eventos</option>
 
@@ -959,7 +1020,7 @@ function Relatorios() {
             <button
               type="button"
               onClick={limparFiltros}
-              className="inline-flex min-h-11 w-full items-center justify-center rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50 sm:w-auto"
+              className="inline-flex min-h-11 w-full items-center justify-center rounded-lg border border-gray-300 px-4 py-2 text-base font-semibold text-black transition hover:bg-gray-50 sm:w-auto"
             >
               Limpar filtros
             </button>
@@ -969,25 +1030,31 @@ function Relatorios() {
         {/* Resumo geral */}
         <section className="mb-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
           <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
-            <p className="text-sm text-gray-500">Total de entradas</p>
+            <p className="text-base font-medium text-black">
+              Total de entradas
+            </p>
 
-            <p className="mt-2 break-words text-xl font-semibold text-emerald-600 sm:text-2xl">
+            <p className="mt-2 break-words text-2xl font-bold text-emerald-600 sm:text-3xl">
               {formatarMoeda(resumo.entradas)}
             </p>
           </div>
 
           <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
-            <p className="text-sm text-gray-500">Total de saídas</p>
+            <p className="text-base font-medium text-black">
+              Total de saídas
+            </p>
 
-            <p className="mt-2 break-words text-xl font-semibold text-red-500 sm:text-2xl">
+            <p className="mt-2 break-words text-2xl font-bold text-red-500 sm:text-3xl">
               {formatarMoeda(resumo.saidas)}
             </p>
           </div>
 
           <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
-            <p className="text-sm text-gray-500">Saldo</p>
+            <p className="text-base font-medium text-black">
+              Saldo
+            </p>
 
-            <p className="mt-2 break-words text-xl font-semibold text-[#29458f] sm:text-2xl">
+            <p className="mt-2 break-words text-2xl font-bold text-[#29458f] sm:text-3xl">
               {formatarMoeda(resumo.saldo)}
             </p>
           </div>
@@ -996,11 +1063,11 @@ function Relatorios() {
         {/* Relatório por forma de pagamento */}
         <section className="mb-5 rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
           <div className="mb-4">
-            <h2 className="text-base font-semibold text-gray-900">
+            <h2 className="text-xl font-semibold text-black">
               Relatório por forma de pagamento
             </h2>
 
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-base text-black">
               Visualize as entradas e saídas agrupadas pela forma de pagamento utilizada.
             </p>
           </div>
@@ -1013,29 +1080,35 @@ function Relatorios() {
                     key={item.forma}
                     className="rounded-lg border border-gray-200 p-4"
                   >
-                    <h3 className="break-words text-sm font-semibold text-gray-900">
+                    <h3 className="break-words text-base font-semibold text-black">
                       {item.forma}
                     </h3>
 
                     <div className="mt-3 grid grid-cols-2 gap-3">
                       <div>
-                        <p className="text-xs text-gray-500">Entradas</p>
-                        <p className="mt-1 break-words text-sm font-semibold text-emerald-600">
+                        <p className="text-sm font-medium text-black">
+                          Entradas
+                        </p>
+                        <p className="mt-1 break-words text-base font-semibold text-emerald-600">
                           {formatarMoeda(item.entradas)}
                         </p>
                       </div>
 
                       <div>
-                        <p className="text-xs text-gray-500">Saídas</p>
-                        <p className="mt-1 break-words text-sm font-semibold text-red-500">
+                        <p className="text-sm font-medium text-black">
+                          Saídas
+                        </p>
+                        <p className="mt-1 break-words text-base font-semibold text-red-500">
                           {formatarMoeda(item.saidas)}
                         </p>
                       </div>
                     </div>
 
                     <div className="mt-3 border-t border-gray-100 pt-3">
-                      <p className="text-xs text-gray-500">Saldo</p>
-                      <p className="mt-1 break-words text-sm font-semibold text-gray-800">
+                      <p className="text-sm font-medium text-black">
+                        Saldo
+                      </p>
+                      <p className="mt-1 break-words text-base font-semibold text-black">
                         {formatarMoeda(item.saldo)}
                       </p>
                     </div>
@@ -1044,19 +1117,19 @@ function Relatorios() {
               </div>
 
               <div className="hidden overflow-x-auto md:block">
-                <table className="w-full border-collapse text-left text-sm">
+                <table className="w-full border-collapse text-left text-base">
                   <thead>
                     <tr className="border-b border-gray-200">
-                      <th className="px-3 py-3 font-semibold text-gray-700">
+                      <th className="px-3 py-3 font-semibold text-black">
                         Forma de pagamento
                       </th>
-                      <th className="px-3 py-3 font-semibold text-gray-700">
+                      <th className="px-3 py-3 font-semibold text-black">
                         Entradas
                       </th>
-                      <th className="px-3 py-3 font-semibold text-gray-700">
+                      <th className="px-3 py-3 font-semibold text-black">
                         Saídas
                       </th>
-                      <th className="px-3 py-3 font-semibold text-gray-700">
+                      <th className="px-3 py-3 font-semibold text-black">
                         Saldo
                       </th>
                     </tr>
@@ -1068,7 +1141,7 @@ function Relatorios() {
                         key={item.forma}
                         className="border-b border-gray-100 last:border-0"
                       >
-                        <td className="px-3 py-3 font-medium text-gray-800">
+                        <td className="px-3 py-3 font-medium text-black">
                           {item.forma}
                         </td>
                         <td className="px-3 py-3 text-emerald-600">
@@ -1077,7 +1150,7 @@ function Relatorios() {
                         <td className="px-3 py-3 text-red-500">
                           {formatarMoeda(item.saidas)}
                         </td>
-                        <td className="px-3 py-3 font-medium text-gray-800">
+                        <td className="px-3 py-3 font-medium text-black">
                           {formatarMoeda(item.saldo)}
                         </td>
                       </tr>
@@ -1089,10 +1162,10 @@ function Relatorios() {
           ) : (
             <div className="py-8 text-center">
               <FileText
-                size={28}
-                className="mx-auto mb-2 text-gray-400"
+                size={32}
+                className="mx-auto mb-2 text-black"
               />
-              <p className="text-sm text-gray-500">
+              <p className="text-base text-black">
                 Nenhuma movimentação encontrada para os filtros selecionados.
               </p>
             </div>
@@ -1102,11 +1175,11 @@ function Relatorios() {
         {/* Resumo por categoria */}
         <section className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
           <div className="mb-4">
-            <h2 className="text-base font-semibold text-gray-900">
+            <h2 className="text-xl font-semibold text-black">
               Resumo por categoria
             </h2>
 
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-base text-black">
               Distribuição das movimentações por categoria.
             </p>
           </div>
@@ -1119,21 +1192,25 @@ function Relatorios() {
                     key={item.categoria}
                     className="rounded-lg border border-gray-200 p-4"
                   >
-                    <h3 className="break-words text-sm font-semibold text-gray-900">
+                    <h3 className="break-words text-base font-semibold text-black">
                       {item.categoria}
                     </h3>
 
                     <div className="mt-3 grid grid-cols-2 gap-3">
                       <div>
-                        <p className="text-xs text-gray-500">Entradas</p>
-                        <p className="mt-1 break-words text-sm font-semibold text-emerald-600">
+                        <p className="text-sm font-medium text-black">
+                          Entradas
+                        </p>
+                        <p className="mt-1 break-words text-base font-semibold text-emerald-600">
                           {formatarMoeda(item.entradas)}
                         </p>
                       </div>
 
                       <div>
-                        <p className="text-xs text-gray-500">Saídas</p>
-                        <p className="mt-1 break-words text-sm font-semibold text-red-500">
+                        <p className="text-sm font-medium text-black">
+                          Saídas
+                        </p>
+                        <p className="mt-1 break-words text-base font-semibold text-red-500">
                           {formatarMoeda(item.saidas)}
                         </p>
                       </div>
@@ -1143,16 +1220,16 @@ function Relatorios() {
               </div>
 
               <div className="hidden overflow-x-auto md:block">
-                <table className="w-full border-collapse text-left text-sm">
+                <table className="w-full border-collapse text-left text-base">
                   <thead>
                     <tr className="border-b border-gray-200">
-                      <th className="px-3 py-3 font-semibold text-gray-700">
+                      <th className="px-3 py-3 font-semibold text-black">
                         Categoria
                       </th>
-                      <th className="px-3 py-3 font-semibold text-gray-700">
+                      <th className="px-3 py-3 font-semibold text-black">
                         Entradas
                       </th>
-                      <th className="px-3 py-3 font-semibold text-gray-700">
+                      <th className="px-3 py-3 font-semibold text-black">
                         Saídas
                       </th>
                     </tr>
@@ -1164,7 +1241,7 @@ function Relatorios() {
                         key={item.categoria}
                         className="border-b border-gray-100 last:border-0"
                       >
-                        <td className="px-3 py-3 font-medium text-gray-800">
+                        <td className="px-3 py-3 font-medium text-black">
                           {item.categoria}
                         </td>
                         <td className="px-3 py-3 text-emerald-600">
@@ -1181,7 +1258,7 @@ function Relatorios() {
             </>
           ) : (
             <div className="py-8 text-center">
-              <p className="text-sm text-gray-500">
+              <p className="text-base text-black">
                 Nenhuma movimentação encontrada.
               </p>
             </div>

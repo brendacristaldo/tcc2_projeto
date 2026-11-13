@@ -283,14 +283,15 @@ function Dashboard() {
 
   return (
     <Layout>
-      <div className="mx-auto w-full max-w-7xl space-y-5 p-4 sm:p-6 lg:p-8">
+      <div className="mx-auto w-full max-w-7xl space-y-6 p-4 sm:p-6 lg:p-8">
+
         {/* Cabeçalho */}
-        <header className="space-y-1">
-          <h1 className="text-2xl font-bold leading-tight text-gray-900 sm:text-3xl">
+        <header className="space-y-2">
+          <h1 className="text-3xl font-bold leading-tight text-black sm:text-4xl">
             Dashboard
           </h1>
 
-          <p className="text-sm text-gray-600 sm:text-base">
+          <p className="text-base text-black sm:text-lg">
             Bem-vindo(a), {nomeUsuario}!
           </p>
         </header>
@@ -301,16 +302,16 @@ function Dashboard() {
             role="alert"
             className="flex flex-col gap-3 rounded-lg border border-red-200 bg-red-50 p-4 sm:flex-row sm:items-center sm:justify-between"
           >
-            <p className="text-sm text-red-800">{erro}</p>
+            <p className="text-base text-red-800">{erro}</p>
 
             <button
               type="button"
               onClick={carregarMovimentacoes}
               disabled={carregando}
-              className="inline-flex min-h-11 items-center justify-center gap-2 self-start rounded-lg px-3 text-sm font-semibold text-red-700 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50 sm:self-auto"
+              className="inline-flex min-h-11 items-center justify-center gap-2 self-start rounded-lg px-3 text-base font-semibold text-red-700 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50 sm:self-auto"
             >
               <RefreshCw
-                size={16}
+                size={18}
                 className={carregando ? 'animate-spin' : ''}
               />
               Tentar novamente
@@ -318,24 +319,67 @@ function Dashboard() {
           </div>
         )}
 
+        {/* Ações rápidas */}
+        <section className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
+          <div className="mb-4">
+            <h2 className="text-xl font-semibold text-black sm:text-2xl">
+              Ações rápidas
+            </h2>
+
+            <p className="mt-1 text-base text-black">
+              Acesse rapidamente as principais funcionalidades.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <QuickAction
+              label="Nova entrada"
+              icon={<PlusCircle size={21} />}
+              variant="income"
+              onClick={() => navigate('/movimentacoes/nova-entrada')}
+            />
+
+            <QuickAction
+              label="Nova saída"
+              icon={<PlusCircle size={21} />}
+              variant="expense"
+              onClick={() => navigate('/movimentacoes/nova-saida')}
+            />
+
+            <QuickAction
+              label="Consultar"
+              icon={<Search size={21} />}
+              variant="outline"
+              onClick={() => navigate('/movimentacoes')}
+            />
+
+            <QuickAction
+              label="Relatórios"
+              icon={<FileText size={21} />}
+              variant="outline"
+              onClick={() => navigate('/relatorios')}
+            />
+          </div>
+        </section>
+
         {/* Cards de resumo */}
         <section aria-label="Resumo financeiro">
-          <div className="mb-3">
-            <h2 className="text-lg font-semibold text-gray-900">
+          <div className="mb-4">
+            <h2 className="text-xl font-semibold text-black sm:text-2xl">
               Resumo financeiro
             </h2>
 
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-base text-black">
               Visão geral das movimentações dos seus grupos.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <SummaryCard
               title="Saldo Atual"
               value={moeda(dados.saldoAtual)}
               description="Todos os grupos vinculados"
-              icon={<TrendingUp size={22} />}
+              icon={<TrendingUp size={24} />}
               carregando={carregando}
             />
 
@@ -344,7 +388,7 @@ function Dashboard() {
               value={moeda(dados.entradasMes)}
               description="Receitas do mês atual"
               type="income"
-              icon={<ArrowUp size={22} />}
+              icon={<ArrowUp size={24} />}
               carregando={carregando}
             />
 
@@ -353,7 +397,7 @@ function Dashboard() {
               value={moeda(dados.saidasMes)}
               description="Despesas do mês atual"
               type="expense"
-              icon={<ArrowDown size={22} />}
+              icon={<ArrowDown size={24} />}
               carregando={carregando}
             />
 
@@ -361,63 +405,20 @@ function Dashboard() {
               title="Movimentações"
               value={String(dados.quantidadeMes)}
               description="Registros no mês atual"
-              icon={<BarChart3 size={22} />}
+              icon={<BarChart3 size={24} />}
               carregando={carregando}
-            />
-          </div>
-        </section>
-
-        {/* Ações rápidas */}
-        <section className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
-          <div className="mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">
-              Ações rápidas
-            </h2>
-
-            <p className="mt-1 text-sm text-gray-500">
-              Acesse rapidamente as principais funcionalidades.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <QuickAction
-              label="Nova entrada"
-              icon={<PlusCircle size={19} />}
-              variant="income"
-              onClick={() => navigate('/movimentacoes/nova-entrada')}
-            />
-
-            <QuickAction
-              label="Nova saída"
-              icon={<PlusCircle size={19} />}
-              variant="expense"
-              onClick={() => navigate('/movimentacoes/nova-saida')}
-            />
-
-            <QuickAction
-              label="Consultar"
-              icon={<Search size={19} />}
-              variant="outline"
-              onClick={() => navigate('/movimentacoes')}
-            />
-
-            <QuickAction
-              label="Relatórios"
-              icon={<FileText size={19} />}
-              variant="outline"
-              onClick={() => navigate('/relatorios')}
             />
           </div>
         </section>
 
         {/* Gráficos */}
         <section>
-          <div className="mb-3">
-            <h2 className="text-lg font-semibold text-gray-900">
+          <div className="mb-4">
+            <h2 className="text-xl font-semibold text-black sm:text-2xl">
               Visão financeira
             </h2>
 
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-base text-black">
               Comparativo e evolução dos últimos seis meses.
             </p>
           </div>
@@ -433,7 +434,7 @@ function Dashboard() {
                     margin={{
                       top: 8,
                       right: 8,
-                      left: -12,
+                      left: 0,
                       bottom: 4,
                     }}
                   >
@@ -444,24 +445,26 @@ function Dashboard() {
 
                     <XAxis
                       dataKey="month"
-                      tick={{ fontSize: 12 }}
+                      tick={{ fontSize: 14, fill: '#000000' }}
                       tickLine={false}
                     />
 
                     <YAxis
-                      tick={{ fontSize: 11 }}
+                      tick={{ fontSize: 13, fill: '#000000' }}
                       tickLine={false}
                       axisLine={false}
-                      width={48}
+                      width={55}
                     />
 
                     <Tooltip
                       formatter={(value) => moeda(value)}
+                      contentStyle={{ color: '#000000', fontSize: '14px' }}
                     />
 
                     <Legend
                       wrapperStyle={{
-                        fontSize: '12px',
+                        fontSize: '14px',
+                        color: '#000000',
                         paddingTop: '8px',
                       }}
                     />
@@ -494,7 +497,7 @@ function Dashboard() {
                     margin={{
                       top: 8,
                       right: 12,
-                      left: -12,
+                      left: 0,
                       bottom: 4,
                     }}
                   >
@@ -505,19 +508,20 @@ function Dashboard() {
 
                     <XAxis
                       dataKey="month"
-                      tick={{ fontSize: 12 }}
+                      tick={{ fontSize: 14, fill: '#000000' }}
                       tickLine={false}
                     />
 
                     <YAxis
-                      tick={{ fontSize: 11 }}
+                      tick={{ fontSize: 13, fill: '#000000' }}
                       tickLine={false}
                       axisLine={false}
-                      width={48}
+                      width={55}
                     />
 
                     <Tooltip
                       formatter={(value) => moeda(value)}
+                      contentStyle={{ color: '#000000', fontSize: '14px' }}
                     />
 
                     <Line
@@ -540,11 +544,11 @@ function Dashboard() {
         <section className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
           <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="text-lg font-semibold text-gray-900">
+              <h2 className="text-xl font-semibold text-black sm:text-2xl">
                 Últimas movimentações
               </h2>
 
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="mt-1 text-base text-black">
                 Registros financeiros mais recentes.
               </p>
             </div>
@@ -552,29 +556,29 @@ function Dashboard() {
             <button
               type="button"
               onClick={() => navigate('/movimentacoes')}
-              className="inline-flex min-h-11 items-center justify-center gap-2 self-start rounded-lg px-3 text-sm font-medium text-blue-700 transition hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600 sm:self-auto"
+              className="inline-flex min-h-11 items-center justify-center gap-2 self-start rounded-lg px-3 text-base font-medium text-blue-700 transition hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600 sm:self-auto"
             >
               Ver todas
-              <Search size={17} />
+              <Search size={19} />
             </button>
           </div>
 
           {carregando ? (
-            <p className="py-8 text-center text-sm text-gray-500">
+            <p className="py-8 text-center text-base text-black">
               Carregando movimentações...
             </p>
           ) : dados.ultimasMovimentacoes.length === 0 ? (
             <div className="rounded-lg border border-dashed border-gray-300 px-4 py-10 text-center">
               <BarChart3
-                className="mx-auto mb-3 text-gray-400"
-                size={30}
+                className="mx-auto mb-3 text-black"
+                size={32}
               />
 
-              <p className="text-sm font-medium text-gray-700">
+              <p className="text-base font-medium text-black">
                 Nenhuma movimentação encontrada.
               </p>
 
-              <p className="mt-1 text-xs text-gray-500">
+              <p className="mt-2 text-sm text-black">
                 Quando houver registros, eles aparecerão aqui.
               </p>
             </div>
@@ -585,17 +589,17 @@ function Dashboard() {
                 {dados.ultimasMovimentacoes.map((transaction) => (
                   <article
                     key={transaction.idmovimentacao}
-                    className="rounded-lg border border-gray-200 p-3"
+                    className="rounded-lg border border-gray-200 p-4"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
-                        <p className="break-words text-sm font-semibold text-gray-900">
+                        <p className="break-words text-base font-semibold text-black">
                           {transaction.observacao ||
                             transaction.categoria ||
                             'Movimentação sem descrição'}
                         </p>
 
-                        <p className="mt-1 text-xs text-gray-500">
+                        <p className="mt-2 text-sm text-black">
                           {formatarData(transaction.data)}
                         </p>
                       </div>
@@ -605,19 +609,21 @@ function Dashboard() {
 
                     <div className="mt-3 flex flex-wrap items-end justify-between gap-2">
                       <div className="min-w-0">
-                        <p className="text-xs text-gray-500">Evento</p>
+                        <p className="text-sm font-medium text-black">
+                          Evento
+                        </p>
 
-                        <p className="break-words text-sm text-gray-700">
+                        <p className="break-words text-base text-black">
                           {transaction.evento || '-'}
                         </p>
 
-                        <p className="mt-1 text-xs text-gray-500">
+                        <p className="mt-2 text-sm text-black">
                           Grupo: {transaction.grupo || '-'}
                         </p>
                       </div>
 
                       <p
-                        className={`text-base font-semibold ${
+                        className={`text-lg font-semibold ${
                           transaction.tipo === 'entrada'
                             ? 'text-emerald-600'
                             : 'text-red-600'
@@ -632,9 +638,9 @@ function Dashboard() {
 
               {/* Visualização desktop */}
               <div className="hidden overflow-x-auto md:block">
-                <table className="w-full min-w-[700px] border-collapse text-left text-sm">
+                <table className="w-full min-w-[700px] border-collapse text-left text-base">
                   <thead>
-                    <tr className="border-b border-gray-200 text-xs uppercase tracking-wide text-gray-500">
+                    <tr className="border-b border-gray-200 text-sm uppercase tracking-wide text-black">
                       <th className="px-3 py-3 font-semibold">Data</th>
                       <th className="px-3 py-3 font-semibold">Tipo</th>
                       <th className="px-3 py-3 font-semibold">Descrição</th>
@@ -650,9 +656,9 @@ function Dashboard() {
                     {dados.ultimasMovimentacoes.map((transaction) => (
                       <tr
                         key={transaction.idmovimentacao}
-                        className="border-b border-gray-100 last:border-0 hover:bg-gray-50"
+                        className="border-b border-gray-200 last:border-0 hover:bg-gray-50"
                       >
-                        <td className="whitespace-nowrap px-3 py-4 text-gray-700">
+                        <td className="whitespace-nowrap px-3 py-4 text-black">
                           {formatarData(transaction.data)}
                         </td>
 
@@ -660,7 +666,7 @@ function Dashboard() {
                           <TipoBadge tipo={transaction.tipo} />
                         </td>
 
-                        <td className="px-3 py-4 text-gray-700">
+                        <td className="px-3 py-4 text-black">
                           {transaction.observacao ||
                             transaction.categoria ||
                             'Sem descrição'}
@@ -676,7 +682,7 @@ function Dashboard() {
                           {moeda(transaction.valorNumerico)}
                         </td>
 
-                        <td className="px-3 py-4 text-gray-700">
+                        <td className="px-3 py-4 text-black">
                           {transaction.evento || '-'}
                         </td>
 
@@ -684,11 +690,11 @@ function Dashboard() {
                           <button
                             type="button"
                             onClick={() => navigate('/movimentacoes')}
-                            className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-gray-500 transition hover:bg-gray-100 hover:text-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600"
+                            className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-black transition hover:bg-gray-100 hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600"
                             aria-label="Consultar movimentações"
                             title="Consultar movimentações"
                           >
-                            <Search size={18} />
+                            <Search size={19} />
                           </button>
                         </td>
                       </tr>
@@ -714,39 +720,39 @@ function SummaryCard({
 }) {
   const styles = {
     default: {
-      value: 'text-gray-900',
-      icon: 'bg-blue-50 text-blue-600',
+      value: 'text-black',
+      icon: 'bg-blue-50 text-blue-700',
     },
     income: {
-      value: 'text-emerald-600',
-      icon: 'bg-emerald-50 text-emerald-600',
+      value: 'text-emerald-700',
+      icon: 'bg-emerald-50 text-emerald-700',
     },
     expense: {
-      value: 'text-red-600',
-      icon: 'bg-red-50 text-red-600',
+      value: 'text-red-700',
+      icon: 'bg-red-50 text-red-700',
     },
   };
 
   return (
-    <article className="flex min-h-32 items-start justify-between gap-3 rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
+    <article className="flex min-h-36 items-start justify-between gap-3 rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
       <div className="min-w-0">
-        <h3 className="text-sm font-medium text-gray-600">
+        <h3 className="text-base font-semibold text-black">
           {title}
         </h3>
 
         <p
-          className={`mt-3 break-words text-xl font-bold sm:text-2xl ${styles[type].value}`}
+          className={`mt-3 break-words text-2xl font-bold sm:text-3xl ${styles[type].value}`}
         >
           {carregando ? '...' : value}
         </p>
 
-        <p className="mt-1 text-xs text-gray-500 sm:text-sm">
+        <p className="mt-2 text-sm text-black">
           {description}
         </p>
       </div>
 
       <div
-        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${styles[type].icon}`}
+        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${styles[type].icon}`}
       >
         {icon}
       </div>
@@ -757,18 +763,18 @@ function SummaryCard({
 function QuickAction({ label, icon, variant, onClick }) {
   const styles = {
     income:
-      'bg-emerald-600 text-white hover:bg-emerald-700 focus-visible:ring-emerald-600',
+      'bg-emerald-700 text-white hover:bg-emerald-800 focus-visible:ring-emerald-700',
     expense:
-      'bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-600',
+      'bg-red-700 text-white hover:bg-red-800 focus-visible:ring-red-700',
     outline:
-      'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus-visible:ring-blue-600',
+      'border border-gray-400 bg-white text-black hover:bg-gray-50 focus-visible:ring-blue-600',
   };
 
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`flex min-h-12 w-full items-center justify-center gap-2 rounded-lg px-3 py-3 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles[variant]}`}
+      className={`flex min-h-14 w-full items-center justify-center gap-2 rounded-lg px-3 py-3 text-base font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${styles[variant]}`}
     >
       {icon}
       <span>{label}</span>
@@ -779,11 +785,11 @@ function QuickAction({ label, icon, variant, onClick }) {
 function ChartCard({ title, children }) {
   return (
     <article className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
-      <h3 className="mb-4 text-base font-semibold text-gray-900">
+      <h3 className="mb-4 text-lg font-semibold text-black">
         {title}
       </h3>
 
-      <div className="h-60 min-w-0 w-full sm:h-72">
+      <div className="h-64 min-w-0 w-full sm:h-72">
         {children}
       </div>
     </article>
@@ -792,7 +798,7 @@ function ChartCard({ title, children }) {
 
 function ChartLoading() {
   return (
-    <div className="flex h-full items-center justify-center text-sm text-gray-500">
+    <div className="flex h-full items-center justify-center text-base text-black">
       Carregando gráfico...
     </div>
   );
@@ -803,10 +809,10 @@ function TipoBadge({ tipo }) {
 
   return (
     <span
-      className={`whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium ${
+      className={`whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-semibold ${
         entrada
-          ? 'bg-emerald-100 text-emerald-700'
-          : 'bg-red-100 text-red-700'
+          ? 'bg-emerald-100 text-emerald-800'
+          : 'bg-red-100 text-red-800'
       }`}
     >
       {entrada ? 'Entrada' : 'Saída'}
